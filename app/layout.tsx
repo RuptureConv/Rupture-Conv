@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Footer } from "@/components/Footer";
-import { isAdsenseReady } from "@/lib/adsense";
 import { siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -42,20 +41,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const shouldLoadAdsense = isAdsenseReady();
-
   return (
     <html lang="fr">
       <body>
-        {shouldLoadAdsense && (
-          <Script
-            id="adsense-script"
-            async
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4203111381073354"
-          />
-        )}
+        {/* 🔥 Script AdSense forcé */}
+        <Script
+          id="adsense-script"
+          async
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4203111381073354"
+        />
 
         {children}
         <Footer />
