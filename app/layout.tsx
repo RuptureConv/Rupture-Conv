@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Footer } from "@/components/Footer";
 import { siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -43,16 +42,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>
-        {/* 🔥 Script AdSense forcé */}
-        <Script
-          id="adsense-script"
+      <head>
+        {/* 🔥 Script AdSense pour validation */}
+        <script
           async
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4203111381073354"
-        />
-
+          crossOrigin="anonymous"
+        ></script>
+      </head>
+      <body>
         {children}
         <Footer />
       </body>
