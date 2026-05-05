@@ -306,7 +306,7 @@ export function calculateMinimumGrossIndemnity(
 }
 
 export function estimateNetFromGrossIndemnity(grossIndemnity: number): number {
-  // V1 intentionally simplified: this keeps a single readable estimate while
+  // Keep a single readable estimate while preserving transparent calculation
   // leaving room for a later fiscal/social engine with exemptions and tax rules.
   return roundMoney(grossIndemnity * 0.78);
 }

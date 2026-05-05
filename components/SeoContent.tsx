@@ -2,7 +2,9 @@ import { ToolCard } from "@/components/tools/ToolCard";
 import { hrTools } from "@/lib/calculators/tools-registry";
 
 export function SeoContent() {
-  const futureTools = hrTools.filter((tool) => tool.status === "planned").slice(0, 3);
+  const complementaryTools = hrTools
+    .filter((tool) => tool.status === "planned")
+    .slice(0, 3);
 
   return (
     <>
@@ -237,7 +239,7 @@ export function SeoContent() {
           </p>
           <p className="mt-4">
             La méthode de calcul affichée par le simulateur reprend la logique
-            légale minimale déjà intégrée dans le moteur V1 : ancienneté, salaire
+            légale minimale utilisée par le moteur de calcul : ancienneté, salaire
             de référence, indemnité brute minimale, puis comparaison avec le
             montant négocié lorsqu’il est renseigné.
           </p>
@@ -254,16 +256,16 @@ export function SeoContent() {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="text-2xl font-bold text-[#061B3A]">
-              Maillage vers les futurs outils RH
+              Maillage vers les outils RH
             </h2>
             <p className="mt-2 text-sm leading-6 text-[#5B6B7C]">
-              Des pages dédiées sont préparées pour élargir le parcours autour du
+              Des pages dédiées élargissent le parcours autour du
               coût employeur, du préavis et du licenciement.
             </p>
           </div>
         </div>
         <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {futureTools.map((tool) => (
+          {complementaryTools.map((tool) => (
             <ToolCard key={tool.id} tool={tool} />
           ))}
         </div>

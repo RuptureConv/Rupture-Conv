@@ -422,7 +422,7 @@ const basePillarPages: PillarPage[] = [
     title: `Outils RH gratuits pour employeurs et salariés | ${siteName}`,
     h1: "Outils RH",
     description:
-      "Découvrez les outils RH de RuptureConv pour calculer, comparer et préparer les indemnités de rupture conventionnelle, licenciement et futures démarches RH.",
+      "Découvrez les outils RH de RuptureConv pour calculer, comparer et préparer les indemnités de rupture conventionnelle, licenciement et démarches RH.",
     relatedLinks: [
       "/simulateur-rupture-conventionnelle",
       "/calcul-indemnite-rupture-conventionnelle",
@@ -430,7 +430,7 @@ const basePillarPages: PillarPage[] = [
       "/blog"
     ],
     intro: [
-      `${siteName} a vocation à devenir une boîte à outils RH simple, accessible et fiable pour les salariés, employeurs, dirigeants et responsables RH. Le premier outil disponible concerne la simulation d'indemnité de rupture conventionnelle, avec l'objectif d'étendre progressivement le site à d'autres calculs utiles en droit du travail.`,
+      `${siteName} est une boîte à outils RH simple, accessible et fiable pour les salariés, employeurs, dirigeants et responsables RH. La plateforme est dédiée au calcul des indemnités, à la compréhension des fins de contrat et à la préparation des démarches utiles en droit du travail.`,
       `L'idée est de rendre les sujets RH plus compréhensibles : indemnité, ancienneté, salaire de référence, départ négocié, licenciement, congés payés, préavis ou coût employeur. ${mandatoryDisclaimer}`
     ],
     sections: [
@@ -442,17 +442,17 @@ const basePillarPages: PillarPage[] = [
         ]
       },
       {
-        title: "Premier outil : simulateur de rupture conventionnelle",
+        title: "Simulateur de rupture conventionnelle",
         paragraphs: [
           "Le simulateur de rupture conventionnelle permet d'obtenir une estimation du minimum brut et un net indicatif. Il est utile pour les salariés qui préparent une négociation, mais aussi pour les employeurs qui veulent cadrer une enveloppe de départ.",
           "L'outil repose sur les données saisies par l'utilisateur : ancienneté, salaire, dates et informations complémentaires. Plus les données sont précises, plus l'estimation est exploitable."
         ]
       },
       {
-        title: "Outils RH à développer",
+        title: "Outils RH complémentaires",
         paragraphs: [
-          "À moyen terme, le site pourra accueillir d'autres simulateurs : indemnité de licenciement, préavis, congés payés, coût employeur, comparaison rupture conventionnelle/licenciement ou encore outils d'aide à la préparation d'un départ.",
-          "Cette logique permet de construire une ressource complète autour des fins de contrat, mais aussi plus largement autour des décisions RH du quotidien."
+          "Les guides RH couvrent les sujets clés autour des fins de contrat : indemnité de licenciement, préavis, congés payés, coût employeur, comparaison rupture conventionnelle/licenciement et préparation d'un départ.",
+          "Cette logique offre une ressource complète autour des décisions RH du quotidien, avec des repères pratiques et des calculs lisibles."
         ],
         bullets: [
           "Simulateur d'indemnité de licenciement.",
@@ -480,7 +480,7 @@ const basePillarPages: PillarPage[] = [
     faq: commonFaq,
     conclusion: [
       "Les outils RH de RuptureConv visent à simplifier les sujets complexes sans les dénaturer. Ils donnent des repères rapides, utiles et prudents.",
-      "Le simulateur de rupture conventionnelle constitue la première brique d'une plateforme plus large dédiée aux calculs RH et aux fins de contrat."
+      "Le simulateur de rupture conventionnelle s'inscrit dans une plateforme dédiée aux calculs RH et aux fins de contrat."
     ]
   }
 ];

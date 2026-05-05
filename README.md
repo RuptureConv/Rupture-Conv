@@ -1,6 +1,6 @@
 # rupture-conv.fr
 
-V1 Next.js du site `rupture-conv.fr`, avec simulateur indicatif d'indemnité de rupture conventionnelle, contenu SEO, pages légales minimales et préparation publicitaire.
+Application Next.js du site `rupture-conv.fr`, avec simulateur indicatif d'indemnité de rupture conventionnelle, contenus SEO, pages légales et intégration publicitaire.
 
 ## Stack
 

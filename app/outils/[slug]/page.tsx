@@ -35,7 +35,7 @@ export async function generateMetadata({
     },
     description:
       content?.metaDescription ??
-      `${tool.description} Page préparée pour les prochains outils RH de rupture-conv.fr.`
+      `${tool.description} Guide pratique pour mieux préparer les démarches RH sur rupture-conv.fr.`
   };
 }
 
@@ -128,14 +128,14 @@ export default async function FutureToolPage({ params }: ToolPageProps) {
       </Link>
       <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
         <p className="inline-flex rounded-full bg-[#EAF8F6] px-3 py-1 text-xs font-bold text-[#22AFA3]">
-          Outil RH en préparation
+          Guide RH
         </p>
         <h1 className="mt-4 text-3xl font-bold text-[#061B3A]">{tool.title}</h1>
         <p className="mt-3 text-base leading-7 text-[#5B6B7C]">{tool.description}</p>
         <p className="mt-4 text-sm leading-6 text-[#5B6B7C]">
-          Cette page réserve l&apos;emplacement du futur outil afin de préparer
-          le maillage interne, les contenus SEO et l&apos;extension progressive de
-          rupture-conv.fr.
+          Cette page présente les repères essentiels pour préparer une démarche
+          RH avec une méthode claire, des points de vigilance et des liens vers
+          les ressources utiles de rupture-conv.fr.
         </p>
       </section>
     </main>

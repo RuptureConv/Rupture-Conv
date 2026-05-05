@@ -18,8 +18,8 @@ export function UsefulLinksFooter() {
           <h2 className="mt-2 text-2xl font-black text-[#061B3A]">Guides pratiques</h2>
         </div>
         <p className="max-w-xl text-sm leading-6 text-[#5B6B7C]">
-          Des contenus prêts à accueillir de futures pages SEO, ressources ou
-          services partenaires.
+          Des contenus utiles pour approfondir le calcul, la procédure et les
+          points de vigilance liés à la rupture conventionnelle.
         </p>
       </div>
       <nav aria-label="Guides pratiques" className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

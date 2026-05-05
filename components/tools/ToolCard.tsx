@@ -18,7 +18,7 @@ export function ToolCard({ tool }: ToolCardProps) {
             isLive ? "bg-[#EAF8F6] text-[#168F86]" : "bg-[#EAF8F6] text-[#22AFA3]"
           }`}
         >
-          {isLive ? "Disponible" : "Bientôt"}
+          {isLive ? "Disponible" : "Guide RH"}
         </span>
       </div>
       <p className="mt-2 text-sm leading-6 text-[#5B6B7C]">{tool.description}</p>

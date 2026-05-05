@@ -2,7 +2,7 @@ export const faqItems = [
   {
     question: "Comment est calculée l'indemnité de rupture conventionnelle brute ?",
     answer:
-      "La V1 applique la base légale minimale : un quart de mois de salaire par année d'ancienneté jusqu'à 10 ans, puis un tiers de mois par année au-delà, avec proratisation des années incomplètes."
+      "Le simulateur applique la base légale minimale : un quart de mois de salaire par année d'ancienneté jusqu'à 10 ans, puis un tiers de mois par année au-delà, avec proratisation des années incomplètes."
   },
   {
     question: "Le net indicatif est-il exact ?",
@@ -17,7 +17,7 @@ export const faqItems = [
   {
     question: "La convention collective est-elle prise en compte ?",
     answer:
-      "Le champ est prévu pour contextualiser la simulation, mais il n'est pas encore calculé en V1. Certaines conventions peuvent prévoir des montants plus favorables."
+      "Le champ permet de contextualiser la simulation. Certaines conventions collectives peuvent prévoir des montants plus favorables que le minimum légal, à vérifier avec le texte applicable."
   },
   {
     question:
