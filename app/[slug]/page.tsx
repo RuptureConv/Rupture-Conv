@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ProgrammaticSeoTemplate } from "@/components/seo/ProgrammaticSeoTemplate";
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
 import {
   absoluteUrl,
@@ -7,6 +8,10 @@ import {
   pillarPageBySlug,
   pillarPages
 } from "@/lib/seo-content";
+import {
+  generateDynamicText,
+  parseProgrammaticSeoSlug
+} from "@/lib/seo-helpers";
 
 type PillarPageProps = {
   params: Promise<{
@@ -32,10 +37,14 @@ export async function generateMetadata({
 
   const canonicalPath = `/${page.slug}`;
   const canonicalUrl = absoluteUrl(canonicalPath);
+  const programmaticParams = parseProgrammaticSeoSlug(slug);
+  const metadataTitle = programmaticParams
+    ? generateDynamicText(programmaticParams).h1
+    : page.h1;
 
   return {
     title: {
-      absolute: buildCtrTitle(page.h1)
+      absolute: buildCtrTitle(metadataTitle)
     },
     description: page.description,
     alternates: {
@@ -66,6 +75,18 @@ export default async function PillarPage({ params }: PillarPageProps) {
 
   if (!page) {
     notFound();
+  }
+
+  const programmaticParams = parseProgrammaticSeoSlug(slug);
+
+  if (programmaticParams) {
+    return (
+      <ProgrammaticSeoTemplate
+        canonicalPath={`/${page.slug}`}
+        type={programmaticParams.type}
+        value={programmaticParams.value}
+      />
+    );
   }
 
   return (
