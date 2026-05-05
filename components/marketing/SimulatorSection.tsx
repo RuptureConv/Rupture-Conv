@@ -1,6 +1,4 @@
-import { AdSlot } from "@/components/AdSlot";
 import { TerminationCalculatorTool } from "@/components/tools/TerminationCalculatorTool";
-import { adSlots } from "@/lib/ads.config";
 
 export function SimulatorSection() {
   return (
@@ -22,12 +20,8 @@ export function SimulatorSection() {
           </p>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
+        <div>
           <TerminationCalculatorTool />
-          <AdSlot
-            {...adSlots.simulatorSidebar}
-            className="xl:sticky xl:top-[110px] xl:self-start"
-          />
         </div>
       </div>
     </section>

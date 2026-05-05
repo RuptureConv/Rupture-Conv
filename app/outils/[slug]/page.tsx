@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hrTools } from "@/lib/calculators/tools-registry";
+import { buildCtrTitle } from "@/lib/seo-content";
 import { toolContentBySlug } from "@/lib/tools-content";
 
 type ToolPageProps = {
@@ -29,7 +30,9 @@ export async function generateMetadata({
   const content = toolContentBySlug[slug];
 
   return {
-    title: content?.metaTitle ?? `${tool.title} | Guide RH à venir`,
+    title: {
+      absolute: buildCtrTitle(content?.metaTitle ?? tool.title)
+    },
     description:
       content?.metaDescription ??
       `${tool.description} Page préparée pour les prochains outils RH de rupture-conv.fr.`

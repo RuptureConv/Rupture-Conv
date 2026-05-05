@@ -1,0 +1,42 @@
+import Link from "next/link";
+import type { Route } from "next";
+
+const internalLinks = [
+  {
+    href: "/simulateur-rupture-conventionnelle",
+    label: "simulateur rupture conventionnelle"
+  },
+  {
+    href: "/calcul-indemnite-rupture-conventionnelle",
+    label: "calcul indemnité rupture conventionnelle"
+  },
+  {
+    href: "/indemnite-legale-rupture-conventionnelle",
+    label: "montant indemnité rupture conventionnelle"
+  }
+] as const;
+
+export function InternalLinksBlock() {
+  return (
+    <nav
+      aria-label="Liens essentiels rupture conventionnelle"
+      className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"
+    >
+      <h2 className="text-2xl font-extrabold text-[#061B3A]">
+        Guides utiles
+      </h2>
+      <ul className="mt-4 list-disc space-y-2 pl-6 text-sm font-semibold leading-7 text-[#102A4C]">
+        {internalLinks.map((link) => (
+          <li key={link.href}>
+            <Link
+              className="transition hover:text-[#22AFA3]"
+              href={link.href as Route}
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}

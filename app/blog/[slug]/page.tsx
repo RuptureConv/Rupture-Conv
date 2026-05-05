@@ -4,7 +4,8 @@ import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
 import {
   absoluteUrl,
   blogPostBySlug,
-  blogPosts
+  blogPosts,
+  buildCtrTitle
 } from "@/lib/seo-content";
 
 type BlogPostPageProps = {
@@ -33,7 +34,9 @@ export async function generateMetadata({
   const canonicalUrl = absoluteUrl(canonicalPath);
 
   return {
-    title: `${post.title} | RuptureConv`,
+    title: {
+      absolute: buildCtrTitle(post.title)
+    },
     description: post.description,
 
     alternates: {

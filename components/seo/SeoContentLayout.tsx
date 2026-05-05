@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { Route } from "next";
+import { AdSlot } from "@/components/ads/AdSlot";
+import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
+import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
 import { absoluteUrl, mandatoryDisclaimer } from "@/lib/seo-content";
 
@@ -31,6 +34,12 @@ export function SeoContentLayout({
   relatedLinks,
   sections
 }: SeoContentLayoutProps) {
+  const estimatedWordCount = [
+    ...intro,
+    ...sections.flatMap((section) => section.paragraphs),
+    ...conclusion
+  ].join(" ").split(/\s+/).filter(Boolean).length;
+  const shouldShowMidAd = estimatedWordCount > 300;
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -100,6 +109,25 @@ export function SeoContentLayout({
         </header>
 
         <div className="mt-10 space-y-10">
+          <AdSlot format="horizontal" position="top" />
+
+          <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
+              Combien touche-t-on en rupture conventionnelle ?
+            </h2>
+            <p className="mt-4 text-base leading-8 text-[#5B6B7C]">
+              Le montant dépend principalement du salaire brut de référence et
+              de l&apos;ancienneté. Le minimum légal sert de plancher, puis une
+              indemnité supérieure peut être négociée selon le contexte.
+            </p>
+          </section>
+
+          <AdSlot format="horizontal" position="after-content" />
+          <SimulatorCTA />
+          {shouldShowMidAd ? (
+            <AdSlot desktopOnly format="rectangle" position="mid" />
+          ) : null}
+
           {sections.map((section) => (
             <section
               key={section.title}
@@ -124,6 +152,9 @@ export function SeoContentLayout({
               </div>
             </section>
           ))}
+
+          <SimulatorCTA />
+          <InternalLinksBlock />
         </div>
 
         <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
@@ -172,6 +203,14 @@ export function SeoContentLayout({
             Ouvrir le simulateur →
           </Link>
         </section>
+
+        <div className="mt-10">
+          <AdSlot format="horizontal" position="bottom" />
+        </div>
+
+        <div className="mt-10">
+          <SimulatorCTA />
+        </div>
 
         {relatedLinks.length > 0 ? (
           <nav

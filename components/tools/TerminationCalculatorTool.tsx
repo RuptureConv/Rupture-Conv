@@ -11,7 +11,6 @@ import { trackCalculatorEvent } from "@/lib/analytics";
 import { absenceRules, getAbsenceRule } from "@/lib/calculators/absence-rules";
 import { calculateIndicativeNegotiationRange } from "@/lib/calculators/negotiation-range";
 import { collectiveAgreements } from "@/lib/conventions/conventions";
-import { adSlots } from "@/lib/ads.config";
 import { formatCurrency, formatPreciseCurrency } from "@/lib/utils/format";
 import type {
   AbsenceImpact,
@@ -704,7 +703,11 @@ export function TerminationCalculatorTool() {
             </p>
             <Disclaimer className="mt-4" />
             <PostSimulationRecommendations />
-            <AdSlot {...adSlots.afterResult} className="mt-5" />
+            <AdSlot
+              className="mt-5"
+              format="horizontal"
+              position="bottom"
+            />
           </>
         ) : (
           <div className="mt-6 rounded-xl bg-[#F7FBFA] p-5 text-sm leading-6 text-[#5B6B7C]">

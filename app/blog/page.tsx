@@ -1,14 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
-import { absoluteUrl, blogPosts, pillarPages } from "@/lib/seo-content";
+import {
+  absoluteUrl,
+  blogPosts,
+  buildCtrTitle,
+  pillarPages
+} from "@/lib/seo-content";
 
 export const metadata: Metadata = {
-  title: "Blog rupture conventionnelle, indemnités et outils RH",
+  title: {
+    absolute: buildCtrTitle("blog rupture conventionnelle")
+  },
   description:
     "Articles pratiques sur la rupture conventionnelle, le calcul d'indemnité, le licenciement, les délais, la fiscalité et les outils RH.",
   alternates: {
-    canonical: "/blog"
+    canonical: absoluteUrl("/blog")
+  },
+  robots: {
+    index: true,
+    follow: true
   },
   openGraph: {
     title: "Blog rupture conventionnelle",

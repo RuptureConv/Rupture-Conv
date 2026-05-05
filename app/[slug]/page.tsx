@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
 import {
   absoluteUrl,
+  buildCtrTitle,
   pillarPageBySlug,
   pillarPages
 } from "@/lib/seo-content";
@@ -33,7 +34,9 @@ export async function generateMetadata({
   const canonicalUrl = absoluteUrl(canonicalPath);
 
   return {
-    title: page.title,
+    title: {
+      absolute: buildCtrTitle(page.h1)
+    },
     description: page.description,
     alternates: {
       canonical: canonicalUrl

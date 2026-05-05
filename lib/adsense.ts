@@ -1,6 +1,7 @@
-export const ENABLE_ADSENSE = process.env.NEXT_PUBLIC_ENABLE_ADSENSE === "true";
+export const ENABLE_ADSENSE = process.env.NEXT_PUBLIC_ENABLE_ADSENSE !== "false";
 
-export const ADSENSE_CLIENT = process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "";
+export const ADSENSE_CLIENT =
+  process.env.NEXT_PUBLIC_ADSENSE_CLIENT ?? "ca-pub-4203111381073354";
 
 export const ADSENSE_SLOTS = {
   "ad-top-leaderboard": process.env.NEXT_PUBLIC_ADSENSE_SLOT_TOP ?? "",
@@ -8,7 +9,11 @@ export const ADSENSE_SLOTS = {
   "ad-simulator-sidebar": process.env.NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR ?? "",
   "ad-content-rectangle": process.env.NEXT_PUBLIC_ADSENSE_SLOT_CONTENT ?? "",
   "ad-after-result": process.env.NEXT_PUBLIC_ADSENSE_SLOT_AFTER_RESULT ?? "",
-  "ad-footer-banner": process.env.NEXT_PUBLIC_ADSENSE_SLOT_FOOTER ?? ""
+  "ad-footer-banner": process.env.NEXT_PUBLIC_ADSENSE_SLOT_FOOTER ?? "",
+  "ad-seo-top": process.env.NEXT_PUBLIC_ADSENSE_SLOT_SEO_TOP ?? "",
+  "ad-seo-after-content": process.env.NEXT_PUBLIC_ADSENSE_SLOT_SEO_AFTER_CONTENT ?? "",
+  "ad-seo-mid": process.env.NEXT_PUBLIC_ADSENSE_SLOT_SEO_MID ?? "",
+  "ad-seo-bottom": process.env.NEXT_PUBLIC_ADSENSE_SLOT_SEO_BOTTOM ?? ""
 } as const;
 
 export type AdsenseSlotId = keyof typeof ADSENSE_SLOTS;

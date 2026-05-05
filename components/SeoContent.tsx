@@ -1,6 +1,4 @@
-import { AdSlot } from "@/components/AdSlot";
 import { ToolCard } from "@/components/tools/ToolCard";
-import { adSlots } from "@/lib/ads.config";
 import { hrTools } from "@/lib/calculators/tools-registry";
 
 export function SeoContent() {
@@ -230,8 +228,6 @@ export function SeoContent() {
           </div>
         </article>
       </section>
-
-      <AdSlot {...adSlots.contentRectangle} className="my-8" />
 
       <section className="mx-auto mt-8 max-w-[900px]">
         <h2 className="text-2xl font-bold text-[#061B3A]">Sources et méthode</h2>

@@ -1,4 +1,3 @@
-import { AdSlot } from "@/components/AdSlot";
 import { Disclaimer } from "@/components/Disclaimer";
 import { Faq, faqItems } from "@/components/Faq";
 import { Header } from "@/components/Header";
@@ -8,7 +7,6 @@ import { PartnerHelpBlock } from "@/components/monetization/PartnerHelpBlock";
 import { RecommendedResourcesBlock } from "@/components/monetization/RecommendedResourcesBlock";
 import { UsefulLinksFooter } from "@/components/monetization/UsefulLinksFooter";
 import { SeoContent } from "@/components/SeoContent";
-import { adSlots } from "@/lib/ads.config";
 import { siteName, siteUrl } from "@/lib/site";
 
 export default function Home() {
@@ -51,13 +49,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationJsonLd) }}
       />
       <Header />
-      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-        <AdSlot {...adSlots.topLeaderboard} />
-      </div>
       <Hero />
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <AdSlot {...adSlots.beforeSimulator} />
-      </div>
       <RecommendedResourcesBlock />
       <PartnerHelpBlock />
       <SimulatorSection />
@@ -72,7 +64,6 @@ export default function Home() {
           </section>
 
           <UsefulLinksFooter />
-          <AdSlot {...adSlots.footerBanner} className="mt-8" />
         </div>
       </section>
     </main>

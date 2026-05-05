@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Footer } from "@/components/Footer";
+import { buildCtrTitle } from "@/lib/seo-content";
+import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
 import { siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -7,9 +10,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default:
-      "Simulateur rupture conventionnelle 2026 | Indemnité brute et net indicatif",
-    template: "%s | RuptureConv."
+    default: buildCtrTitle("simulateur rupture conventionnelle"),
+    template: "%s"
   },
 
   description:
@@ -50,6 +52,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const shouldLoadAdsense = isAdsenseReady();
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -66,11 +69,15 @@ export default function RootLayout({
           content="m9cDeMi4TyzceUF4V6KsuQcYqaG95ObYZwsm5OrQnd8"
         />
 
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4203111381073354"
-          crossOrigin="anonymous"
-        ></script>
+        {shouldLoadAdsense ? (
+          <Script
+            async
+            crossOrigin="anonymous"
+            id="adsense-script"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+            strategy="afterInteractive"
+          />
+        ) : null}
 
         <script
           type="application/ld+json"
