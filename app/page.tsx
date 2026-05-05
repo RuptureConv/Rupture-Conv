@@ -9,6 +9,7 @@ import { RecommendedResourcesBlock } from "@/components/monetization/Recommended
 import { UsefulLinksFooter } from "@/components/monetization/UsefulLinksFooter";
 import { SeoContent } from "@/components/SeoContent";
 import { adSlots } from "@/lib/ads.config";
+import { siteName, siteUrl } from "@/lib/site";
 
 export default function Home() {
   const faqJsonLd = {
@@ -23,12 +24,31 @@ export default function Home() {
       }
     }))
   };
+  const webApplicationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: siteName,
+    url: siteUrl,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "EUR"
+    },
+    description:
+      "Simulateur gratuit d'indemnité de rupture conventionnelle pour obtenir une estimation brute et un net indicatif."
+  };
 
   return (
     <main>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationJsonLd) }}
       />
       <Header />
       <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
