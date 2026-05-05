@@ -8,19 +8,22 @@ import {
 } from "@/lib/seo-content";
 
 type PillarPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return pillarPages.map((page) => ({ slug: page.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params
-}: PillarPageProps): Metadata {
-  const page = pillarPageBySlug[params.slug];
+}: PillarPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const page = pillarPageBySlug[slug];
 
   if (!page) {
     return {};
@@ -32,16 +35,13 @@ export function generateMetadata({
   return {
     title: page.title,
     description: page.description,
-
     alternates: {
       canonical: canonicalUrl
     },
-
     robots: {
       index: true,
       follow: true
     },
-
     openGraph: {
       title: page.h1,
       description: page.description,
@@ -49,7 +49,6 @@ export function generateMetadata({
       type: "article",
       locale: "fr_FR"
     },
-
     twitter: {
       card: "summary",
       title: page.h1,
@@ -58,8 +57,9 @@ export function generateMetadata({
   };
 }
 
-export default function PillarPage({ params }: PillarPageProps) {
-  const page = pillarPageBySlug[params.slug];
+export default async function PillarPage({ params }: PillarPageProps) {
+  const { slug } = await params;
+  const page = pillarPageBySlug[slug];
 
   if (!page) {
     notFound();
