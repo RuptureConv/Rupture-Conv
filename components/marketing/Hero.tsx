@@ -21,6 +21,16 @@ export function Hero() {
             Obtenez une estimation claire, immédiate et personnalisée de votre
             indemnité, sans inscription et en toute confidentialité.
           </p>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-[#102A4C]">
+            Estimez votre indemnité de rupture conventionnelle en moins de 30
+            secondes.
+          </p>
+
+          <ul className="mt-4 space-y-1 text-sm font-bold leading-7 text-[#5B6B7C]">
+            <li>✔ Calcul basé sur le Code du travail</li>
+            <li>✔ Résultat immédiat</li>
+            <li>✔ Gratuit et sans inscription</li>
+          </ul>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             <BenefitCard
@@ -41,7 +51,7 @@ export function Hero() {
           </div>
 
           <div className="mt-9 flex flex-col items-start gap-3">
-            <CTAButton size="lg">Estimer mon indemnité →</CTAButton>
+            <CTAButton size="lg">Calculer mon indemnité →</CTAButton>
             <div className="flex flex-wrap gap-2 text-xs font-extrabold sm:text-sm">
               <span className="rounded-full bg-white px-4 py-2 text-[#061B3A] shadow-[0_12px_34px_rgba(6,27,58,0.06)] ring-1 ring-[#E5EEF0]">
                 Simulation en moins de 30 secondes, gratuitement et sans inscription
