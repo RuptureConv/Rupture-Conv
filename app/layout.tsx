@@ -19,7 +19,6 @@ export const metadata: Metadata = {
     canonical: "/"
   },
 
-  // ✅ AJOUT GOOGLE SEARCH CONSOLE
   verification: {
     google: "m9cDeMi4TyzceUF4V6KsuQcYqaG95ObYZwsm5OrQnd8"
   },
@@ -62,14 +61,17 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
-        {/* 🔥 Script AdSense pour validation */}
+        <meta
+          name="google-site-verification"
+          content="m9cDeMi4TyzceUF4V6KsuQcYqaG95ObYZwsm5OrQnd8"
+        />
+
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4203111381073354"
           crossOrigin="anonymous"
         ></script>
 
-        {/* JSON-LD Organization */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
