@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ADSENSE_CLIENT, getAdsenseSlot, isAdsenseReady } from "@/lib/adsense";
 
 declare global {
@@ -51,13 +51,7 @@ export function AdSlot({
     : mobileOnly
       ? "block lg:hidden"
       : "block";
-  const label = useMemo(() => {
-    if (position === "top") {
-      return "Publicité";
-    }
-
-    return "Annonce";
-  }, [position]);
+  const label = position === "top" ? "Publicité" : "Annonce";
 
   useEffect(() => {
     const node = containerRef.current;

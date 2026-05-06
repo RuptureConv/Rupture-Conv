@@ -71,11 +71,32 @@ export function SeoContentLayout({
       }
     ]
   };
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: h1,
+    description: intro[0],
+    mainEntityOfPage: absoluteUrl(canonicalPath),
+    dateModified: "2026-05-06",
+    author: {
+      "@type": "Organization",
+      name: "RuptureConv."
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "RuptureConv.",
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/favicon.ico")
+      }
+    }
+  };
 
   return (
     <main className="min-h-screen bg-[#F7FBFA]">
       <SeoJsonLd data={faqJsonLd} />
       <SeoJsonLd data={breadcrumbJsonLd} />
+      <SeoJsonLd data={articleJsonLd} />
 
       <article className="mx-auto w-full max-w-[900px] px-4 py-12 sm:px-6 lg:py-16">
         <Link
@@ -148,6 +169,16 @@ export function SeoContentLayout({
                       <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
+                ) : null}
+
+                {section.boxedText ? (
+                  <div className="rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] p-5 text-sm font-semibold leading-7 text-[#102A4C]">
+                    {section.boxedText.map((line) => (
+                      <p key={line} className="whitespace-pre-wrap">
+                        {line}
+                      </p>
+                    ))}
+                  </div>
                 ) : null}
               </div>
             </section>

@@ -1,32 +1,31 @@
 export const monetizationLinks = {
   negotiationGuide: {
-    label: "Accéder au guide",
-    href: "#",
-    sponsored: true
+    label: "Lire le guide",
+    href: "/negocier-rupture-conventionnelle",
+    badge: "Guide pratique"
   },
   unemploymentEstimate: {
-    label: "Comparer les options",
-    href: "#",
-    sponsored: true
+    label: "Comprendre mes droits",
+    href: "/rupture-conventionnelle-chomage",
+    badge: "Droits salarié"
   },
   documentTemplate: {
-    label: "Télécharger le modèle",
-    href: "#",
-    sponsored: true
+    label: "Voir le modèle",
+    href: "/modele-lettre-rupture-conventionnelle",
+    badge: "Modèle gratuit"
   },
-  partnerResources: {
-    label: "Découvrir les ressources partenaires",
-    href: "#",
-    sponsored: true
+  resourcesIndex: {
+    label: "Lire les guides",
+    href: "/blog"
   },
   legalReview: {
-    label: "Être accompagné",
-    href: "#",
-    sponsored: true
+    label: "Lire le guide",
+    href: "/negocier-rupture-conventionnelle",
+    badge: "Guide pratique"
   },
   transitionGuide: {
-    label: "Voir les étapes",
-    href: "#",
-    sponsored: true
+    label: "Comprendre mes droits",
+    href: "/rupture-conventionnelle-chomage",
+    badge: "Droits salarié"
   }
 } as const;

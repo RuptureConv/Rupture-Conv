@@ -1,10 +1,28 @@
 const guideLinks = [
-  "Comprendre l'indemnité légale",
-  "Différence entre indemnité légale et conventionnelle",
-  "Rupture conventionnelle et chômage",
-  "Délai de rétractation",
-  "Homologation de la rupture conventionnelle",
-  "Négocier une indemnité supérieure"
+  {
+    label: "Comprendre l'indemnité légale",
+    href: "/indemnite-legale-rupture-conventionnelle"
+  },
+  {
+    label: "Différence entre indemnité légale et conventionnelle",
+    href: "/calcul-indemnite-rupture-conventionnelle"
+  },
+  {
+    label: "Rupture conventionnelle et chômage",
+    href: "/rupture-conventionnelle-chomage"
+  },
+  {
+    label: "Délai de rétractation",
+    href: "/blog/delai-rupture-conventionnelle-combien-de-temps"
+  },
+  {
+    label: "Homologation de la rupture conventionnelle",
+    href: "/rupture-conventionnelle-cdi"
+  },
+  {
+    label: "Négocier une indemnité supérieure",
+    href: "/negocier-rupture-conventionnelle"
+  }
 ];
 
 export function UsefulLinksFooter() {
@@ -23,13 +41,13 @@ export function UsefulLinksFooter() {
         </p>
       </div>
       <nav aria-label="Guides pratiques" className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {guideLinks.map((label) => (
+        {guideLinks.map((link) => (
           <a
             className="rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] px-4 py-3 text-sm font-bold text-[#102A4C] transition hover:border-[#22AFA3] hover:text-[#168F86]"
-            href="#"
-            key={label}
+            href={link.href}
+            key={link.label}
           >
-            {label}
+            {link.label}
           </a>
         ))}
       </nav>

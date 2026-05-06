@@ -24,24 +24,24 @@ export function ResourceCard({
   text,
   cta,
   href,
-  sponsored = false
+  badge
 }: {
   title: string;
   text: string;
   cta: string;
   href: string;
-  sponsored?: boolean;
+  badge?: string;
 }) {
   return (
-    <article className="rounded-[20px] border border-[#E5EEF0] bg-white p-5 shadow-[0_16px_45px_rgba(6,27,58,0.05)]">
+    <article className="rounded-[20px] border border-[#E5EEF0] bg-white p-5 shadow-[0_16px_45px_rgba(6,27,58,0.05)] transition hover:border-[#22AFA3] hover:shadow-[0_18px_50px_rgba(6,27,58,0.08)]">
       <div className="flex items-start gap-4">
         <ResourceIcon />
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-base font-black text-[#061B3A]">{title}</h3>
-            {sponsored ? (
+            {badge ? (
               <span className="rounded-full bg-[#F7FBFA] px-2 py-1 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[#5B6B7C]">
-                Partenaire
+                {badge}
               </span>
             ) : null}
           </div>

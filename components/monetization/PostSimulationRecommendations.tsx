@@ -3,19 +3,19 @@ import { monetizationLinks } from "@/lib/monetization.config";
 
 const recommendations = [
   {
-    title: "Optimiser sa négociation",
-    text: "Identifiez les arguments qui peuvent vous aider à obtenir une indemnité supérieure.",
+    title: "Préparer sa négociation",
+    text: "Les points essentiels à vérifier avant d’accepter une proposition de rupture conventionnelle.",
     link: monetizationLinks.negotiationGuide
   },
   {
-    title: "Faire relire son accord",
-    text: "Un professionnel peut vérifier les points sensibles avant signature.",
-    link: monetizationLinks.legalReview
+    title: "Comprendre ses droits au chômage",
+    text: "Découvrez l’impact d’une rupture conventionnelle sur vos droits France Travail.",
+    link: monetizationLinks.unemploymentEstimate
   },
   {
-    title: "Anticiper l'après-rupture",
-    text: "Préparez votre transition : chômage, délai de carence, projet professionnel.",
-    link: monetizationLinks.transitionGuide
+    title: "Modèle de demande",
+    text: "Un exemple clair de demande de rupture conventionnelle à adapter à votre situation.",
+    link: monetizationLinks.documentTemplate
   }
 ];
 
@@ -34,17 +34,17 @@ export function PostSimulationRecommendations() {
       <div className="mt-4 grid gap-3">
         {recommendations.map((recommendation) => (
           <ResourceCard
+            badge={recommendation.link.badge}
             cta={recommendation.link.label}
             href={recommendation.link.href}
             key={recommendation.title}
-            sponsored={recommendation.link.sponsored}
             text={recommendation.text}
             title={recommendation.title}
           />
         ))}
       </div>
       <p className="mt-3 text-xs leading-5 text-[#5B6B7C]">
-        Certains liens peuvent être sponsorisés.
+        Informations générales à adapter selon votre situation.
       </p>
     </section>
   );

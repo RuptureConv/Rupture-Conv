@@ -9,6 +9,7 @@ export type SeoSection = {
   title: string;
   paragraphs: string[];
   bullets?: string[];
+  boxedText?: string[];
 };
 
 export type PillarPage = {
@@ -631,6 +632,532 @@ const highIntentPages: PillarPage[] = [
   })
 ];
 
+const resourcePlaceholderPages: PillarPage[] = [
+  {
+    slug: "modele-lettre-rupture-conventionnelle",
+    title: "Modèle lettre rupture conventionnelle CDI",
+    h1: "Modèle de lettre de demande de rupture conventionnelle",
+    description:
+      "Modèle de lettre rupture conventionnelle à copier : courrier, email, variantes prudentes, erreurs à éviter et étapes après l'envoi.",
+    relatedLinks: [
+      "/simulateur-rupture-conventionnelle",
+      "/negocier-rupture-conventionnelle",
+      "/rupture-conventionnelle-chomage",
+      "/calcul-indemnite-rupture-conventionnelle",
+      "/rupture-conventionnelle-cdi"
+    ],
+    intro: [
+      "Un modèle de lettre de demande de rupture conventionnelle sert à ouvrir une discussion claire avec l’employeur. Il ne valide pas la rupture à lui seul : la rupture conventionnelle repose sur un accord commun, une procédure encadrée, un délai de rétractation et une homologation.",
+      `L’objectif d’un courrier ou d’un email est donc de formuler une demande professionnelle, factuelle et prudente, sans pression ni ultimatum. Avant d’envoyer votre demande, il est utile d’estimer votre indemnité indicative pour savoir de quoi vous parlez si un échange s’ouvre. Les informations présentées sont générales et indicatives. Elles ne remplacent pas un conseil juridique personnalisé.`
+    ],
+    sections: [
+      {
+        title: "Avant d’envoyer votre demande",
+        paragraphs: [
+          "Avant d’écrire, clarifiez votre objectif : souhaitez-vous ouvrir une discussion, proposer un calendrier, vérifier une enveloppe financière ou simplement demander un entretien ? Une lettre trop directe sur le montant peut fermer la discussion si le contexte n’est pas mûr.",
+          "Préparez aussi les éléments chiffrés : date d’entrée, date de rupture souhaitée, salaire brut de référence, primes éventuelles et convention collective. Une estimation indicative de l’indemnité de rupture conventionnelle permet d’aborder l’échange avec un repère concret.",
+          "La formulation doit rester professionnelle. Évitez les reproches détaillés, les menaces, les accusations ou les phrases qui pourraient laisser penser que vous subissez une pression. Une demande de rupture conventionnelle doit rester compatible avec l’idée d’un accord libre entre les deux parties.",
+          "Gardez une copie du courrier ou de l’email envoyé. Si vous utilisez un email, conservez aussi la date d’envoi et les éventuelles réponses. Si le sujet est sensible, une lettre recommandée peut être envisagée, mais elle n’est pas toujours nécessaire pour ouvrir un échange."
+        ],
+        bullets: [
+          "Vérifier son objectif avant d’écrire.",
+          "Préparer une estimation indicative de l’indemnité.",
+          "Rester factuel et courtois.",
+          "Demander un entretien plutôt qu’imposer une décision.",
+          "Conserver une copie de la demande."
+        ]
+      },
+      {
+        title: "Modèle de lettre simple à copier",
+        paragraphs: [
+          "Voici un exemple de courrier prudent, conçu pour demander l’ouverture d’un échange. Il doit être adapté à votre situation, à votre relation avec l’employeur et au niveau de formalité souhaité.",
+          "Ce modèle ne signifie pas que l’employeur est obligé d’accepter. Il sert uniquement à formaliser votre souhait de discuter d’une éventuelle rupture conventionnelle."
+        ],
+        boxedText: [
+          "[Vos nom et prénom]\n[Votre adresse]\n[Votre téléphone]\n[Votre email]",
+          "[Nom de l’entreprise]\nÀ l’attention de [Madame/Monsieur ...]\n[Adresse de l’entreprise]",
+          "Objet : Demande d’entretien en vue d’échanger sur une éventuelle rupture conventionnelle",
+          "Madame, Monsieur,",
+          "Salarié(e) de l’entreprise depuis le [date d’entrée] en qualité de [poste occupé], je souhaite solliciter un entretien afin d’échanger avec vous sur la possibilité d’une rupture conventionnelle de mon contrat de travail.",
+          "Cette démarche a pour objectif d’ouvrir une discussion dans un cadre serein et constructif. Elle ne préjuge pas de l’issue de nos échanges et suppose naturellement l’accord des deux parties, conformément au principe de la rupture conventionnelle.",
+          "Je reste disponible pour convenir d’un rendez-vous à une date qui vous conviendra, afin d’évoquer les conditions éventuelles de cette rupture, son calendrier et les modalités pratiques associées.",
+          "Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.",
+          "[Signature]"
+        ]
+      },
+      {
+        title: "Variante courte par email",
+        paragraphs: [
+          "L’email peut être adapté lorsque la relation est fluide et que vous souhaitez simplement demander un rendez-vous. Il doit rester bref et éviter les formulations définitives.",
+          "Si le contexte est tendu, il peut être utile de demander conseil avant d’envoyer un message trop détaillé."
+        ],
+        boxedText: [
+          "Objet : Demande d’échange",
+          "Bonjour [Madame/Monsieur],",
+          "Je souhaiterais convenir d’un entretien afin d’échanger sur la possibilité d’une rupture conventionnelle de mon contrat de travail.",
+          "Ma démarche vise à ouvrir une discussion constructive, sans préjuger de l’issue de nos échanges, qui supposera naturellement l’accord des deux parties.",
+          "Seriez-vous disponible prochainement pour en discuter ?",
+          "Bien cordialement,\n[Votre prénom et nom]"
+        ]
+      },
+      {
+        title: "Variante après un premier échange oral",
+        paragraphs: [
+          "Si vous avez déjà évoqué le sujet oralement, le courrier peut servir à confirmer que vous souhaitez poursuivre l’échange. Il est préférable de ne pas présenter l’accord comme acquis tant qu’aucune convention n’est signée et homologuée.",
+          "La formulation ci-dessous reste prudente : elle confirme une discussion, sans transformer l’échange oral en engagement définitif."
+        ],
+        boxedText: [
+          "Objet : Suite à notre échange concernant une éventuelle rupture conventionnelle",
+          "Madame, Monsieur,",
+          "À la suite de notre échange du [date], je vous confirme mon souhait de poursuivre la discussion concernant la possibilité d’une rupture conventionnelle de mon contrat de travail.",
+          "Je reste disponible pour convenir d’un nouvel entretien afin d’examiner, dans un cadre serein, les conditions éventuelles de cette rupture, son calendrier et les modalités pratiques associées.",
+          "Cette démarche s’inscrit naturellement dans le cadre d’un accord commun entre les parties.",
+          "Je vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.",
+          "[Signature]"
+        ]
+      },
+      {
+        title: "Ce qu’il vaut mieux éviter d’écrire",
+        paragraphs: [
+          "Une demande mal formulée peut fragiliser la discussion. Le but n’est pas de régler tout l’historique de la relation de travail dans la lettre, mais d’ouvrir une porte professionnelle.",
+          "Les éléments sensibles doivent être traités avec prudence. Si le contexte implique un conflit, une pression, une maladie, une situation disciplinaire ou une rupture déjà imposée, il est préférable de demander un avis spécialisé avant de formaliser."
+        ],
+        bullets: [
+          "Les menaces ou ultimatums.",
+          "Les reproches détaillés contre l’employeur ou les collègues.",
+          "Une demande de paiement non justifiée ou présentée comme automatique.",
+          "Une reconnaissance de faute ou une phrase ambiguë sur votre responsabilité.",
+          "Des formulations trop émotionnelles ou agressives.",
+          "L’idée que l’employeur serait obligé d’accepter."
+        ]
+      },
+      {
+        title: "Courrier, email ou lettre recommandée : que choisir ?",
+        paragraphs: [
+          "L’email est rapide, simple et souvent suffisant pour demander un entretien lorsque la relation est saine. Il laisse une trace écrite, mais peut sembler moins formel qu’un courrier.",
+          "Le courrier simple donne une forme plus professionnelle à la demande, notamment dans les petites structures ou lorsque vous souhaitez garder une formulation posée.",
+          "La lettre recommandée permet de dater l’envoi et la réception. Elle peut être utile en contexte sensible, mais elle peut aussi donner une tonalité plus formelle ou tendue. Elle n’est pas obligatoire pour demander une rupture conventionnelle.",
+          "Dans tous les cas, le support choisi doit rester cohérent avec votre objectif : ouvrir un échange, pas créer une tension inutile."
+        ],
+        bullets: [
+          "Email : rapide, pratique, adapté aux relations fluides.",
+          "Courrier simple : plus posé, utile pour formaliser sans dramatiser.",
+          "Lettre recommandée : traçabilité forte, à réserver aux contextes plus sensibles."
+        ]
+      },
+      {
+        title: "Que faire après l’envoi ?",
+        paragraphs: [
+          "Après l’envoi, laissez à l’employeur un délai raisonnable pour répondre. Une relance trop rapide peut être mal perçue. Si un entretien est proposé, préparez les sujets à aborder : date de départ, passation, documents de fin de contrat, indemnité et calendrier.",
+          "Avant l’entretien, estimez votre indemnité indicative. Cela vous aide à distinguer le minimum légal, une éventuelle part négociée et les autres sommes qui peuvent être dues, comme les congés payés.",
+          "Si l’employeur refuse, la rupture conventionnelle ne peut pas être imposée. Vous pouvez demander les raisons du refus, proposer un autre calendrier ou envisager d’autres options selon votre situation.",
+          "Si l’échange avance, vérifiez les délais légaux, notamment le délai de rétractation et la phase d’homologation. La signature d’une convention ne produit pas immédiatement la rupture du contrat."
+        ]
+      },
+      {
+        title: "Phrases utiles pour négocier l’indemnité",
+        paragraphs: [
+          "La négociation gagne à rester factuelle. Évitez de présenter votre demande comme un droit automatique si elle dépasse le minimum applicable. Appuyez-vous plutôt sur votre ancienneté, votre contribution, la passation, le calendrier ou la volonté de trouver une sortie équilibrée.",
+          "Voici quelques formulations prudentes à adapter à votre situation."
+        ],
+        bullets: [
+          "« Avant de nous positionner sur un montant, je souhaite vérifier l’indemnité minimale applicable à ma situation. »",
+          "« Compte tenu de mon ancienneté et de la passation à organiser, pouvons-nous échanger sur une indemnité supérieure au minimum légal ? »",
+          "« Je souhaite que nous abordions le calendrier, les documents de fin de contrat et le montant de l’indemnité dans un cadre clair. »",
+          "« Pour préparer l’échange, j’ai réalisé une estimation indicative que je souhaite comparer avec votre proposition. »"
+        ]
+      },
+      {
+        title: "Avant d’envoyer votre demande, estimez votre indemnité indicative",
+        paragraphs: [
+          "Le courrier ouvre la discussion, mais le montant est souvent le point central de l’échange. En quelques informations, le simulateur RuptureConv permet d’obtenir un repère brut minimal et un net indicatif.",
+          "Cette estimation ne remplace pas une vérification paie, juridique ou conventionnelle. Elle permet simplement d’arriver mieux préparé et de comparer une proposition réelle avec un ordre de grandeur cohérent."
+        ],
+        bullets: [
+          "Lien utile : /simulateur-rupture-conventionnelle",
+          "Guide complémentaire : /negocier-rupture-conventionnelle",
+          "Droits après rupture : /rupture-conventionnelle-chomage"
+        ]
+      },
+      {
+        title: "Sources officielles à consulter",
+        paragraphs: [
+          "Pour vérifier le cadre général, vous pouvez consulter les ressources publiques officielles : Service-Public.fr pour la procédure de rupture conventionnelle, Légifrance pour les textes du Code du travail, et France Travail pour les règles générales d’indemnisation chômage.",
+          "Ces sources ne remplacent pas l’analyse de votre cas particulier, mais elles permettent de vérifier les grandes étapes et les termes utilisés avant un échange avec l’employeur."
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: "L’employeur est-il obligé d’accepter une demande de rupture conventionnelle ?",
+        answer:
+          "Non. La rupture conventionnelle repose sur un accord commun entre le salarié et l’employeur. Une lettre ou un email peut ouvrir une discussion, mais aucune des parties n’est obligée d’accepter."
+      },
+      {
+        question: "Peut-on demander une rupture conventionnelle par email ?",
+        answer:
+          "Oui, un email peut suffire pour demander un entretien ou ouvrir un échange. Il est toutefois conseillé de rester prudent, factuel et de conserver une copie du message envoyé."
+      },
+      {
+        question: "Faut-il envoyer une lettre recommandée ?",
+        answer:
+          "Ce n’est pas obligatoire pour demander une rupture conventionnelle. La lettre recommandée peut être utile si vous souhaitez une preuve de réception, mais elle peut aussi donner une tonalité plus formelle."
+      },
+      {
+        question: "Peut-on retirer sa demande de rupture conventionnelle ?",
+        answer:
+          "Tant qu’aucun accord n’est formalisé, une demande d’échange peut en principe être abandonnée. Après signature d’une convention, un délai de rétractation légal existe ; les modalités exactes doivent être vérifiées."
+      },
+      {
+        question: "Peut-on demander une rupture conventionnelle pendant un arrêt maladie ?",
+        answer:
+          "La situation doit être analysée avec prudence. Certaines ruptures peuvent être possibles, mais il faut vérifier l’absence de pression, le consentement libre et les règles applicables à la situation."
+      },
+      {
+        question: "Que faire si l’employeur refuse ?",
+        answer:
+          "L’employeur peut refuser. Vous pouvez demander un échange sur les raisons du refus, proposer un autre calendrier ou envisager d’autres options selon votre situation professionnelle."
+      },
+      {
+        question: "Faut-il indiquer un montant d’indemnité dans la lettre ?",
+        answer:
+          "Ce n’est pas obligatoire. Dans beaucoup de cas, il est plus prudent de demander d’abord un entretien, puis d’aborder le montant après avoir estimé le minimum applicable."
+      },
+      {
+        question: "Cette lettre suffit-elle pour valider la rupture conventionnelle ?",
+        answer:
+          "Non. La lettre ne fait qu’ouvrir une discussion. La rupture conventionnelle suppose ensuite une procédure, une convention signée, un délai de rétractation et une homologation."
+      }
+    ],
+    conclusion: [
+      "Un bon modèle de lettre de rupture conventionnelle doit être clair, prudent et professionnel. Il doit ouvrir une discussion sans présenter l’accord comme acquis ni exercer de pression sur l’employeur.",
+      "Avant d’envoyer votre demande, estimez votre indemnité indicative et préparez les points à aborder : calendrier, passation, montant, documents et délais. Vous pourrez ensuite adapter le courrier à votre situation réelle."
+    ]
+  },
+  {
+    slug: "rupture-conventionnelle-chomage",
+    title: "Rupture conventionnelle chômage : droits ARE",
+    h1: "Rupture conventionnelle et chômage",
+    description:
+      "Rupture conventionnelle et chômage : droits ARE, France Travail, différés d'indemnisation, congés payés, délai d'attente et erreurs.",
+    relatedLinks: [
+      "/simulateur-rupture-conventionnelle",
+      "/modele-lettre-rupture-conventionnelle",
+      "/negocier-rupture-conventionnelle",
+      "/rupture-conventionnelle-cdi",
+      "/calcul-indemnite-rupture-conventionnelle"
+    ],
+    intro: [
+      "Une rupture conventionnelle peut ouvrir droit à l’assurance chômage lorsque les conditions générales d’indemnisation sont réunies. Elle ne garantit pas automatiquement une indemnisation immédiate : l’inscription, les documents de fin de contrat, les différés et la situation personnelle doivent être vérifiés.",
+      "L’enjeu est de comprendre la différence entre le droit potentiel à l’ARE, le point de départ effectif de l’indemnisation et les sommes versées lors de la rupture. Les informations présentées sont générales et indicatives. Elles ne remplacent pas un conseil juridique personnalisé."
+    ],
+    sections: [
+      {
+        title: "Rupture conventionnelle et droit au chômage",
+        paragraphs: [
+          "Contrairement à une démission classique, la rupture conventionnelle homologuée est en principe un mode de rupture qui peut permettre d’ouvrir des droits à l’assurance chômage, sous réserve de remplir les conditions applicables.",
+          "Il faut notamment tenir compte de la durée d’activité, de l’inscription auprès de France Travail, de la recherche d’emploi et des règles en vigueur au moment de la fin du contrat. La situation exacte doit toujours être vérifiée avec les documents de fin de contrat."
+        ]
+      },
+      {
+        title: "Les étapes après la rupture",
+        paragraphs: [
+          "Après la rupture, le salarié reçoit généralement les documents de fin de contrat : certificat de travail, reçu pour solde de tout compte et attestation destinée à France Travail. Ces documents servent à instruire le dossier d’indemnisation.",
+          "L’inscription auprès de France Travail doit être faite avec attention. Les informations déclarées doivent correspondre aux documents transmis par l’employeur, notamment les dates, les salaires et les sommes versées."
+        ],
+        bullets: [
+          "Vérifier la date réelle de fin de contrat.",
+          "Récupérer l’attestation employeur.",
+          "Contrôler les indemnités et congés payés.",
+          "S’inscrire auprès de France Travail.",
+          "Suivre les éventuels différés avant le premier paiement."
+        ]
+      },
+      {
+        title: "Différés d’indemnisation et délai d’attente",
+        paragraphs: [
+          "Même lorsque la rupture conventionnelle peut ouvrir droit à l’ARE, le paiement ne commence pas toujours immédiatement. Il peut exister un délai d’attente et des différés liés notamment aux congés payés ou à certaines indemnités supra-légales.",
+          "Le différé lié aux congés payés dépend des indemnités compensatrices versées. Le différé spécifique peut être influencé par les sommes qui dépassent le minimum légal ou conventionnel. Les règles exactes doivent être vérifiées auprès de France Travail."
+        ]
+      },
+      {
+        title: "Documents à contrôler avant l’inscription",
+        paragraphs: [
+          "Avant de finaliser votre dossier, prenez le temps de relire les documents remis par l’employeur. Une erreur sur la date de fin de contrat, le salaire de référence ou la qualification des sommes versées peut ralentir l’instruction du dossier.",
+          "L’attestation employeur est particulièrement importante, car elle sert de base à France Travail. Si une information ne correspond pas au solde de tout compte ou à la convention de rupture, il vaut mieux demander une correction rapidement plutôt que découvrir le problème au moment du premier paiement."
+        ],
+        bullets: [
+          "Date de fin de contrat identique sur les documents.",
+          "Montant de l’indemnité de rupture clairement identifié.",
+          "Congés payés distincts de l’indemnité de rupture.",
+          "Derniers salaires cohérents avec les bulletins de paie.",
+          "Absence d’erreur sur l’identité ou le numéro de sécurité sociale."
+        ]
+      },
+      {
+        title: "Indemnité supra-légale : pourquoi elle compte",
+        paragraphs: [
+          "Une indemnité supérieure au minimum peut améliorer la sortie financière immédiate, mais elle peut aussi avoir un effet sur le calendrier d’indemnisation chômage. C’est pourquoi il faut regarder à la fois le montant brut versé et le moment où l’ARE pourrait commencer.",
+          "La bonne approche consiste à distinguer le minimum obligatoire, la part négociée et les autres sommes dues. Une estimation de l’indemnité de rupture conventionnelle aide à comprendre cette répartition avant de signer."
+        ]
+      },
+      {
+        title: "Comparer le montant de départ et le calendrier ARE",
+        paragraphs: [
+          "Pour prendre une décision éclairée, il ne suffit pas de regarder l’indemnité versée au départ. Il faut aussi se demander quand l’indemnisation pourrait commencer, quelles sommes seront disponibles pendant la période d’attente et si le montant négocié couvre réellement ce délai.",
+          "Cette comparaison reste indicative, car RuptureConv ne calcule pas les droits ARE. En revanche, connaître l’indemnité minimale et la part potentiellement négociée permet de préparer des questions plus précises pour France Travail ou pour un accompagnement spécialisé."
+        ]
+      },
+      {
+        title: "Exemple simple",
+        paragraphs: [
+          "Exemple : un salarié signe une rupture conventionnelle avec une indemnité minimale et une indemnité compensatrice de congés payés. Il peut avoir un droit potentiel à l’ARE, mais le début de paiement peut être décalé par les congés payés et le délai d’attente.",
+          "Si une part supra-légale importante est négociée, un différé supplémentaire peut s’ajouter selon les règles applicables. Le montant négocié doit donc être comparé à l’effet possible sur le calendrier d’indemnisation."
+        ]
+      },
+      {
+        title: "Erreurs fréquentes à éviter",
+        paragraphs: [
+          "La première erreur consiste à croire que la rupture conventionnelle donne toujours droit à un paiement immédiat. Le droit potentiel et la date de versement effective sont deux sujets différents.",
+          "La deuxième erreur est de ne regarder que le net perçu le jour du départ. Il faut aussi prendre en compte les documents de fin de contrat, les congés payés, la part supra-légale et les délais France Travail.",
+          "Enfin, il faut éviter de signer sans avoir estimé l’indemnité minimale. Cette estimation permet de vérifier si la proposition respecte au moins le plancher applicable."
+        ]
+      },
+      {
+        title: "CTA : estimer avant de comparer",
+        paragraphs: [
+          "Avant de comparer une proposition de rupture conventionnelle avec vos droits chômage, commencez par estimer l’indemnité indicative. Vous pourrez ensuite mieux distinguer ce qui relève du minimum, de la négociation et des délais d’indemnisation.",
+          "Le simulateur RuptureConv fournit une estimation indicative utile pour préparer vos questions, sans remplacer les informations officielles de France Travail."
+        ],
+        bullets: [
+          "Calculer l’indemnité : /simulateur-rupture-conventionnelle",
+          "Préparer la négociation : /negocier-rupture-conventionnelle",
+          "Formuler une demande : /modele-lettre-rupture-conventionnelle"
+        ]
+      },
+      {
+        title: "Sources officielles à consulter",
+        paragraphs: [
+          "Pour vérifier les règles applicables, consultez les ressources de France Travail, Service-Public.fr et les textes disponibles sur Légifrance. Les règles d’indemnisation peuvent évoluer et dépendent de votre situation.",
+          "En cas de doute sur une situation particulière, notamment arrêt maladie, départ contraint, montant supra-légal important ou conflit, un accompagnement spécialisé peut être nécessaire."
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: "La rupture conventionnelle donne-t-elle automatiquement droit au chômage ?",
+        answer:
+          "Elle peut ouvrir droit à l’assurance chômage si les conditions générales sont réunies. Le droit et la date de paiement doivent être vérifiés auprès de France Travail."
+      },
+      {
+        question: "Quand faut-il s’inscrire à France Travail ?",
+        answer:
+          "L’inscription se fait après la fin du contrat, avec les documents remis par l’employeur. Il est conseillé de préparer ces documents dès la signature de la rupture."
+      },
+      {
+        question: "Qu’est-ce qu’un différé d’indemnisation ?",
+        answer:
+          "C’est une période pendant laquelle l’indemnisation ne commence pas encore, notamment en raison de congés payés ou de certaines indemnités supra-légales."
+      },
+      {
+        question: "L’indemnité supra-légale retarde-t-elle le chômage ?",
+        answer:
+          "Elle peut influencer un différé spécifique selon les règles applicables. Il faut vérifier le calcul avec France Travail."
+      },
+      {
+        question: "Les congés payés ont-ils un impact ?",
+        answer:
+          "Une indemnité compensatrice de congés payés peut créer un différé avant le début de l’indemnisation."
+      },
+      {
+        question: "Le simulateur calcule-t-il mes droits ARE ?",
+        answer:
+          "Non. Il estime l’indemnité de rupture conventionnelle. Les droits ARE doivent être vérifiés avec France Travail."
+      },
+      {
+        question: "Que faire si l’attestation employeur contient une erreur ?",
+        answer:
+          "Il faut demander une correction à l’employeur, car France Travail s’appuie sur ces informations pour instruire le dossier."
+      }
+    ],
+    conclusion: [
+      "La rupture conventionnelle peut être compatible avec une indemnisation chômage, mais le calendrier dépend des règles France Travail, des documents remis et des sommes versées.",
+      "Avant de signer, estimez votre indemnité, vérifiez les éventuels différés et conservez une lecture prudente de votre situation."
+    ]
+  },
+  {
+    slug: "negocier-rupture-conventionnelle",
+    title: "Négocier rupture conventionnelle : méthode",
+    h1: "Négocier une rupture conventionnelle",
+    description:
+      "Comment négocier une rupture conventionnelle : indemnité minimale, arguments, calendrier, montant supra-légal, entretien et erreurs à éviter.",
+    relatedLinks: [
+      "/simulateur-rupture-conventionnelle",
+      "/modele-lettre-rupture-conventionnelle",
+      "/rupture-conventionnelle-chomage",
+      "/calcul-indemnite-rupture-conventionnelle",
+      "/indemnite-legale-rupture-conventionnelle"
+    ],
+    intro: [
+      "Négocier une rupture conventionnelle ne consiste pas seulement à demander un montant plus élevé. Il faut comprendre le minimum applicable, préparer ses arguments, rester professionnel et proposer un cadre de discussion réaliste.",
+      "Une négociation réussie repose sur des données vérifiées : ancienneté, salaire de référence, calendrier, passation, convention collective et éventuelle indemnité supra-légale. Les informations présentées sont générales et indicatives. Elles ne remplacent pas un conseil juridique personnalisé."
+    ],
+    sections: [
+      {
+        title: "Pourquoi préparer la négociation ?",
+        paragraphs: [
+          "La rupture conventionnelle suppose un accord entre le salarié et l’employeur. Chacun peut accepter, refuser ou proposer d’autres conditions. Arriver avec une méthode permet de réduire les malentendus et de discuter sur des bases concrètes.",
+          "La préparation permet aussi d’éviter deux excès : demander un montant sans justification ou accepter trop vite une proposition sans vérifier le minimum applicable."
+        ]
+      },
+      {
+        title: "Connaître son indemnité minimale",
+        paragraphs: [
+          "Avant de négocier une indemnité supérieure, il faut connaître le minimum. Ce plancher dépend principalement de l’ancienneté et du salaire brut de référence, avec une règle qui distingue les dix premières années et les années au-delà.",
+          "La convention collective peut prévoir une règle plus favorable. Les primes, variables, absences ou changements récents de rémunération peuvent aussi influencer la base de calcul."
+        ],
+        bullets: [
+          "Date d’entrée exacte.",
+          "Date de rupture envisagée.",
+          "Salaire brut de référence.",
+          "Primes et variables régulières.",
+          "Convention collective applicable."
+        ]
+      },
+      {
+        title: "Identifier ses arguments",
+        paragraphs: [
+          "Une demande d’indemnité supra-légale doit être présentée avec mesure. Les arguments peuvent concerner l’ancienneté, la contribution au poste, la passation, un calendrier favorable à l’entreprise ou la volonté de conclure un accord serein.",
+          "Évitez les arguments flous ou agressifs. Une phrase factuelle est souvent plus efficace qu’un reproche détaillé. L’objectif est de montrer pourquoi une enveloppe plus élevée peut être équilibrée pour les deux parties."
+        ]
+      },
+      {
+        title: "Préparer une fourchette de négociation",
+        paragraphs: [
+          "Une négociation sérieuse se prépare souvent avec une fourchette plutôt qu’un seul chiffre. Le bas de la fourchette correspond au minimum que vous ne souhaitez pas franchir, tandis que le haut représente votre demande argumentée.",
+          "Cette méthode permet de garder une marge de discussion sans improviser. Elle évite aussi de confondre le minimum légal, le montant souhaité et le montant réellement acceptable selon votre situation."
+        ],
+        bullets: [
+          "Un montant plancher basé sur l’estimation minimale.",
+          "Un montant cible justifié par vos arguments.",
+          "Une marge de discussion réaliste.",
+          "Les points non financiers à négocier : date, passation, congés, documents."
+        ]
+      },
+      {
+        title: "Négocier l’indemnité supra-légale",
+        paragraphs: [
+          "L’indemnité supra-légale correspond à la part qui dépasse le minimum obligatoire. Elle n’est pas automatique : elle dépend du contexte, de l’accord des parties et de la capacité à présenter une demande cohérente.",
+          "Il est prudent de la formuler comme une proposition de sortie équilibrée, et non comme une exigence. Vous pouvez lier cette demande à une passation organisée, à une date de départ compatible avec l’activité ou à la volonté d’éviter une situation conflictuelle."
+        ]
+      },
+      {
+        title: "Proposer un calendrier réaliste",
+        paragraphs: [
+          "Le calendrier compte autant que le montant. Une date de départ trop rapide peut inquiéter l’employeur ; une date trop lointaine peut être incompatible avec votre projet. Préparez une proposition qui tient compte de la passation, des congés restants et de l’homologation.",
+          "Un calendrier clair peut devenir un argument de négociation : vous facilitez la transition, l’entreprise sécurise l’organisation, et les échanges sont plus simples."
+        ]
+      },
+      {
+        title: "Exemple de discussion",
+        paragraphs: [
+          "Exemple : « J’aimerais que nous échangions sur une rupture conventionnelle dans un cadre serein. J’ai préparé une estimation indicative du minimum applicable et je souhaiterais discuter du calendrier, de la passation et d’une indemnité tenant compte de mon ancienneté. »",
+          "Cette formulation reste prudente : elle n’impose pas l’accord, ne menace pas l’employeur et ouvre plusieurs sujets concrets."
+        ]
+      },
+      {
+        title: "Erreurs à éviter",
+        paragraphs: [
+          "La principale erreur est de commencer par un ultimatum. Une rupture conventionnelle exige un accord ; une pression trop forte peut bloquer la discussion ou fragiliser le dossier.",
+          "Évitez aussi de négocier sans connaître le minimum légal, de confondre brut et net, ou de négliger l’impact possible sur l’indemnisation chômage."
+        ],
+        bullets: [
+          "Arriver sans estimation.",
+          "Demander un montant sans justification.",
+          "Confondre minimum légal et montant négocié.",
+          "Oublier les congés payés et documents de fin de contrat.",
+          "Présenter la rupture comme déjà décidée."
+        ]
+      },
+      {
+        title: "Checklist avant entretien",
+        paragraphs: [
+          "Avant l’entretien, préparez une fiche simple avec vos dates, votre salaire, votre estimation, vos arguments et vos questions. Cela évite de se perdre dans l’émotion ou dans des demandes imprécises.",
+          "Si la situation est conflictuelle ou si vous ressentez une pression, prenez le temps de vérifier vos options avant de signer."
+        ],
+        bullets: [
+          "Faire une estimation indicative de l’indemnité.",
+          "Lister les points à négocier.",
+          "Préparer un calendrier souhaité.",
+          "Vérifier la convention collective.",
+          "Relire les conséquences chômage.",
+          "Préparer une formulation écrite prudente."
+        ]
+      },
+      {
+        title: "Après l’entretien : formaliser sans précipitation",
+        paragraphs: [
+          "Après un premier échange, évitez de considérer l’accord comme acquis tant que rien n’est signé et homologué. Reformulez les points évoqués, vérifiez les montants, relisez le calendrier et demandez les précisions nécessaires avant d’avancer.",
+          "Si une proposition chiffrée vous est faite, comparez-la à votre estimation et distinguez le minimum, la part supra-légale, les congés payés et les éventuelles conséquences sur le chômage. Cette étape limite les mauvaises surprises au moment du solde de tout compte."
+        ]
+      },
+      {
+        title: "CTA : calculer avant de négocier",
+        paragraphs: [
+          "Le simulateur permet d’obtenir un repère utile avant l’entretien. Il ne remplace pas une vérification personnalisée, mais il aide à discuter avec des chiffres plus clairs.",
+          "Une fois le minimum estimé, vous pouvez comparer une proposition, préparer une contre-proposition et vérifier si une indemnité supra-légale mérite d’être discutée."
+        ],
+        bullets: [
+          "Calculer l’indemnité : /simulateur-rupture-conventionnelle",
+          "Modèle de demande : /modele-lettre-rupture-conventionnelle",
+          "Droits chômage : /rupture-conventionnelle-chomage"
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: "Peut-on négocier une indemnité plus élevée ?",
+        answer:
+          "Oui, une indemnité supérieure au minimum peut être négociée si les deux parties l’acceptent. Elle doit être distinguée du minimum légal ou conventionnel."
+      },
+      {
+        question: "L’employeur peut-il refuser une rupture conventionnelle ?",
+        answer:
+          "Oui. La rupture conventionnelle repose sur un accord commun. L’employeur comme le salarié peuvent refuser."
+      },
+      {
+        question: "Faut-il annoncer un montant dès le premier échange ?",
+        answer:
+          "Pas toujours. Il peut être préférable d’ouvrir d’abord la discussion, puis d’aborder le montant après avoir estimé le minimum applicable."
+      },
+      {
+        question: "Quels arguments utiliser ?",
+        answer:
+          "Les arguments les plus solides sont factuels : ancienneté, passation, calendrier, contribution au poste, contexte de sortie et volonté de sécuriser l’accord."
+      },
+      {
+        question: "Le montant se négocie-t-il en brut ou en net ?",
+        answer:
+          "Le minimum se raisonne en brut. Le net indicatif peut aider à comprendre ce qui pourrait être perçu, mais il reste une estimation."
+      },
+      {
+        question: "La convention collective peut-elle changer le montant ?",
+        answer:
+          "Oui. Certaines conventions peuvent prévoir des règles plus favorables. Il faut vérifier le texte applicable avant de signer."
+      },
+      {
+        question: "Que faire en cas de pression ?",
+        answer:
+          "Il faut être prudent. Une rupture conventionnelle suppose un consentement libre. En cas de pression ou de conflit, un accompagnement spécialisé peut être nécessaire."
+      }
+    ],
+    conclusion: [
+      "Négocier une rupture conventionnelle demande de la méthode : connaître le minimum, préparer ses arguments, rester professionnel et vérifier les conséquences pratiques.",
+      "Le simulateur RuptureConv vous aide à obtenir un premier repère chiffré avant l’entretien, à comparer une proposition et à préparer une discussion plus sereine."
+    ]
+  }
+];
+
 function buildSeniorityPage(years: number): PillarPage {
   const salary = years % 3 === 0 ? 2400 : years % 3 === 1 ? 2800 : 3200;
   const amount = calculateMinimumIndemnity(years, salary);
@@ -805,6 +1332,7 @@ const eeatPages: PillarPage[] = [
 export const pillarPages: PillarPage[] = [
   ...basePillarPages,
   ...highIntentPages,
+  ...resourcePlaceholderPages,
   ...programmaticSeniorityPages,
   ...programmaticSalaryPages,
   ...eeatPages
