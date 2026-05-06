@@ -58,3 +58,44 @@ summary {
 summary::-webkit-details-marker {
   display: none;
 }
+
+@media print {
+  @page {
+    margin: 18mm;
+  }
+
+  body.print-letter-mode {
+    background: #ffffff;
+  }
+
+  body.print-letter-mode * {
+    visibility: hidden !important;
+  }
+
+  body.print-letter-mode .letter-print-root,
+  body.print-letter-mode .letter-print-root * {
+    visibility: visible !important;
+  }
+
+  body.print-letter-mode .letter-print-root {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  body.print-letter-mode .letter-print-root > div {
+    max-width: none !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  body.print-letter-mode .letter-toolbar,
+  body.print-letter-mode .letter-conversion-cta {
+    display: none !important;
+  }
+}

@@ -13,7 +13,7 @@ const resources = [
     link: monetizationLinks.unemploymentEstimate
   },
   {
-    title: "Modèle de demande",
+    title: "Modèle de lettre RC",
     text: "Un exemple clair de demande de rupture conventionnelle à adapter à votre situation.",
     link: monetizationLinks.documentTemplate
   }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
+import { ProfessionalLetterBlock } from "@/components/seo/ProfessionalLetterBlock";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
@@ -171,7 +172,11 @@ export function SeoContentLayout({
                   </ul>
                 ) : null}
 
-                {section.boxedText ? (
+                {section.boxedText &&
+                canonicalPath === "/modele-lettre-rupture-conventionnelle" &&
+                section.title === "Modèle de lettre simple à copier" ? (
+                  <ProfessionalLetterBlock lines={section.boxedText} />
+                ) : section.boxedText ? (
                   <div className="rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] p-5 text-sm font-semibold leading-7 text-[#102A4C]">
                     {section.boxedText.map((line) => (
                       <p key={line} className="whitespace-pre-wrap">

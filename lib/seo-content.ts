@@ -1109,7 +1109,7 @@ const resourcePlaceholderPages: PillarPage[] = [
         ],
         bullets: [
           "Calculer l’indemnité : /simulateur-rupture-conventionnelle",
-          "Modèle de demande : /modele-lettre-rupture-conventionnelle",
+          "Modèle de lettre RC : /modele-lettre-rupture-conventionnelle",
           "Droits chômage : /rupture-conventionnelle-chomage"
         ]
       }
