@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Footer } from "@/components/Footer";
 import { buildCtrTitle } from "@/lib/seo-content";
@@ -43,8 +43,13 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/icon.svg"
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico"
   }
+};
+
+export const viewport: Viewport = {
+  themeColor: "#19c2b4"
 };
 
 export default function RootLayout({
@@ -58,7 +63,7 @@ export default function RootLayout({
     "@type": "Organization",
     name: siteName,
     url: siteUrl,
-    logo: `${siteUrl}/icon.svg`
+    logo: `${siteUrl}/favicon.ico`
   };
 
   return (
