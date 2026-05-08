@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
+import { comparisonPages } from "@/lib/comparison-pages";
 import {
   absoluteUrl,
   blogPosts,
@@ -78,6 +79,24 @@ export default function BlogIndexPage() {
             simulateur avec des données plus fiables.
           </p>
         </header>
+
+        <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-extrabold text-[#061B3A]">
+            Comparatifs populaires
+          </h2>
+          <ul className="mt-4 grid gap-3 text-sm font-semibold leading-7 text-[#102A4C] sm:grid-cols-3">
+            {comparisonPages.map((page) => (
+              <li key={page.slug}>
+                <Link
+                  className="block rounded-2xl bg-[#F7FBFA] px-4 py-3 transition hover:bg-[#EAF8F6] hover:text-[#168F86]"
+                  href={`/${page.slug}`}
+                >
+                  {page.h1}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-extrabold text-[#061B3A]">Pages piliers</h2>

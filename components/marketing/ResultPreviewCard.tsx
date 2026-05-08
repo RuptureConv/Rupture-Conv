@@ -33,8 +33,8 @@ function DocumentIcon() {
 export function ResultPreviewCard() {
   const rows = [
     ["Indemnité légale minimale", "12 980 €"],
-    ["Indemnité conventionnelle", "18 450 €"],
-    ["Indemnité négociée estimée", "18 450 €"]
+    ["Indemnité conventionnelle estimée", "16 740 €"],
+    ["Indemnité négociée possible", "18 450 €"]
   ];
 
   return (
@@ -62,7 +62,7 @@ export function ResultPreviewCard() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-extrabold text-[#061B3A]">
-                    Estimation de votre indemnité
+                    Exemple d’estimation d’indemnité
                   </p>
                   <p className="mt-3 text-5xl font-black tracking-[-0.03em] text-[#22AFA3]">
                     18 450 €
@@ -79,8 +79,12 @@ export function ResultPreviewCard() {
                     className="flex items-center justify-between gap-4 rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] px-4 py-3 text-sm"
                     key={label}
                   >
-                    <span className="font-semibold text-[#5B6B7C]">{label}</span>
-                    <span className="font-black text-[#061B3A]">{value}</span>
+                    <span className="max-w-[12rem] font-semibold leading-5 text-[#5B6B7C]">
+                      {label}
+                    </span>
+                    <span className="shrink-0 text-right font-black text-[#061B3A]">
+                      {value}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -98,8 +102,8 @@ export function ResultPreviewCard() {
                 </span>
               </div>
               <p className="mt-3 text-xs font-semibold leading-5 text-[#5B6B7C]">
-                Aperçu illustratif. Le montant réel dépend des éléments saisis
-                dans le simulateur.
+                Aperçu illustratif. Le montant réel dépend du salaire, de
+                l’ancienneté et des éléments saisis.
               </p>
             </div>
           </div>

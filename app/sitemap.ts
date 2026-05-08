@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { hrTools } from "@/lib/calculators/tools-registry";
+import { comparisonPages } from "@/lib/comparison-pages";
 import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
 import { blogPosts, pillarPageBySlug, pillarPages } from "@/lib/seo-content";
 import { siteUrl } from "@/lib/site";
@@ -62,11 +63,14 @@ function getMainPages(): SitemapRoute[] {
 }
 
 function getSeoPages(): SitemapRoute[] {
-  return pillarPages
-    .filter((page) => page.slug !== "simulateur-rupture-conventionnelle")
-    .filter((page) => !parseProgrammaticSeoSlug(page.slug))
-    .filter((page) => !["a-propos", "sources-juridiques"].includes(page.slug))
-    .map((page) => createRoute(`/${page.slug}`, 0.9, "weekly", 14));
+  return [
+    ...pillarPages
+      .filter((page) => page.slug !== "simulateur-rupture-conventionnelle")
+      .filter((page) => !parseProgrammaticSeoSlug(page.slug))
+      .filter((page) => !["a-propos", "sources-juridiques"].includes(page.slug))
+      .map((page) => createRoute(`/${page.slug}`, 0.9, "weekly", 14)),
+    ...comparisonPages.map((page) => createRoute(`/${page.slug}`, 0.9, "weekly", 14))
+  ];
 }
 
 function getProgrammaticPages(): SitemapRoute[] {

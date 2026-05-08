@@ -13,6 +13,18 @@ const internalLinks = [
   {
     href: "/indemnite-legale-rupture-conventionnelle",
     label: "montant indemnité rupture conventionnelle"
+  },
+  {
+    href: "/rupture-conventionnelle-ou-demission",
+    label: "rupture conventionnelle ou démission"
+  },
+  {
+    href: "/rupture-conventionnelle-ou-licenciement",
+    label: "rupture conventionnelle ou licenciement"
+  },
+  {
+    href: "/rupture-conventionnelle-ou-abandon-de-poste",
+    label: "rupture conventionnelle ou abandon de poste"
   }
 ] as const;
 

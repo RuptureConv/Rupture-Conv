@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ComparisonPageLayout } from "@/components/seo/ComparisonPageLayout";
 import { ProgrammaticSeoTemplate } from "@/components/seo/ProgrammaticSeoTemplate";
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
+import {
+  comparisonPageBySlug,
+  comparisonPages
+} from "@/lib/comparison-pages";
 import {
   absoluteUrl,
   pillarPageBySlug,
@@ -19,14 +24,49 @@ type PillarPageProps = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return pillarPages.map((page) => ({ slug: page.slug }));
+  return [
+    ...pillarPages.map((page) => ({ slug: page.slug })),
+    ...comparisonPages.map((page) => ({ slug: page.slug }))
+  ];
 }
 
 export async function generateMetadata({
   params
 }: PillarPageProps): Promise<Metadata> {
   const { slug } = await params;
+  const comparisonPage = comparisonPageBySlug[slug];
   const page = pillarPageBySlug[slug];
+
+  if (comparisonPage) {
+    const canonicalPath = `/${comparisonPage.slug}`;
+    const canonicalUrl = absoluteUrl(canonicalPath);
+
+    return {
+      title: {
+        absolute: comparisonPage.title
+      },
+      description: comparisonPage.description,
+      alternates: {
+        canonical: canonicalUrl
+      },
+      robots: {
+        index: true,
+        follow: true
+      },
+      openGraph: {
+        title: comparisonPage.title,
+        description: comparisonPage.description,
+        url: canonicalUrl,
+        type: "article",
+        locale: "fr_FR"
+      },
+      twitter: {
+        card: "summary",
+        title: comparisonPage.title,
+        description: comparisonPage.description
+      }
+    };
+  }
 
   if (!page) {
     return {};
@@ -66,7 +106,12 @@ export async function generateMetadata({
 
 export default async function PillarPage({ params }: PillarPageProps) {
   const { slug } = await params;
+  const comparisonPage = comparisonPageBySlug[slug];
   const page = pillarPageBySlug[slug];
+
+  if (comparisonPage) {
+    return <ComparisonPageLayout page={comparisonPage} />;
+  }
 
   if (!page) {
     notFound();
