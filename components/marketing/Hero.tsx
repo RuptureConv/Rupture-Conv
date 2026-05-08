@@ -5,7 +5,7 @@ import { ResultPreviewCard } from "@/components/marketing/ResultPreviewCard";
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-[#F7FBFA]">
-      <div className="mx-auto grid min-h-[calc(100vh-90px)] max-w-7xl items-center gap-12 px-4 pb-12 pt-12 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8 lg:pb-16 lg:pt-16">
+      <div className="mx-auto grid min-h-[calc(100vh-84px)] max-w-7xl items-center gap-12 px-4 pb-14 pt-12 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8 lg:pb-[4.5rem] lg:pt-[4.5rem]">
         <div>
           <p className="mb-5 inline-flex rounded-full border border-[#D7E7E8] bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#168F86] shadow-[0_12px_36px_rgba(6,27,58,0.06)]">
             Simulateur RH gratuit et confidentiel
@@ -21,7 +21,7 @@ export function Hero() {
             Obtenez une estimation claire, immédiate et personnalisée de votre
             indemnité, sans inscription et en toute confidentialité.
           </p>
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-[#102A4C]">
+          <p className="mt-4 max-w-2xl text-lg font-semibold leading-8 text-[#102A4C]">
             Estimez votre indemnité de rupture conventionnelle en moins de 30
             secondes.
           </p>

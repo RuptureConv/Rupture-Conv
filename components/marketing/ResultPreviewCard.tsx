@@ -69,7 +69,7 @@ export function ResultPreviewCard() {
                   </p>
                 </div>
                 <span className="rounded-full bg-[#EAF8F6] px-3 py-1 text-xs font-extrabold text-[#168F86]">
-                  Estimation personnalisée
+                  Exemple indicatif
                 </span>
               </div>
 
@@ -97,6 +97,10 @@ export function ResultPreviewCard() {
                   Projection
                 </span>
               </div>
+              <p className="mt-3 text-xs font-semibold leading-5 text-[#5B6B7C]">
+                Aperçu illustratif. Le montant réel dépend des éléments saisis
+                dans le simulateur.
+              </p>
             </div>
           </div>
         </div>

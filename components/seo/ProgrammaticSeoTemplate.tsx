@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { AdSlot } from "@/components/ads/AdSlot";
+import { CalculationSchema } from "@/components/seo/CalculationSchema";
 import { ConcreteExample } from "@/components/seo/ConcreteExample";
 import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
@@ -143,6 +144,7 @@ export function ProgrammaticSeoTemplate({
           <AdSlot format="horizontal" position="top" />
           <KeyTakeaways items={takeaways} />
           <TrustPanel />
+          <CalculationSchema compact />
 
           <ConcreteExample
             body={`Pour ${estimate.years} ${

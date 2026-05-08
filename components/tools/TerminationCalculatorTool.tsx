@@ -590,6 +590,36 @@ export function TerminationCalculatorTool() {
               </p>
             </div>
 
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <ResultSummaryCard
+                label="Minimum légal estimé"
+                value={formatCurrency(result.minimumGrossIndemnity)}
+                help="Le plancher indicatif à vérifier selon votre dossier."
+              />
+              <ResultSummaryCard
+                label={form.userProfile === "employer" ? "Budget indemnité" : "Montant retenu"}
+                value={formatCurrency(result.retainedGrossIndemnity)}
+                help={
+                  form.userProfile === "employer"
+                    ? "Hors autres coûts éventuels liés à la fin du contrat."
+                    : "Le montant brut utilisé dans cette simulation."
+                }
+              />
+              <ResultSummaryCard
+                label={form.userProfile === "employee" ? "Net indicatif" : "Lecture prudente"}
+                value={
+                  form.userProfile === "employee"
+                    ? formatCurrency(result.estimatedNetIndemnity)
+                    : "À confirmer"
+                }
+                help={
+                  form.userProfile === "employee"
+                    ? "Une approximation utile, pas un bulletin de paie."
+                    : "À relire avec la paie et la convention collective."
+                }
+              />
+            </div>
+
             <div className="mt-4 grid gap-3">
               <ResultLine label="Ancienneté brute" value={result.grossSeniority.label} />
               <ResultLine label="Ancienneté retenue" value={result.retainedSeniority.label} />
@@ -785,6 +815,26 @@ function MoneyInput({
         €
       </span>
     </div>
+  );
+}
+
+function ResultSummaryCard({
+  help,
+  label,
+  value
+}: {
+  help: string;
+  label: string;
+  value: string;
+}) {
+  return (
+    <article className="rounded-2xl border border-[#D7E7E8] bg-[#F7FBFA] p-4">
+      <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-[#168F86]">
+        {label}
+      </p>
+      <p className="mt-2 text-xl font-black text-[#061B3A]">{value}</p>
+      <p className="mt-2 text-xs font-semibold leading-5 text-[#5B6B7C]">{help}</p>
+    </article>
   );
 }
 

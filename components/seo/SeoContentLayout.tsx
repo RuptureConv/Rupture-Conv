@@ -1,7 +1,12 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { AdSlot } from "@/components/ads/AdSlot";
+import { CalculationSchema } from "@/components/seo/CalculationSchema";
+import { CommonMistakes } from "@/components/seo/CommonMistakes";
+import { ComparisonCards } from "@/components/seo/ComparisonCards";
 import { ConcreteExample } from "@/components/seo/ConcreteExample";
+import { DecisionGuide } from "@/components/seo/DecisionGuide";
+import { DelayTimeline } from "@/components/seo/DelayTimeline";
 import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import {
@@ -9,6 +14,7 @@ import {
   PageSummary
 } from "@/components/seo/PageSummary";
 import { ProfessionalLetterBlock } from "@/components/seo/ProfessionalLetterBlock";
+import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import { MiniFaq } from "@/components/seo/MiniFaq";
@@ -100,6 +106,84 @@ function buildExample(h1: string) {
   };
 }
 
+function getComparison(h1: string) {
+  const normalized = h1.toLocaleLowerCase("fr-FR");
+
+  if (normalized.includes("licenciement")) {
+    return {
+      title: "Rupture conventionnelle ou licenciement : les repères",
+      items: [
+        {
+          title: "Rupture conventionnelle",
+          points: [
+            "Repose sur un accord commun.",
+            "Prévoit une indemnité spécifique.",
+            "Suppose une procédure d’homologation."
+          ]
+        },
+        {
+          title: "Licenciement",
+          points: [
+            "Décision prise par l’employeur.",
+            "Dépend d’un motif et d’une procédure.",
+            "Peut ouvrir d’autres sujets selon le contexte."
+          ]
+        }
+      ] as const
+    };
+  }
+
+  if (normalized.includes("net") || normalized.includes("fiscalité")) {
+    return {
+      title: "Brut ou net : ne pas confondre",
+      items: [
+        {
+          title: "Montant brut",
+          points: [
+            "Base habituelle du calcul minimum.",
+            "Sert à comparer les règles applicables.",
+            "Doit être relu avec les éléments de paie."
+          ]
+        },
+        {
+          title: "Net indicatif",
+          points: [
+            "Donne un ordre de grandeur.",
+            "Peut varier selon le traitement social et fiscal.",
+            "Ne remplace pas une validation paie."
+          ]
+        }
+      ] as const
+    };
+  }
+
+  if (normalized.includes("minimum") || normalized.includes("négocier")) {
+    return {
+      title: "Minimum légal ou montant négocié",
+      items: [
+        {
+          title: "Minimum applicable",
+          points: [
+            "Correspond au plancher à respecter.",
+            "Dépend du salaire et de l’ancienneté.",
+            "Peut être amélioré par la convention collective."
+          ]
+        },
+        {
+          title: "Montant négocié",
+          points: [
+            "Peut dépasser le minimum.",
+            "Dépend du contexte et de l’accord des parties.",
+            "Doit rester clairement formalisé."
+          ]
+        }
+      ] as const
+    };
+  }
+
+  return null;
+}
+
 export function SeoContentLayout({
   canonicalPath,
   conclusion,
@@ -110,6 +194,22 @@ export function SeoContentLayout({
   sections
 }: SeoContentLayoutProps) {
   const displayH1 = buildCtrTitle(h1);
+  const normalizedH1 = h1.toLocaleLowerCase("fr-FR");
+  const comparison = getComparison(h1);
+  const shouldShowCalculationSchema =
+    normalizedH1.includes("calcul") ||
+    normalizedH1.includes("indemnité") ||
+    normalizedH1.includes("net");
+  const shouldShowProcess =
+    normalizedH1.includes("cdi") ||
+    normalizedH1.includes("lettre") ||
+    normalizedH1.includes("préavis") ||
+    normalizedH1.includes("délai") ||
+    normalizedH1.includes("conditions");
+  const shouldShowDecisionGuide =
+    normalizedH1.includes("négocier") ||
+    normalizedH1.includes("refus") ||
+    normalizedH1.includes("avantages");
   const estimatedWordCount = [
     ...intro,
     ...sections.flatMap((section) => section.paragraphs),
@@ -210,6 +310,17 @@ export function SeoContentLayout({
           <KeyTakeaways items={buildTakeaways(h1)} />
           <TrustPanel />
           <PageSummary sections={sections.map((section) => section.title)} />
+          {shouldShowCalculationSchema ? <CalculationSchema /> : null}
+          {shouldShowProcess ? (
+            <>
+              <ProcessTimeline />
+              <DelayTimeline />
+            </>
+          ) : null}
+          {comparison ? (
+            <ComparisonCards items={comparison.items} title={comparison.title} />
+          ) : null}
+          {shouldShowDecisionGuide ? <DecisionGuide /> : null}
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
@@ -226,6 +337,7 @@ export function SeoContentLayout({
           <SimulatorCTA />
           <ConcreteExample {...buildExample(h1)} />
           <MiniFaq items={faq} />
+          <CommonMistakes />
           {shouldShowMidAd ? (
             <AdSlot desktopOnly format="rectangle" position="mid" />
           ) : null}

@@ -10,7 +10,11 @@ import { TrustBlock } from "@/components/marketing/TrustBlock";
 import { PartnerHelpBlock } from "@/components/monetization/PartnerHelpBlock";
 import { RecommendedResourcesBlock } from "@/components/monetization/RecommendedResourcesBlock";
 import { UsefulLinksFooter } from "@/components/monetization/UsefulLinksFooter";
+import { CalculationSchema } from "@/components/seo/CalculationSchema";
+import { CommonMistakes } from "@/components/seo/CommonMistakes";
+import { DecisionGuide } from "@/components/seo/DecisionGuide";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
+import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
 import { SeoContent } from "@/components/SeoContent";
 import { siteName, siteUrl } from "@/lib/site";
 
@@ -57,7 +61,7 @@ export default function Home() {
       <Hero />
       <TrustBlock />
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-12 xl:grid-cols-[0.95fr_1.05fr]">
           <KeyTakeaways
             items={[
               "La rupture conventionnelle ouvre droit à une indemnité spécifique.",
@@ -66,6 +70,13 @@ export default function Home() {
               "Le résultat reste une estimation indicative à vérifier avant signature."
             ]}
           />
+          <CalculationSchema />
+        </div>
+      </section>
+      <section className="bg-[#F7FBFA]">
+        <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-12 xl:grid-cols-[minmax(0,1.25fr)_minmax(340px,0.75fr)]">
+          <ProcessTimeline title="Comprendre le parcours en un coup d’œil" />
+          <DecisionGuide />
         </div>
       </section>
       <ExampleBlock />
@@ -76,6 +87,9 @@ export default function Home() {
       <section className="mx-auto w-full max-w-7xl px-4 pb-8 sm:px-6 lg:px-8 lg:pb-12">
         <div className="min-w-0">
           <SeoContent />
+          <div className="mt-10">
+            <CommonMistakes />
+          </div>
           <aside className="mt-10 rounded-[28px] border border-[#E5EEF0] bg-white p-6 shadow-[0_16px_50px_rgba(6,27,58,0.04)] sm:p-8">
             <p className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#168F86]">
               Estimation personnalisée
