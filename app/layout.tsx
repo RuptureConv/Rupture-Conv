@@ -5,8 +5,8 @@ import {
   GoogleTagManagerBody,
   GoogleTagManagerHead
 } from "@/components/GoogleTagManager";
-import { buildCtrTitle } from "@/lib/seo-content";
 import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
+import { homeSeoSnippet } from "@/lib/seo-metadata";
 import { siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -14,12 +14,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
 
   title: {
-    default: buildCtrTitle("simulateur rupture conventionnelle"),
+    default: homeSeoSnippet.title,
     template: "%s"
   },
 
-  description:
-    "Estimez une indemnité de rupture conventionnelle brute minimale, comparez un montant négocié et obtenez un net indicatif. Outil gratuit pour salarié, employeur et RH.",
+  description: homeSeoSnippet.description,
 
   alternates: {
     canonical: "/"
@@ -30,9 +29,8 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Simulateur de rupture conventionnelle",
-    description:
-      "Estimez une indemnité brute minimale, le montant retenu et un net indicatif en quelques secondes.",
+    title: homeSeoSnippet.title,
+    description: homeSeoSnippet.description,
     url: siteUrl,
     siteName,
     locale: "fr_FR",
@@ -41,9 +39,8 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary",
-    title: "Simulateur rupture conventionnelle",
-    description:
-      "Estimez une indemnité brute minimale, le montant retenu et un net indicatif."
+    title: homeSeoSnippet.title,
+    description: homeSeoSnippet.description
   },
 
   icons: {

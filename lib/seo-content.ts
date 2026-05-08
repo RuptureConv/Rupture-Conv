@@ -2151,14 +2151,11 @@ export function absoluteUrl(path: string) {
 }
 
 export function buildCtrTitle(title: string) {
-  const normalized = title.replace(/\s+/g, " ").trim();
-  const lower = normalized.toLowerCase();
-  const hasCalcul = lower.includes("calcul");
-  const hasSimulateur = lower.includes("simulateur");
-  const prefix = hasCalcul ? normalized : `Calcul ${normalized}`;
-  const suffix = hasSimulateur
-    ? "2026 : estimation fiable"
-    : "simulateur gratuit 2026";
-
-  return `${prefix} (${suffix})`;
+  return title
+    .replace(/\s+\|\s+RuptureConv\.?$/i, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/(^|[\s:’'-])([\p{L}])/gu, (match, prefix: string, letter: string) =>
+      `${prefix}${letter.toLocaleUpperCase("fr-FR")}`
+    );
 }

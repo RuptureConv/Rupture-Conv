@@ -4,14 +4,11 @@ import { ProgrammaticSeoTemplate } from "@/components/seo/ProgrammaticSeoTemplat
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
 import {
   absoluteUrl,
-  buildCtrTitle,
   pillarPageBySlug,
   pillarPages
 } from "@/lib/seo-content";
-import {
-  generateDynamicText,
-  parseProgrammaticSeoSlug
-} from "@/lib/seo-helpers";
+import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
+import { getPillarSeoSnippet } from "@/lib/seo-metadata";
 
 type PillarPageProps = {
   params: Promise<{
@@ -38,15 +35,13 @@ export async function generateMetadata({
   const canonicalPath = `/${page.slug}`;
   const canonicalUrl = absoluteUrl(canonicalPath);
   const programmaticParams = parseProgrammaticSeoSlug(slug);
-  const metadataTitle = programmaticParams
-    ? generateDynamicText(programmaticParams).h1
-    : page.h1;
+  const seoSnippet = getPillarSeoSnippet(page, programmaticParams);
 
   return {
     title: {
-      absolute: buildCtrTitle(metadataTitle)
+      absolute: seoSnippet.title
     },
-    description: page.description,
+    description: seoSnippet.description,
     alternates: {
       canonical: canonicalUrl
     },
@@ -55,16 +50,16 @@ export async function generateMetadata({
       follow: true
     },
     openGraph: {
-      title: page.h1,
-      description: page.description,
+      title: seoSnippet.title,
+      description: seoSnippet.description,
       url: canonicalUrl,
       type: "article",
       locale: "fr_FR"
     },
     twitter: {
       card: "summary",
-      title: page.h1,
-      description: page.description
+      title: seoSnippet.title,
+      description: seoSnippet.description
     }
   };
 }

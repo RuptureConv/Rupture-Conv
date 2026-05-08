@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hrTools } from "@/lib/calculators/tools-registry";
-import { buildCtrTitle } from "@/lib/seo-content";
+import { absoluteUrl } from "@/lib/seo-content";
+import { getToolSeoSnippet } from "@/lib/seo-metadata";
 import { toolContentBySlug } from "@/lib/tools-content";
 
 type ToolPageProps = {
@@ -28,14 +29,35 @@ export async function generateMetadata({
   }
 
   const content = toolContentBySlug[slug];
+  const seoSnippet = getToolSeoSnippet(slug, content, {
+    title: tool.title,
+    description: `${tool.description} Guide pratique pour mieux préparer les démarches RH sur rupture-conv.fr.`
+  });
 
   return {
     title: {
-      absolute: buildCtrTitle(content?.metaTitle ?? tool.title)
+      absolute: seoSnippet.title
     },
-    description:
-      content?.metaDescription ??
-      `${tool.description} Guide pratique pour mieux préparer les démarches RH sur rupture-conv.fr.`
+    description: seoSnippet.description,
+    alternates: {
+      canonical: absoluteUrl(`/outils/${slug}`)
+    },
+    robots: {
+      index: true,
+      follow: true
+    },
+    openGraph: {
+      title: seoSnippet.title,
+      description: seoSnippet.description,
+      url: absoluteUrl(`/outils/${slug}`),
+      type: "article",
+      locale: "fr_FR"
+    },
+    twitter: {
+      card: "summary",
+      title: seoSnippet.title,
+      description: seoSnippet.description
+    }
   };
 }
 

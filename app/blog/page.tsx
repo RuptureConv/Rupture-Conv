@@ -4,16 +4,15 @@ import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import {
   absoluteUrl,
   blogPosts,
-  buildCtrTitle,
   pillarPages
 } from "@/lib/seo-content";
+import { blogIndexSeoSnippet } from "@/lib/seo-metadata";
 
 export const metadata: Metadata = {
   title: {
-    absolute: buildCtrTitle("blog rupture conventionnelle")
+    absolute: blogIndexSeoSnippet.title
   },
-  description:
-    "Articles pratiques sur la rupture conventionnelle, le calcul d'indemnité, le licenciement, les délais, la fiscalité et les outils RH.",
+  description: blogIndexSeoSnippet.description,
   alternates: {
     canonical: absoluteUrl("/blog")
   },
@@ -22,12 +21,16 @@ export const metadata: Metadata = {
     follow: true
   },
   openGraph: {
-    title: "Blog rupture conventionnelle",
-    description:
-      "Guides pratiques pour comprendre, calculer et préparer une rupture conventionnelle.",
+    title: blogIndexSeoSnippet.title,
+    description: blogIndexSeoSnippet.description,
     url: absoluteUrl("/blog"),
     type: "website",
     locale: "fr_FR"
+  },
+  twitter: {
+    card: "summary",
+    title: blogIndexSeoSnippet.title,
+    description: blogIndexSeoSnippet.description
   }
 };
 

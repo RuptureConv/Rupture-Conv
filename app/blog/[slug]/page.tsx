@@ -5,9 +5,9 @@ import {
   absoluteUrl,
   blogPostBySlug,
   blogPosts,
-  buildCtrTitle,
   pillarPageBySlug
 } from "@/lib/seo-content";
+import { getBlogSeoSnippet } from "@/lib/seo-metadata";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -41,12 +41,13 @@ export async function generateMetadata({
 
   const canonicalPath = getCanonicalPath(post.slug);
   const canonicalUrl = absoluteUrl(canonicalPath);
+  const seoSnippet = getBlogSeoSnippet(post);
 
   return {
     title: {
-      absolute: buildCtrTitle(post.title)
+      absolute: seoSnippet.title
     },
-    description: post.description,
+    description: seoSnippet.description,
 
     alternates: {
       canonical: canonicalUrl
@@ -58,8 +59,8 @@ export async function generateMetadata({
     },
 
     openGraph: {
-      title: post.title,
-      description: post.description,
+      title: seoSnippet.title,
+      description: seoSnippet.description,
       url: canonicalUrl,
       type: "article",
       locale: "fr_FR"
@@ -67,8 +68,8 @@ export async function generateMetadata({
 
     twitter: {
       card: "summary",
-      title: post.title,
-      description: post.description
+      title: seoSnippet.title,
+      description: seoSnippet.description
     }
   };
 }
