@@ -11,12 +11,35 @@ type CalculatorEventPayload = {
   estimatedNetIndemnity?: number;
 };
 
+type DataLayerEvent = {
+  event: string;
+  [key: string]: string | number | undefined;
+};
+
+declare global {
+  interface Window {
+    dataLayer?: DataLayerEvent[];
+  }
+}
+
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-P9XX929G";
+
+export function isGoogleTagManagerReady(): boolean {
+  return GTM_ID.startsWith("GTM-");
+}
+
 export function trackCalculatorEvent(
   name: CalculatorEventName,
   payload: CalculatorEventPayload
 ) {
-  void name;
-  void payload;
-  // Placeholder volontairement sans service externe.
-  // Brancher ici analytics, CMP et consentement quand la stack tracking sera choisie.
+  if (!isGoogleTagManagerReady() || typeof window === "undefined") {
+    return;
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: name,
+    event_category: "calculator",
+    ...payload
+  });
 }

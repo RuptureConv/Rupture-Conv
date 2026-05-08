@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Footer } from "@/components/Footer";
+import {
+  GoogleTagManagerBody,
+  GoogleTagManagerHead
+} from "@/components/GoogleTagManager";
 import { buildCtrTitle } from "@/lib/seo-content";
 import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
 import { siteName, siteUrl } from "@/lib/site";
@@ -69,6 +73,8 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <head>
+        <GoogleTagManagerHead />
+
         <meta
           name="google-site-verification"
           content="m9cDeMi4TyzceUF4V6KsuQcYqaG95ObYZwsm5OrQnd8"
@@ -93,6 +99,7 @@ export default function RootLayout({
       </head>
 
       <body>
+        <GoogleTagManagerBody />
         {children}
         <Footer />
       </body>

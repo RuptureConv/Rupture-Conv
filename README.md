@@ -30,6 +30,7 @@ Copier `.env.example` vers `.env.local` en local si nécessaire.
 | Variable | Obligatoire | Exemple | Usage |
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommandé en production | `https://rupture-conv.fr` | URL canonique utilisée par les métadonnées, `robots.txt` et `sitemap.xml`. |
+| `NEXT_PUBLIC_GTM_ID` | Non | `GTM-P9XX929G` | Conteneur Google Tag Manager chargé globalement. Le conteneur fourni est utilisé par défaut. |
 | `NEXT_PUBLIC_ENABLE_ADSENSE` | Non | `false` | Active le chargement réel du script AdSense uniquement quand le compte est validé. |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | Non | `ca-pub-xxxxxxxxxxxxxxxx` | Client AdSense réel. Laisser vide tant que le compte n'est pas validé. |
 | `NEXT_PUBLIC_ADSENSE_SLOT_TOP` | Non | `1234567890` | Slot AdSense pour le leaderboard haut. |
