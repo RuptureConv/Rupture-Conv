@@ -4,4 +4,5 @@ export const siteUrl = (
   .replace(/^https:\/\/rupture-conv\.fr$/, "https://www.rupture-conv.fr")
   .replace(/\/$/, "");
 
-export const siteName = "RuptureConv.";
+export const siteName = "Rupture-Conv";
+export const siteAlternateName = "rupture-conv.fr";

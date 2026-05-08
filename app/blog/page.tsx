@@ -8,6 +8,7 @@ import {
   pillarPages
 } from "@/lib/seo-content";
 import { blogIndexSeoSnippet } from "@/lib/seo-metadata";
+import { siteName } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
     title: blogIndexSeoSnippet.title,
     description: blogIndexSeoSnippet.description,
     url: absoluteUrl("/blog"),
+    siteName,
     type: "website",
     locale: "fr_FR"
   },

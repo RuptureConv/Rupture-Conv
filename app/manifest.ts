@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { siteName } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "RuptureConv.",
-    short_name: "RuptureConv.",
+    name: siteName,
+    short_name: siteName,
     description:
       "Simulateur indicatif d'indemnité de rupture conventionnelle.",
     start_url: "/",
@@ -13,8 +14,14 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       {
         src: "/favicon.ico",
-        sizes: "64x64",
+        sizes: "16x16 32x32 48x48",
         type: "image/x-icon"
+      },
+      {
+        src: "/apple-icon.png",
+        sizes: "180x180",
+        type: "image/png",
+        purpose: "any"
       }
     ]
   };

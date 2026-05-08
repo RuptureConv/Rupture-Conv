@@ -35,7 +35,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: siteName,
-    url: siteUrl,
+    url: `${siteUrl}/`,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     offers: {

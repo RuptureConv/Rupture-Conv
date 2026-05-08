@@ -15,6 +15,7 @@ import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import { TrustPanel } from "@/components/seo/TrustPanel";
 import type { ComparisonPage } from "@/lib/comparison-pages";
 import { absoluteUrl, mandatoryDisclaimer } from "@/lib/seo-content";
+import { siteName } from "@/lib/site";
 
 type ComparisonPageLayoutProps = {
   page: ComparisonPage;
@@ -61,11 +62,11 @@ export function ComparisonPageLayout({ page }: ComparisonPageLayoutProps) {
     dateModified: "2026-05-08",
     author: {
       "@type": "Organization",
-      name: "RuptureConv."
+      name: siteName
     },
     publisher: {
       "@type": "Organization",
-      name: "RuptureConv.",
+      name: siteName,
       logo: {
         "@type": "ImageObject",
         url: absoluteUrl("/favicon.ico")

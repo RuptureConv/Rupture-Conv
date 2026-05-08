@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteName } from "@/lib/site";
 
 function BrandIcon() {
   return (
@@ -52,7 +53,7 @@ function BrandIcon() {
 export function Logo() {
   return (
     <Link
-      aria-label="RuptureConv, retour à l'accueil"
+      aria-label={`${siteName}, retour à l'accueil`}
       className="group flex items-center gap-3"
       href="/"
     >
@@ -60,7 +61,8 @@ export function Logo() {
       <span className="leading-none">
         <span className="block text-xl font-black tracking-[-0.01em]">
           <span className="text-[#061B3A]">Rupture</span>
-          <span className="text-[#22AFA3]">Conv.</span>
+          <span className="text-[#061B3A]">-</span>
+          <span className="text-[#22AFA3]">Conv</span>
         </span>
         <span className="mt-1 block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#5B6B7C]">
           Le simulateur de rupture conventionnelle

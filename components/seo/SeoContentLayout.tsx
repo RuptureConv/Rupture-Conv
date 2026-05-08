@@ -21,6 +21,7 @@ import { MiniFaq } from "@/components/seo/MiniFaq";
 import { TrustPanel } from "@/components/seo/TrustPanel";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
 import { absoluteUrl, buildCtrTitle, mandatoryDisclaimer } from "@/lib/seo-content";
+import { siteName } from "@/lib/site";
 
 type SeoContentLayoutProps = {
   canonicalPath: string;
@@ -256,11 +257,11 @@ export function SeoContentLayout({
     dateModified: "2026-05-06",
     author: {
       "@type": "Organization",
-      name: "RuptureConv."
+      name: siteName
     },
     publisher: {
       "@type": "Organization",
-      name: "RuptureConv.",
+      name: siteName,
       logo: {
         "@type": "ImageObject",
         url: absoluteUrl("/favicon.ico")

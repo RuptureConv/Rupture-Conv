@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hrTools } from "@/lib/calculators/tools-registry";
 import { absoluteUrl, buildCtrTitle } from "@/lib/seo-content";
 import { getToolSeoSnippet } from "@/lib/seo-metadata";
+import { siteName } from "@/lib/site";
 import { toolContentBySlug } from "@/lib/tools-content";
 
 type ToolPageProps = {
@@ -50,6 +51,7 @@ export async function generateMetadata({
       title: seoSnippet.title,
       description: seoSnippet.description,
       url: absoluteUrl(`/outils/${slug}`),
+      siteName,
       type: "article",
       locale: "fr_FR"
     },

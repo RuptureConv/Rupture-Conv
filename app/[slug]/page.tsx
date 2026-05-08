@@ -14,6 +14,7 @@ import {
 } from "@/lib/seo-content";
 import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
 import { getPillarSeoSnippet } from "@/lib/seo-metadata";
+import { siteName } from "@/lib/site";
 
 type PillarPageProps = {
   params: Promise<{
@@ -57,6 +58,7 @@ export async function generateMetadata({
         title: comparisonPage.title,
         description: comparisonPage.description,
         url: canonicalUrl,
+        siteName,
         type: "article",
         locale: "fr_FR"
       },
@@ -93,6 +95,7 @@ export async function generateMetadata({
       title: seoSnippet.title,
       description: seoSnippet.description,
       url: canonicalUrl,
+      siteName,
       type: "article",
       locale: "fr_FR"
     },

@@ -8,6 +8,7 @@ import {
   pillarPageBySlug
 } from "@/lib/seo-content";
 import { getBlogSeoSnippet } from "@/lib/seo-metadata";
+import { siteName } from "@/lib/site";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -62,6 +63,7 @@ export async function generateMetadata({
       title: seoSnippet.title,
       description: seoSnippet.description,
       url: canonicalUrl,
+      siteName,
       type: "article",
       locale: "fr_FR"
     },

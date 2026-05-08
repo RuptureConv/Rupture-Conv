@@ -1,8 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="18" fill="#F7FBFA"/>
-  <rect x="8" y="8" width="48" height="48" rx="16" fill="#FFFFFF" stroke="#E5EEF0" stroke-width="2"/>
-  <path d="M19 15h17l8 8v26H19V15Z" fill="none" stroke="#22AFA3" stroke-linejoin="round" stroke-width="3"/>
-  <path d="M36 15v9h8M24 31h15M24 38h8" fill="none" stroke="#061B3A" stroke-linecap="round" stroke-width="3"/>
-  <rect x="32" y="34" width="13" height="15" rx="3" fill="none" stroke="#061B3A" stroke-width="3"/>
-  <path d="M35 39h7M35 44h.2M41.8 44h.2" fill="none" stroke="#061B3A" stroke-linecap="round" stroke-width="2.4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Rupture-Conv favicon</title>
+  <defs>
+    <linearGradient id="rc-bg" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2ED0C2"/>
+      <stop offset="1" stop-color="#168F86"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#061B3A"/>
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="url(#rc-bg)"/>
+  <text
+    x="32"
+    y="40"
+    fill="#FFFFFF"
+    font-family="Inter, Arial, Helvetica, sans-serif"
+    font-size="26"
+    font-weight="900"
+    letter-spacing="-2"
+    text-anchor="middle"
+  >RC</text>
 </svg>

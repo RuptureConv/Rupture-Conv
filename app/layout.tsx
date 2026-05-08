@@ -8,7 +8,7 @@ import {
 import { StickyMobileCTA } from "@/components/seo/StickyMobileCTA";
 import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
 import { homeSeoSnippet } from "@/lib/seo-metadata";
-import { siteName, siteUrl } from "@/lib/site";
+import { siteAlternateName, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -45,8 +45,25 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico"
+    icon: [
+      {
+        url: "/favicon.ico",
+        sizes: "16x16 32x32 48x48",
+        type: "image/x-icon"
+      },
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml"
+      }
+    ],
+    shortcut: "/favicon.ico",
+    apple: [
+      {
+        url: "/apple-icon.png",
+        sizes: "180x180",
+        type: "image/png"
+      }
+    ]
   }
 };
 
@@ -60,11 +77,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const shouldLoadAdsense = isAdsenseReady();
+  const canonicalSiteUrl = `${siteUrl}/`;
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${canonicalSiteUrl}#website`,
+    name: siteName,
+    alternateName: siteAlternateName,
+    url: canonicalSiteUrl
+  };
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${canonicalSiteUrl}#organization`,
     name: siteName,
-    url: siteUrl,
+    url: canonicalSiteUrl,
     logo: `${siteUrl}/favicon.ico`
   };
 
@@ -88,6 +115,12 @@ export default function RootLayout({
           />
         ) : null}
 
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteJsonLd)
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
