@@ -1,9 +1,13 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { AdSlot } from "@/components/ads/AdSlot";
+import { ConcreteExample } from "@/components/seo/ConcreteExample";
 import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
+import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
+import { MiniFaq } from "@/components/seo/MiniFaq";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
+import { TrustPanel } from "@/components/seo/TrustPanel";
 import { absoluteUrl, mandatoryDisclaimer } from "@/lib/seo-content";
 import {
   formatEuro,
@@ -62,6 +66,20 @@ export function ProgrammaticSeoTemplate({
   const smartLinks = buildSmartLinks({ type, value });
   const contentWordCount = dynamicText.differentiated.join(" ").split(/\s+/).length + 280;
   const shouldShowMidAd = contentWordCount > 300;
+  const takeaways =
+    type === "salaire"
+      ? [
+          "Le salaire brut de référence sert de base au calcul.",
+          "L’ancienneté reste indispensable pour estimer le montant.",
+          "Les primes régulières peuvent modifier la base retenue.",
+          "Le résultat affiché reste indicatif."
+        ]
+      : [
+          "L’ancienneté influence directement le minimum indicatif.",
+          "Le salaire brut de référence reste l’autre donnée essentielle.",
+          "La convention collective peut prévoir un montant plus favorable.",
+          "Le simulateur permet de tester votre situation réelle."
+        ];
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -123,20 +141,20 @@ export function ProgrammaticSeoTemplate({
 
         <div className="mt-10 space-y-10">
           <AdSlot format="horizontal" position="top" />
+          <KeyTakeaways items={takeaways} />
+          <TrustPanel />
 
-          <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
-              Exemple concret
-            </h2>
-            <p className="mt-4 text-base leading-8 text-[#5B6B7C]">
-              Pour {estimate.years} {estimate.years === 1 ? "an" : "ans"}{" "}
-              d&apos;ancienneté et un salaire brut de référence de{" "}
-              {formatEuro(estimate.salary)}, l&apos;indemnité minimale indicative est
-              de {formatEuro(estimate.amount)} bruts. Le calcul applique la règle
-              du quart de mois jusqu&apos;à dix ans, puis du tiers de mois pour les
-              années au-delà.
-            </p>
-          </section>
+          <ConcreteExample
+            body={`Pour ${estimate.years} ${
+              estimate.years === 1 ? "an" : "ans"
+            } d’ancienneté et un salaire brut de référence de ${formatEuro(
+              estimate.salary
+            )}, le simulateur donne un repère indicatif selon les données saisies.`}
+            result={`Dans cet exemple, l’indemnité minimale indicative ressort à ${formatEuro(
+              estimate.amount
+            )} bruts.`}
+            situation="Une estimation à partir de données simples"
+          />
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
@@ -166,6 +184,7 @@ export function ProgrammaticSeoTemplate({
 
           <AdSlot format="horizontal" position="after-content" />
           <SimulatorCTA />
+          <MiniFaq items={dynamicText.faq} />
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
@@ -221,33 +240,6 @@ export function ProgrammaticSeoTemplate({
 
           <AdSlot format="horizontal" position="bottom" />
 
-          <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-extrabold text-[#061B3A]">
-              Questions fréquentes
-            </h2>
-            <div className="mt-5 divide-y divide-[#E5EEF0]">
-              {dynamicText.faq.map((item, index) => (
-                <details
-                  key={item.question}
-                  className="group py-5"
-                  open={index === 0}
-                >
-                  <summary className="flex cursor-pointer items-start justify-between gap-4 text-base font-semibold leading-7 text-[#061B3A]">
-                    {item.question}
-                    <span
-                      aria-hidden="true"
-                      className="shrink-0 text-xl leading-7 text-[#22AFA3] transition group-open:rotate-45"
-                    >
-                      +
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm leading-6 text-[#5B6B7C]">
-                    {item.answer}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </section>
         </div>
       </article>
     </main>

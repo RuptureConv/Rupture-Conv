@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hrTools } from "@/lib/calculators/tools-registry";
-import { absoluteUrl } from "@/lib/seo-content";
+import { absoluteUrl, buildCtrTitle } from "@/lib/seo-content";
 import { getToolSeoSnippet } from "@/lib/seo-metadata";
 import { toolContentBySlug } from "@/lib/tools-content";
 
@@ -87,7 +87,7 @@ export default async function FutureToolPage({ params }: ToolPageProps) {
               Guide RH
             </p>
             <h1 className="mt-5 text-3xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-5xl">
-              {content.title}
+              {buildCtrTitle(content.title)}
             </h1>
             <p className="mt-5 text-base leading-8 text-[#5B6B7C] sm:text-lg">
               {content.intro}
@@ -152,7 +152,9 @@ export default async function FutureToolPage({ params }: ToolPageProps) {
         <p className="inline-flex rounded-full bg-[#EAF8F6] px-3 py-1 text-xs font-bold text-[#22AFA3]">
           Guide RH
         </p>
-        <h1 className="mt-4 text-3xl font-bold text-[#061B3A]">{tool.title}</h1>
+        <h1 className="mt-4 text-3xl font-bold text-[#061B3A]">
+          {buildCtrTitle(tool.title)}
+        </h1>
         <p className="mt-3 text-base leading-7 text-[#5B6B7C]">{tool.description}</p>
         <p className="mt-4 text-sm leading-6 text-[#5B6B7C]">
           Cette page présente les repères essentiels pour préparer une démarche

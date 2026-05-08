@@ -54,7 +54,7 @@ export default function LegalNoticePage() {
               RuptureConv met à disposition un simulateur d’indemnité de rupture
               conventionnelle. Les résultats fournis sont des estimations
               indicatives, calculées à partir des informations saisies par
-              l’utilisateur. Le simulateur ne remplace pas un conseil juridique,
+              la personne qui utilise le site. Le simulateur ne remplace pas un conseil juridique,
               RH, fiscal, social ou paie personnalisé.
             </p>
           )
@@ -67,7 +67,7 @@ export default function LegalNoticePage() {
               pédagogiques. Elles ne tiennent pas compte de l’ensemble des
               situations individuelles, des conventions collectives, des accords
               d’entreprise ou des règles spécifiques applicables. Pour toute
-              décision engageante, l’utilisateur doit se rapprocher d’un
+              décision engageante, il est recommandé de se rapprocher d’un
               professionnel compétent.
             </p>
           )
@@ -91,7 +91,7 @@ export default function LegalNoticePage() {
               L’éditeur s’efforce de proposer un service clair et à jour, mais
               ne garantit pas l’exactitude complète, l’exhaustivité ou
               l’adéquation des résultats à une situation particulière.
-              L’utilisateur reste seul responsable de l’utilisation des
+              Chaque personne reste responsable de l’utilisation des
               estimations affichées et des décisions prises sur cette base.
             </p>
           )

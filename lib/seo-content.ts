@@ -72,7 +72,7 @@ const basePillarPages: PillarPage[] = [
   {
     slug: "simulateur-rupture-conventionnelle",
     title: `Simulateur rupture conventionnelle gratuit | ${siteName}`,
-    h1: "Simulateur rupture conventionnelle",
+    h1: "Simulateur de rupture conventionnelle",
     description:
       "Simulez gratuitement votre indemnité de rupture conventionnelle en CDI : estimation brute, net indicatif, ancienneté, salaire de référence, exemples et points de vigilance.",
     relatedLinks: [
@@ -89,7 +89,7 @@ const basePillarPages: PillarPage[] = [
       {
         title: "À quoi sert un simulateur de rupture conventionnelle ?",
         paragraphs: [
-          "Un simulateur de rupture conventionnelle sert à transformer une règle de calcul parfois abstraite en estimation concrète. Plutôt que de faire un calcul manuel approximatif, l'utilisateur renseigne ses informations principales et obtient un ordre de grandeur de l'indemnité minimale.",
+          "Un simulateur de rupture conventionnelle transforme une règle de calcul parfois abstraite en estimation concrète. Vous renseignez les informations principales et obtenez un ordre de grandeur de l'indemnité minimale.",
           "Cette estimation est utile avant un entretien, pendant une négociation ou simplement pour comprendre si le montant proposé semble cohérent. Elle permet aussi de distinguer le minimum légal, le montant éventuellement négocié et le net indicatif."
         ],
         bullets: [
@@ -160,7 +160,7 @@ const basePillarPages: PillarPage[] = [
   {
     slug: "calcul-indemnite-rupture-conventionnelle",
     title: `Calcul indemnité rupture conventionnelle | ${siteName}`,
-    h1: "Calcul indemnité rupture conventionnelle",
+    h1: "Calcul de l’indemnité de rupture conventionnelle",
     description:
       "Méthode complète pour calculer l'indemnité de rupture conventionnelle : ancienneté, salaire de référence, formule légale, exemples chiffrés et simulateur.",
     relatedLinks: [
@@ -234,7 +234,7 @@ const basePillarPages: PillarPage[] = [
   {
     slug: "indemnite-legale-rupture-conventionnelle",
     title: `Indemnité légale rupture conventionnelle | ${siteName}`,
-    h1: "Indemnité légale rupture conventionnelle",
+    h1: "Indemnité légale de rupture conventionnelle",
     description:
       "Comprendre l'indemnité légale minimale de rupture conventionnelle : formule, ancienneté, salaire de référence, exemples et vérifications nécessaires.",
     relatedLinks: [
@@ -361,7 +361,7 @@ const basePillarPages: PillarPage[] = [
   {
     slug: "licenciement-indemnite",
     title: `Licenciement indemnité : calcul et comparaison | ${siteName}`,
-    h1: "Licenciement indemnité",
+    h1: "Indemnité de Licenciement",
     description:
       "Comprendre l'indemnité de licenciement, la comparer à la rupture conventionnelle, calculer un montant indicatif et éviter les erreurs.",
     relatedLinks: [
@@ -446,7 +446,7 @@ const basePillarPages: PillarPage[] = [
         title: "Simulateur de rupture conventionnelle",
         paragraphs: [
           "Le simulateur de rupture conventionnelle permet d'obtenir une estimation du minimum brut et un net indicatif. Il est utile pour les salariés qui préparent une négociation, mais aussi pour les employeurs qui veulent cadrer une enveloppe de départ.",
-          "L'outil repose sur les données saisies par l'utilisateur : ancienneté, salaire, dates et informations complémentaires. Plus les données sont précises, plus l'estimation est exploitable."
+          "L'outil repose sur les données renseignées : ancienneté, salaire, dates et informations complémentaires. Plus ces données sont précises, plus l'estimation est exploitable."
         ]
       },
       {
@@ -521,17 +521,17 @@ function highIntentPage({
 }): PillarPage {
   return {
     slug,
-    title: `Calcul ${h1} : simulateur gratuit 2026`,
+    title: h1,
     h1,
     description,
     relatedLinks: requiredInternalLinks,
     intro: [
-      `${h1} est une recherche à forte intention : l'utilisateur veut obtenir un montant clair, comprendre la méthode et éviter une erreur avant une discussion RH. Le simulateur aide à passer rapidement de la règle générale à une estimation personnalisée.`,
+      "Vous souhaitez obtenir un montant clair avant un échange avec votre employeur, votre salarié ou votre service RH ? Le simulateur gratuit vous aide à partir des bons repères : salaire, ancienneté, minimum légal et net indicatif.",
       `${angle} ${mandatoryDisclaimer}`
     ],
     sections: [
       {
-        title: "Explication",
+        title: "Comprendre le calcul",
         paragraphs: [
           "Le calcul repose sur deux variables principales : l'ancienneté et le salaire brut de référence. Le minimum légal est calculé en brut, puis le net indicatif permet seulement de visualiser un ordre de grandeur.",
           "La convention collective, les primes, le statut cadre ou non-cadre et les absences peuvent modifier la lecture du résultat. Une simulation est donc un point de départ utile, pas une validation juridique définitive."
@@ -563,7 +563,7 @@ function highIntentPage({
       }
     ],
     conclusion: [
-      "Une page de calcul doit rester courte, claire et actionnable : comprendre la règle, regarder un exemple, puis lancer une simulation avec ses propres données.",
+      "Le bon réflexe consiste à comprendre la règle, regarder un exemple, puis lancer une simulation avec vos propres données.",
       "Pour les situations complexes, il faut vérifier la convention collective et les éléments de paie avant toute signature."
     ]
   };
@@ -572,7 +572,7 @@ function highIntentPage({
 const highIntentPages: PillarPage[] = [
   highIntentPage({
     slug: "calcul-rupture-conventionnelle-cdi-anciennete",
-    h1: "calcul rupture conventionnelle cdi ancienneté",
+    h1: "Calcul de rupture conventionnelle CDI selon l’ancienneté",
     description:
       "Calculez une rupture conventionnelle CDI selon l'ancienneté avec un simulateur gratuit 2026, un exemple chiffré et une FAQ rapide.",
     angle:
@@ -582,7 +582,7 @@ const highIntentPages: PillarPage[] = [
   }),
   highIntentPage({
     slug: "calcul-indemnite-rupture-conventionnelle-net",
-    h1: "calcul indemnité rupture conventionnelle net",
+    h1: "Calcul de l’indemnité de rupture conventionnelle nette",
     description:
       "Comprenez le calcul net d'une indemnité de rupture conventionnelle avec simulateur gratuit 2026, brut, net indicatif et exemple.",
     angle:
@@ -592,7 +592,7 @@ const highIntentPages: PillarPage[] = [
   }),
   highIntentPage({
     slug: "simulateur-indemnite-rupture-conventionnelle-net",
-    h1: "simulateur indemnité rupture conventionnelle net",
+    h1: "Simulateur d’indemnité de rupture conventionnelle nette",
     description:
       "Utilisez un simulateur d'indemnité de rupture conventionnelle net indicatif 2026 pour estimer rapidement brut, net et montant minimum.",
     angle:
@@ -602,7 +602,7 @@ const highIntentPages: PillarPage[] = [
   }),
   highIntentPage({
     slug: "indemnite-rupture-conventionnelle-anciennete-10-ans",
-    h1: "indemnité rupture conventionnelle ancienneté 10 ans",
+    h1: "Indemnité de rupture conventionnelle avec 10 ans d’ancienneté",
     description:
       "Estimez l'indemnité de rupture conventionnelle pour 10 ans d'ancienneté avec calcul, simulateur gratuit 2026 et exemple concret.",
     angle:
@@ -612,7 +612,7 @@ const highIntentPages: PillarPage[] = [
   }),
   highIntentPage({
     slug: "calcul-indemnite-cadre",
-    h1: "calcul indemnité cadre",
+    h1: "Calcul de l’indemnité de rupture conventionnelle pour cadre",
     description:
       "Calculez l'indemnité d'un salarié cadre avec simulateur gratuit 2026, ancienneté, salaire de référence, primes et points de vigilance.",
     angle:
@@ -622,7 +622,7 @@ const highIntentPages: PillarPage[] = [
   }),
   highIntentPage({
     slug: "calcul-indemnite-non-cadre",
-    h1: "calcul indemnité non cadre",
+    h1: "Calcul de l’indemnité de rupture conventionnelle pour non-cadre",
     description:
       "Calculez l'indemnité d'un salarié non-cadre avec simulateur gratuit 2026, méthode simple, exemple et FAQ rapide.",
     angle:
@@ -1161,6 +1161,7 @@ const resourcePlaceholderPages: PillarPage[] = [
 function buildSeniorityPage(years: number): PillarPage {
   const salary = years % 3 === 0 ? 2400 : years % 3 === 1 ? 2800 : 3200;
   const amount = calculateMinimumIndemnity(years, salary);
+  const yearsLabel = `${years} ${years === 1 ? "an" : "ans"}`;
   const wording =
     years <= 10
       ? "la règle du quart de mois par année s'applique sur toute la période"
@@ -1168,33 +1169,33 @@ function buildSeniorityPage(years: number): PillarPage {
 
   return {
     slug: `indemnite-rupture-conventionnelle-${years}-ans`,
-    title: `Calcul indemnité rupture conventionnelle ${years} ans : simulateur 2026`,
-    h1: `indemnité rupture conventionnelle ${years} ans`,
-    description: `Estimez l'indemnité de rupture conventionnelle pour ${years} ans d'ancienneté avec calcul, simulateur gratuit 2026 et exemple chiffré.`,
+    title: `Indemnité de rupture conventionnelle après ${yearsLabel}`,
+    h1: `Indemnité de rupture conventionnelle après ${yearsLabel} d’ancienneté`,
+    description: `Estimez l'indemnité de rupture conventionnelle pour ${yearsLabel} d'ancienneté avec calcul, simulateur gratuit 2026 et exemple chiffré.`,
     relatedLinks: requiredInternalLinks,
     intro: [
-      `Pour ${years} ans d'ancienneté, le calcul de l'indemnité de rupture conventionnelle dépend du salaire brut de référence et de la règle légale minimale. Cette page donne un repère rapide avant d'utiliser le simulateur.`,
+      `Vous avez ${yearsLabel} d'ancienneté et vous voulez estimer le montant possible ? Le calcul dépend surtout du salaire brut de référence, des dates retenues et du minimum légal applicable.`,
       `Dans ce cas, ${wording}. ${mandatoryDisclaimer}`
     ],
     sections: [
       {
-        title: "Explication",
+        title: "Comprendre le montant",
         paragraphs: [
-          `Avec ${years} ans d'ancienneté, le montant minimum est calculé en multipliant le salaire brut de référence par la fraction de mois applicable. Les primes régulières et la convention collective peuvent améliorer le montant.`,
+          `Avec ${yearsLabel} d'ancienneté, le montant minimum est calculé en multipliant le salaire brut de référence par la fraction de mois applicable. Les primes régulières et la convention collective peuvent améliorer le montant.`,
           "Le résultat doit être distingué du net indicatif et d'une éventuelle part négociée au-delà du minimum."
         ]
       },
       {
         title: "Exemple concret",
         paragraphs: [
-          `Exemple : avec ${years} ans d'ancienneté et ${formatEuro(salary)} bruts mensuels, le minimum indicatif est d'environ ${formatEuro(amount)} bruts.`,
+          `Exemple : avec ${yearsLabel} d'ancienneté et ${formatEuro(salary)} bruts mensuels, le minimum indicatif est d'environ ${formatEuro(amount)} bruts.`,
           "Refaites le calcul avec votre propre salaire pour obtenir une estimation plus pertinente."
         ]
       }
     ],
     faq: commonFaq.slice(0, 3),
     conclusion: [
-      `Pour ${years} ans d'ancienneté, la qualité du calcul dépend surtout du salaire brut retenu et de la vérification conventionnelle.`,
+      `Pour ${yearsLabel} d'ancienneté, la qualité du calcul dépend surtout du salaire brut retenu et de la vérification conventionnelle.`,
       "Le simulateur permet de tester rapidement votre situation réelle."
     ]
   };
@@ -1212,17 +1213,17 @@ function buildSalaryPage(salary: number): PillarPage {
 
   return {
     slug: `indemnite-rupture-conventionnelle-salaire-${salary}`,
-    title: `Calcul indemnité rupture conventionnelle salaire ${salary} : simulateur 2026`,
-    h1: `indemnité rupture conventionnelle salaire ${salary}`,
+    title: `Indemnité de rupture conventionnelle avec un salaire de ${salary}€`,
+    h1: `Indemnité de rupture conventionnelle avec un salaire de ${salary}€`,
     description: `Calculez une indemnité de rupture conventionnelle avec un salaire de ${salary} euros grâce au simulateur gratuit 2026 et à un exemple clair.`,
     relatedLinks: requiredInternalLinks,
     intro: [
-      `Pour un salaire brut mensuel de ${formatEuro(salary)}, l'indemnité de rupture conventionnelle varie selon l'ancienneté, la convention collective et les éléments variables de rémunération.`,
+      `Vous souhaitez estimer une indemnité à partir d'un salaire brut mensuel de ${formatEuro(salary)} ? Le montant dépend aussi de l'ancienneté, de la convention collective et des éléments variables de rémunération.`,
       `Dans cette hypothèse, ${variant}. ${mandatoryDisclaimer}`
     ],
     sections: [
       {
-        title: "Explication",
+        title: "Comprendre le montant",
         paragraphs: [
           `Le salaire de ${formatEuro(salary)} sert de base au calcul minimal si c'est le salaire brut de référence pertinent. Il faut ensuite appliquer la règle d'ancienneté : un quart de mois par année jusqu'à dix ans, puis un tiers au-delà.`,
           "Si des primes régulières existent, elles peuvent modifier la base. Le simulateur aide à tester plusieurs hypothèses sans modifier la logique légale."
@@ -2151,11 +2152,18 @@ export function absoluteUrl(path: string) {
 }
 
 export function buildCtrTitle(title: string) {
-  return title
+  const normalized = title
     .replace(/\s+\|\s+RuptureConv\.?$/i, "")
     .replace(/\s+/g, " ")
-    .trim()
-    .replace(/(^|[\s:’'-])([\p{L}])/gu, (match, prefix: string, letter: string) =>
-      `${prefix}${letter.toLocaleUpperCase("fr-FR")}`
-    );
+    .trim();
+  const sentence = normalized.toLocaleLowerCase("fr-FR");
+
+  return sentence
+    .replace(/^[^\p{L}]*\p{L}/u, (match) => match.toLocaleUpperCase("fr-FR"))
+    .replace(/\bcdi\b/giu, "CDI")
+    .replace(/\brh\b/giu, "RH")
+    .replace(/\bare\b/giu, "ARE")
+    .replace(/\bfaq\b/giu, "FAQ")
+    .replace(/\bfrance travail\b/giu, "France Travail")
+    .replace(/\bruptureconv\b/giu, "RuptureConv");
 }

@@ -10,6 +10,7 @@ import { TrustBlock } from "@/components/marketing/TrustBlock";
 import { PartnerHelpBlock } from "@/components/monetization/PartnerHelpBlock";
 import { RecommendedResourcesBlock } from "@/components/monetization/RecommendedResourcesBlock";
 import { UsefulLinksFooter } from "@/components/monetization/UsefulLinksFooter";
+import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import { SeoContent } from "@/components/SeoContent";
 import { siteName, siteUrl } from "@/lib/site";
 
@@ -55,6 +56,18 @@ export default function Home() {
       <Header />
       <Hero />
       <TrustBlock />
+      <section className="bg-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <KeyTakeaways
+            items={[
+              "La rupture conventionnelle ouvre droit à une indemnité spécifique.",
+              "Le montant dépend surtout de l’ancienneté et du salaire de référence.",
+              "Le simulateur est gratuit, rapide et sans inscription.",
+              "Le résultat reste une estimation indicative à vérifier avant signature."
+            ]}
+          />
+        </div>
+      </section>
       <ExampleBlock />
       <MiniFAQ />
       <RecommendedResourcesBlock />

@@ -1,12 +1,20 @@
 import Link from "next/link";
 import type { Route } from "next";
 import { AdSlot } from "@/components/ads/AdSlot";
+import { ConcreteExample } from "@/components/seo/ConcreteExample";
 import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
+import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
+import {
+  getSectionAnchor,
+  PageSummary
+} from "@/components/seo/PageSummary";
 import { ProfessionalLetterBlock } from "@/components/seo/ProfessionalLetterBlock";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
+import { MiniFaq } from "@/components/seo/MiniFaq";
+import { TrustPanel } from "@/components/seo/TrustPanel";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
-import { absoluteUrl, mandatoryDisclaimer } from "@/lib/seo-content";
+import { absoluteUrl, buildCtrTitle, mandatoryDisclaimer } from "@/lib/seo-content";
 
 type SeoContentLayoutProps = {
   canonicalPath: string;
@@ -19,11 +27,77 @@ type SeoContentLayoutProps = {
 };
 
 function formatRelatedLinkLabel(href: string) {
-  return href
+  const label = href
     .replace(/^\/blog\//, "Article : ")
     .replace(/^\//, "")
-    .replaceAll("-", " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+    .replaceAll("-", " ");
+
+  return buildCtrTitle(label);
+}
+
+function buildTakeaways(h1: string): string[] {
+  const normalized = h1.toLocaleLowerCase("fr-FR");
+
+  if (normalized.includes("chômage")) {
+    return [
+      "Une rupture conventionnelle homologuée peut ouvrir droit au chômage sous conditions.",
+      "Le calendrier dépend notamment des documents de fin de contrat et des règles France Travail.",
+      "Une indemnité élevée peut influencer certains différés d’indemnisation.",
+      "Le simulateur estime l’indemnité, mais ne calcule pas les droits ARE."
+    ];
+  }
+
+  if (normalized.includes("lettre")) {
+    return [
+      "La lettre sert à ouvrir une discussion, pas à imposer la rupture.",
+      "Le ton doit rester factuel, professionnel et sans pression.",
+      "Le montant de l’indemnité doit être estimé avant la négociation.",
+      "La rupture conventionnelle suppose toujours un accord commun."
+    ];
+  }
+
+  if (normalized.includes("négocier")) {
+    return [
+      "La négociation se prépare avec des chiffres vérifiés.",
+      "Le minimum légal sert de base, mais un montant supérieur peut être discuté.",
+      "Le calendrier, la passation et le contexte peuvent compter autant que le montant.",
+      "Le simulateur donne un repère avant l’entretien."
+    ];
+  }
+
+  return [
+    "La rupture conventionnelle ouvre droit à une indemnité spécifique.",
+    "Le montant dépend principalement de l’ancienneté et du salaire de référence.",
+    "La convention collective peut prévoir une règle plus favorable.",
+    "Le montant affiché reste une estimation indicative."
+  ];
+}
+
+function buildExample(h1: string) {
+  const normalized = h1.toLocaleLowerCase("fr-FR");
+
+  if (normalized.includes("lettre")) {
+    return {
+      situation: "Avant d’envoyer une demande",
+      body:
+        "Un salarié peut préparer une demande courte, puis estimer son indemnité avant l’échange pour parler du calendrier et du montant avec plus de clarté."
+    };
+  }
+
+  if (normalized.includes("chômage")) {
+    return {
+      situation: "Avant de comparer indemnité et chômage",
+      body:
+        "Une personne qui prépare son départ peut estimer l’indemnité de rupture, puis vérifier séparément les règles d’indemnisation auprès de France Travail."
+    };
+  }
+
+  return {
+    situation: "Avec un salaire de 2 800 € brut et 6 ans d’ancienneté",
+    body:
+      "Le montant dépend du salaire de référence, des dates exactes et de la convention collective. Le simulateur permet d’obtenir une estimation indicative avec vos propres données.",
+    result: "Le résultat doit ensuite être relu avec les bulletins de paie et les règles applicables."
+  };
 }
 
 export function SeoContentLayout({
@@ -35,6 +109,7 @@ export function SeoContentLayout({
   relatedLinks,
   sections
 }: SeoContentLayoutProps) {
+  const displayH1 = buildCtrTitle(h1);
   const estimatedWordCount = [
     ...intro,
     ...sections.flatMap((section) => section.paragraphs),
@@ -67,7 +142,7 @@ export function SeoContentLayout({
       {
         "@type": "ListItem",
         position: 2,
-        name: h1,
+        name: displayH1,
         item: absoluteUrl(canonicalPath)
       }
     ]
@@ -75,7 +150,7 @@ export function SeoContentLayout({
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: h1,
+    headline: displayH1,
     description: intro[0],
     mainEntityOfPage: absoluteUrl(canonicalPath),
     dateModified: "2026-05-06",
@@ -113,7 +188,7 @@ export function SeoContentLayout({
           </p>
 
           <h1 className="mt-5 text-3xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-5xl">
-            {h1}
+            {displayH1}
           </h1>
 
           <div className="mt-5 space-y-4 text-base leading-8 text-[#5B6B7C] sm:text-lg">
@@ -132,6 +207,9 @@ export function SeoContentLayout({
 
         <div className="mt-10 space-y-10">
           <AdSlot format="horizontal" position="top" />
+          <KeyTakeaways items={buildTakeaways(h1)} />
+          <TrustPanel />
+          <PageSummary sections={sections.map((section) => section.title)} />
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
@@ -146,12 +224,15 @@ export function SeoContentLayout({
 
           <AdSlot format="horizontal" position="after-content" />
           <SimulatorCTA />
+          <ConcreteExample {...buildExample(h1)} />
+          <MiniFaq items={faq} />
           {shouldShowMidAd ? (
             <AdSlot desktopOnly format="rectangle" position="mid" />
           ) : null}
 
           {sections.map((section) => (
             <section
+              id={getSectionAnchor(section.title)}
               key={section.title}
               className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"
             >
@@ -189,35 +270,36 @@ export function SeoContentLayout({
             </section>
           ))}
 
-          <SimulatorCTA />
           <InternalLinksBlock />
         </div>
 
-        <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-extrabold text-[#061B3A]">
-            Questions fréquentes
-          </h2>
+        {faq.length > 4 ? (
+          <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-extrabold text-[#061B3A]">
+              Autres questions fréquentes
+            </h2>
 
-          <div className="mt-5 divide-y divide-[#E5EEF0]">
-            {faq.map((item, index) => (
-              <details key={item.question} className="group py-5" open={index === 0}>
-                <summary className="flex cursor-pointer items-start justify-between gap-4 text-base font-semibold leading-7 text-[#061B3A]">
-                  {item.question}
-                  <span
-                    aria-hidden="true"
-                    className="shrink-0 text-xl leading-7 text-[#22AFA3] transition group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
+            <div className="mt-5 divide-y divide-[#E5EEF0]">
+              {faq.slice(4).map((item, index) => (
+                <details key={item.question} className="group py-5" open={index === 0}>
+                  <summary className="flex cursor-pointer items-start justify-between gap-4 text-base font-semibold leading-7 text-[#061B3A]">
+                    {item.question}
+                    <span
+                      aria-hidden="true"
+                      className="shrink-0 text-xl leading-7 text-[#22AFA3] transition group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </summary>
 
-                <p className="mt-3 text-sm leading-6 text-[#5B6B7C]">
-                  {item.answer}
-                </p>
-              </details>
-            ))}
-          </div>
-        </section>
+                  <p className="mt-3 text-sm leading-6 text-[#5B6B7C]">
+                    {item.answer}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-extrabold text-[#061B3A]">Conclusion</h2>
@@ -232,20 +314,10 @@ export function SeoContentLayout({
             </p>
           </div>
 
-          <Link
-            href="/#simulateur"
-            className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
-          >
-            Ouvrir le simulateur →
-          </Link>
         </section>
 
         <div className="mt-10">
           <AdSlot format="horizontal" position="bottom" />
-        </div>
-
-        <div className="mt-10">
-          <SimulatorCTA />
         </div>
 
         {relatedLinks.length > 0 ? (

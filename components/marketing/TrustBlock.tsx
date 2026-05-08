@@ -1,8 +1,8 @@
 import { CTAButton } from "@/components/marketing/CTAButton";
 
 const trustItems = [
-  "Simulateur basé sur les règles du Code du travail français",
-  "Indemnité calculée selon les dispositions légales en vigueur",
+  "Estimation basée sur les règles légales de base",
+  "Montant indicatif à vérifier selon votre situation",
   "Estimation indicative, gratuite et sans inscription"
 ];
 
@@ -13,7 +13,7 @@ export function TrustBlock() {
         <div className="rounded-[28px] border border-[#E5EEF0] bg-[#F7FBFA] p-5 shadow-[0_18px_60px_rgba(6,27,58,0.04)] sm:p-6 lg:flex lg:items-center lg:justify-between lg:gap-10">
           <div className="max-w-3xl">
             <p className="text-sm font-extrabold uppercase tracking-[0.16em] text-[#168F86]">
-              Cadre LegalTech RH
+              Repères RH
             </p>
             <h2 className="mt-3 text-2xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-3xl">
               Une estimation claire avant toute discussion de départ

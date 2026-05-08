@@ -87,7 +87,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       canonicalPath={getCanonicalPath(post.slug)}
       conclusion={[
         "Le bon calcul dépend toujours de données concrètes : dates, salaire brut, ancienneté, primes, absences et convention collective. Une méthode rigoureuse évite les écarts les plus courants.",
-        "Pour passer de la théorie à un ordre de grandeur personnalisé, lancez le simulateur puis relisez le résultat avec les documents de paie et les règles applicables."
+        "Lancez une simulation avec vos propres données, puis relisez le résultat avec les documents de paie et les règles applicables."
       ]}
       faq={post.faq}
       h1={post.title}

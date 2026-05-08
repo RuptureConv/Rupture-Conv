@@ -48,7 +48,7 @@ export default function CookiesPolicyPage() {
               comprendre la fréquentation du site et d’améliorer les contenus.
               Lorsque ces outils ne sont pas strictement nécessaires ou ne sont
               pas exemptés de consentement, ils ne doivent être activés qu’après
-              accord de l’utilisateur.
+              votre accord.
             </p>
           )
         },

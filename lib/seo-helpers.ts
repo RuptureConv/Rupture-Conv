@@ -36,6 +36,10 @@ export function formatEuro(amount: number) {
   }).format(amount);
 }
 
+function formatYearsLabel(years: number) {
+  return `${years} ${years === 1 ? "an" : "ans"}`;
+}
+
 function calculateMinimumIndemnity(years: number, salary: number) {
   const firstPeriod = Math.min(years, 10) * salary * 0.25;
   const secondPeriod = Math.max(years - 10, 0) * salary * (1 / 3);
@@ -99,14 +103,14 @@ export function generateDynamicText(
 
   if (params.type === "salaire") {
     return {
-      h1: `Indemnité de rupture conventionnelle pour un salaire de ${params.value}€`,
-      introAnswer: `Avec un salaire brut de ${formatEuro(params.value)} et une ancienneté de 10 ans, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts. Le calcul repose sur ${estimate.formula}.`,
+      h1: `Indemnité de rupture conventionnelle avec un salaire de ${params.value}€`,
+      introAnswer: `Vous souhaitez estimer le montant possible avec un salaire brut de ${formatEuro(params.value)} ? Avec 10 ans d'ancienneté, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts.`,
       lead:
-        "Cette estimation aide à situer le minimum légal avant de vérifier la convention collective, les primes et la rémunération réellement retenue.",
+        "Ce repère permet de mieux lire une proposition avant de vérifier la convention collective, les primes et le salaire réellement retenu.",
       differentiated: [
-        `Pour un salaire de ${formatEuro(params.value)}, la progression salariale joue un rôle direct : une hausse de salaire augmente mécaniquement la base de calcul si elle est retenue comme salaire de référence.`,
-        "L'ancienneté reste le second levier majeur. Les premières années sont calculées au quart de mois par année, puis le calcul devient plus favorable au-delà de dix ans avec la règle du tiers.",
-        "Lorsque le salaire a évolué récemment, il faut comparer les moyennes pertinentes et vérifier les primes régulières. Cette lecture évite de sous-estimer l'indemnité minimale ou de confondre brut, net indicatif et montant négocié."
+        `Un salaire de ${formatEuro(params.value)} peut servir de base au calcul si ce montant correspond bien au salaire brut de référence.`,
+        "L'ancienneté reste déterminante : les dix premières années sont calculées au quart de mois, puis les années suivantes au tiers de mois.",
+        "Si votre rémunération a changé récemment, comparez les moyennes utiles et vérifiez les primes régulières. Vous éviterez ainsi de sous-estimer le minimum ou de confondre brut, net indicatif et montant négocié."
       ],
       faq: [
         {
@@ -128,20 +132,20 @@ export function generateDynamicText(
   }
 
   return {
-    h1: `Indemnité de rupture conventionnelle après ${params.value} ans d'ancienneté`,
-    introAnswer: `Après ${params.value} ans d'ancienneté et avec un salaire brut de référence de ${formatEuro(estimate.salary)}, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts. Le calcul repose sur ${estimate.formula}.`,
+    h1: `Indemnité de rupture conventionnelle après ${formatYearsLabel(params.value)} d'ancienneté`,
+    introAnswer: `Vous voulez savoir ce que représente ${formatYearsLabel(params.value)} d'ancienneté dans le calcul ? Avec un salaire brut de référence de ${formatEuro(estimate.salary)}, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts.`,
     lead:
-      "Cette estimation donne un repère utile avant de lancer une simulation avec votre salaire exact et les données de votre contrat.",
+      "Ce montant donne un premier repère avant de lancer une simulation avec votre salaire exact, vos dates et les éléments de votre contrat.",
     differentiated: [
-      `Après ${params.value} ans d'ancienneté, le calcul reflète souvent une partie importante du parcours professionnel dans l'entreprise. Plus la carrière est longue, plus la précision des dates et du salaire de référence devient déterminante.`,
+      `Après ${formatYearsLabel(params.value)} d'ancienneté, la précision des dates et du salaire de référence devient essentielle pour obtenir une estimation utile.`,
       params.value >= 10
         ? "Le seuil des 10 ans est central : les dix premières années sont calculées au quart de mois, puis les années suivantes au tiers de mois de salaire."
         : "Avant le seuil des 10 ans, la règle du quart de mois par année s'applique sur l'ensemble de l'ancienneté retenue.",
-      "Une évolution de carrière, une promotion, un passage cadre ou une rémunération variable peuvent modifier la base de calcul. La simulation personnalisée permet donc de passer d'un repère théorique à une estimation plus utile."
+      "Une promotion, un passage cadre ou une rémunération variable peuvent modifier la base de calcul. Le simulateur gratuit permet de tester votre situation avec des données plus précises."
     ],
     faq: [
       {
-        question: `Quelle indemnité après ${params.value} ans d'ancienneté ?`,
+        question: `Quelle indemnité après ${formatYearsLabel(params.value)} d'ancienneté ?`,
         answer: `Avec un salaire brut de référence de ${formatEuro(estimate.salary)}, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts.`
       },
       {

@@ -161,7 +161,7 @@ export function SeoContent() {
                 et à éviter une base de calcul manifestement incohérente. Dans
                 les deux cas, le simulateur apporte de la pédagogie : il clarifie
                 le brut, le net indicatif et la logique retenue sans demander de
-                compte utilisateur ni enregistrer les informations saisies.
+                compte personnel ni enregistrer les informations saisies.
               </p>
             </section>
 
