@@ -58,6 +58,7 @@ function getMainPages(): SitemapRoute[] {
       priority: 1,
       changeFrequency: "weekly"
     },
+    createRoute("/rupture-conventionnelle", 1, "weekly", 7),
     createRoute("/simulateur-rupture-conventionnelle", 1, "weekly", 7)
   ];
 }

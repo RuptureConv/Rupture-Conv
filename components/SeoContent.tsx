@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ToolCard } from "@/components/tools/ToolCard";
 import { hrTools } from "@/lib/calculators/tools-registry";
 
@@ -21,8 +22,7 @@ export function SeoContent() {
             id="seo-content-title"
             className="mt-3 text-3xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-4xl"
           >
-            Rupture conventionnelle : comprendre, calculer et préparer son
-            indemnité
+            Comprendre le calcul avant de lancer le simulateur
           </h2>
 
           <div className="mt-6 space-y-8 text-base leading-8 text-[#5B6B7C]">
@@ -45,6 +45,16 @@ export function SeoContent() {
                 rupture conventionnelle, à comparer les bases de salaire et à
                 préparer une discussion plus claire, sans remplacer une analyse
                 juridique ou paie personnalisée.
+              </p>
+              <p className="mt-4 rounded-2xl bg-[#F7FBFA] p-4 text-sm font-bold leading-7 text-[#102A4C]">
+                Pour replacer ce calcul dans tout le parcours, consultez le{" "}
+                <Link
+                  className="text-[#168F86] underline-offset-4 hover:underline"
+                  href="/rupture-conventionnelle"
+                >
+                  guide complet de la rupture conventionnelle
+                </Link>
+                .
               </p>
             </section>
 

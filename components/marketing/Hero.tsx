@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BenefitCard } from "@/components/marketing/BenefitCard";
 import { CTAButton } from "@/components/marketing/CTAButton";
 import { ResultPreviewCard } from "@/components/marketing/ResultPreviewCard";
@@ -51,7 +52,15 @@ export function Hero() {
           </div>
 
           <div className="mt-9 flex flex-col items-start gap-3">
-            <CTAButton size="lg">Calculer mon indemnité →</CTAButton>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <CTAButton size="lg">Calculer mon indemnité →</CTAButton>
+              <Link
+                href="/rupture-conventionnelle"
+                className="inline-flex min-h-14 items-center justify-center rounded-full border border-[#D7E7E8] bg-white px-7 text-base font-extrabold text-[#061B3A] shadow-[0_12px_34px_rgba(6,27,58,0.06)] transition hover:border-[#22AFA3] hover:text-[#168F86]"
+              >
+                Comprendre avant de calculer
+              </Link>
+            </div>
             <div className="flex flex-wrap gap-2 text-xs font-extrabold sm:text-sm">
               <span className="rounded-full bg-white px-4 py-2 text-[#061B3A] shadow-[0_12px_34px_rgba(6,27,58,0.06)] ring-1 ring-[#E5EEF0]">
                 Simulation en moins de 30 secondes, gratuitement et sans inscription

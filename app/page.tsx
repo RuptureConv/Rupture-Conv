@@ -13,6 +13,7 @@ import { UsefulLinksFooter } from "@/components/monetization/UsefulLinksFooter";
 import { CalculationSchema } from "@/components/seo/CalculationSchema";
 import { CommonMistakes } from "@/components/seo/CommonMistakes";
 import { DecisionGuide } from "@/components/seo/DecisionGuide";
+import { HubCtaBlock } from "@/components/seo/HubCtaBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
 import { SeoContent } from "@/components/SeoContent";
@@ -81,6 +82,16 @@ export default function Home() {
       </section>
       <ExampleBlock />
       <MiniFAQ />
+      <section className="bg-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
+          <HubCtaBlock
+            ctaLabel="Lire le guide complet"
+            description="Vous préférez comprendre la procédure avant de faire le calcul ? Le guide complet vous accompagne étape par étape : délais, chômage, documents, négociation et erreurs à éviter."
+            title="Besoin de comprendre avant de vous lancer ?"
+            variant="solid"
+          />
+        </div>
+      </section>
       <RecommendedResourcesBlock />
       <PartnerHelpBlock />
       <SimulatorSection />

@@ -7,6 +7,7 @@ import { ComparisonCards } from "@/components/seo/ComparisonCards";
 import { ConcreteExample } from "@/components/seo/ConcreteExample";
 import { DecisionGuide } from "@/components/seo/DecisionGuide";
 import { DelayTimeline } from "@/components/seo/DelayTimeline";
+import { HubCtaBlock } from "@/components/seo/HubCtaBlock";
 import { InternalLinksBlock } from "@/components/seo/InternalLinksBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import {
@@ -32,6 +33,18 @@ type SeoContentLayoutProps = {
   relatedLinks: string[];
   sections: SeoSection[];
 };
+
+const HUB_LINK_PATHS = new Set([
+  "/simulateur-rupture-conventionnelle",
+  "/calcul-indemnite-rupture-conventionnelle",
+  "/calcul-indemnite-rupture-conventionnelle-net",
+  "/indemnite-legale-rupture-conventionnelle",
+  "/rupture-conventionnelle-cdi",
+  "/modele-lettre-rupture-conventionnelle",
+  "/rupture-conventionnelle-chomage",
+  "/negocier-rupture-conventionnelle",
+  "/blog/delai-rupture-conventionnelle-combien-de-temps"
+]);
 
 function formatRelatedLinkLabel(href: string) {
   const label = href
@@ -217,6 +230,7 @@ export function SeoContentLayout({
     ...conclusion
   ].join(" ").split(/\s+/).filter(Boolean).length;
   const shouldShowMidAd = estimatedWordCount > 300;
+  const shouldShowHubCta = HUB_LINK_PATHS.has(canonicalPath);
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -310,6 +324,13 @@ export function SeoContentLayout({
           <AdSlot format="horizontal" position="top" />
           <KeyTakeaways items={buildTakeaways(h1)} />
           <TrustPanel />
+          {shouldShowHubCta ? (
+            <HubCtaBlock
+              ctaLabel="Replacer dans le parcours complet"
+              description="Après cette lecture, le guide central vous aide à relier le calcul, la procédure, le chômage, les documents et la négociation."
+              title="Vous voulez voir l’ensemble du parcours ?"
+            />
+          ) : null}
           <PageSummary sections={sections.map((section) => section.title)} />
           {shouldShowCalculationSchema ? <CalculationSchema /> : null}
           {shouldShowProcess ? (

@@ -3,6 +3,10 @@ import type { Route } from "next";
 
 const internalLinks = [
   {
+    href: "/rupture-conventionnelle",
+    label: "guide complet rupture conventionnelle"
+  },
+  {
     href: "/simulateur-rupture-conventionnelle",
     label: "simulateur rupture conventionnelle"
   },

@@ -11,6 +11,9 @@ export function Footer() {
             aria-label="Liens légaux"
             className="flex flex-wrap gap-x-5 gap-y-2"
           >
+            <Link className="font-semibold hover:text-[#22AFA3]" href="/rupture-conventionnelle">
+              Guide rupture conventionnelle
+            </Link>
             <Link className="font-semibold hover:text-[#22AFA3]" href="/mentions-legales">
               Mentions légales
             </Link>

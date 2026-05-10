@@ -7,6 +7,7 @@ import { ComparisonCards } from "@/components/seo/ComparisonCards";
 import { ComparisonTable } from "@/components/seo/ComparisonTable";
 import { ConcreteExample } from "@/components/seo/ConcreteExample";
 import { DelayTimeline } from "@/components/seo/DelayTimeline";
+import { HubCtaBlock } from "@/components/seo/HubCtaBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import { MiniFaq } from "@/components/seo/MiniFaq";
 import { PageSummary } from "@/components/seo/PageSummary";
@@ -177,6 +178,13 @@ export function ComparisonPageLayout({ page }: ComparisonPageLayoutProps) {
           </section>
 
           <SimulatorCTA />
+          {page.slug === "rupture-conventionnelle-ou-licenciement" ? (
+            <HubCtaBlock
+              ctaLabel="Voir le parcours complet"
+              description="Si vous hésitez entre rupture conventionnelle et licenciement, commencez par comparer, puis replacez le calcul dans la procédure complète."
+              title="Besoin de comprendre la rupture conventionnelle avant de choisir ?"
+            />
+          ) : null}
 
           {page.slug === "rupture-conventionnelle-ou-licenciement" ? (
             <DelayTimeline />

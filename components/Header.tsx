@@ -1,5 +1,6 @@
 import { Logo } from "@/components/brand/Logo";
 import { CTAButton } from "@/components/marketing/CTAButton";
+import Link from "next/link";
 
 export function Header() {
   return (
@@ -13,6 +14,9 @@ export function Header() {
           <a className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="#simulateur">
             Simulateur
           </a>
+          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/rupture-conventionnelle">
+            Guide complet
+          </Link>
           <a className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="#comprendre">
             Comprendre
           </a>
