@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
+import { TrackedSimulatorLink } from "@/components/seo/TrackedSimulatorLink";
 import { comparisonPages } from "@/lib/comparison-pages";
 import {
   absoluteUrl,
@@ -56,6 +57,19 @@ export default function BlogIndexPage() {
       }
     ]
   };
+  const categories = [
+    "Calcul indemnité",
+    "Procédure",
+    "Chômage",
+    "Modèles",
+    "Négociation"
+  ];
+  const featuredSlugs = new Set([
+    "comment-calculer-une-rupture-conventionnelle-facilement",
+    "rupture-conventionnelle-et-preavis",
+    "indemnite-rupture-conventionnelle-anciennete-10-ans",
+    "calcul-indemnite-brut-ou-net"
+  ]);
 
   return (
     <main className="min-h-screen bg-[#F7FBFA]">
@@ -76,11 +90,53 @@ export default function BlogIndexPage() {
             Blog rupture conventionnelle
           </h1>
           <p className="mt-5 text-base leading-8 text-[#5B6B7C] sm:text-lg">
-            Guides pratiques pour comprendre le calcul d&apos;indemnité, comparer les
-            options de rupture du CDI, préparer une négociation et utiliser le
-            simulateur avec des données plus fiables.
+            Guides pratiques pour comprendre la rupture conventionnelle, les
+            indemnités, le chômage, le préavis, la négociation et les modèles à
+            utiliser avant un échange employeur-salarié.
           </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <span
+                className="rounded-full bg-[#F7FBFA] px-3 py-1 text-xs font-bold text-[#102A4C]"
+                key={category}
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+          <TrackedSimulatorLink
+            buttonType="blog_top"
+            className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+          >
+            Calculer mon indemnité gratuitement →
+          </TrackedSimulatorLink>
         </header>
+
+        <section className="mt-10 grid gap-5">
+          <h2 className="text-2xl font-extrabold text-[#061B3A]">
+            Articles à consulter en priorité
+          </h2>
+          {blogPosts
+            .filter((post) => featuredSlugs.has(post.slug))
+            .map((post) => (
+              <article
+                key={post.slug}
+                className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"
+              >
+                <h3 className="text-xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
+                  <Link
+                    className="transition hover:text-[#22AFA3]"
+                    href={`/blog/${post.slug}`}
+                  >
+                    {post.title}
+                  </Link>
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-[#5B6B7C]">
+                  {post.description}
+                </p>
+              </article>
+            ))}
+        </section>
 
         <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-extrabold text-[#061B3A]">
@@ -129,6 +185,23 @@ export default function BlogIndexPage() {
               </p>
             </article>
           ))}
+        </section>
+
+        <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-extrabold text-[#061B3A]">
+            Besoin d&apos;un montant avant de lire la suite ?
+          </h2>
+          <p className="mt-3 text-base leading-8 text-[#5B6B7C]">
+            Lancez le simulateur gratuit pour obtenir un minimum brut et un net
+            indicatif, puis utilisez les guides pour comprendre le calendrier,
+            la négociation et les documents.
+          </p>
+          <TrackedSimulatorLink
+            buttonType="blog_bottom"
+            className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+          >
+            Ouvrir le simulateur →
+          </TrackedSimulatorLink>
         </section>
       </section>
     </main>

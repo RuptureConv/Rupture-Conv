@@ -19,6 +19,7 @@ import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import { MiniFaq } from "@/components/seo/MiniFaq";
+import { TrackedSimulatorLink } from "@/components/seo/TrackedSimulatorLink";
 import { TrustPanel } from "@/components/seo/TrustPanel";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
 import { absoluteUrl, buildCtrTitle, mandatoryDisclaimer } from "@/lib/seo-content";
@@ -312,12 +313,12 @@ export function SeoContentLayout({
             ))}
           </div>
 
-          <Link
-            href="/#simulateur"
+          <TrackedSimulatorLink
+            buttonType="hero"
             className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
           >
             Faire une simulation gratuite →
-          </Link>
+          </TrackedSimulatorLink>
         </header>
 
         <div className="mt-10 space-y-10">
@@ -356,8 +357,19 @@ export function SeoContentLayout({
           </section>
 
           <AdSlot format="horizontal" position="after-content" />
-          <SimulatorCTA />
+          <SimulatorCTA
+            buttonText="Calculer mon indemnité nette →"
+            buttonType="after_explanation"
+            description="Le calcul est gratuit, rapide et sans inscription. Il sépare le minimum brut du net indicatif pour mieux préparer votre échange."
+            title="Vous pouvez aussi simuler votre indemnité nette"
+          />
           <ConcreteExample {...buildExample(h1)} />
+          <SimulatorCTA
+            buttonText="Tester avec mes chiffres →"
+            buttonType="after_example"
+            description="Remplacez l'exemple par vos dates, votre salaire brut de référence et votre ancienneté exacte."
+            title="Passez de l'exemple à votre situation"
+          />
           <MiniFaq items={faq} />
           <CommonMistakes />
           {shouldShowMidAd ? (
@@ -449,6 +461,15 @@ export function SeoContentLayout({
           </div>
 
         </section>
+
+        <div className="mt-10">
+          <SimulatorCTA
+            buttonText="Faire le calcul gratuit →"
+            buttonType="bottom"
+            description="Dernière vérification avant de partir : estimez le minimum brut, le net indicatif et la base de négociation en quelques champs."
+            title="Calculez avant de signer"
+          />
+        </div>
 
         <div className="mt-10">
           <AdSlot format="horizontal" position="bottom" />

@@ -1,14 +1,19 @@
 type CalculatorEventName =
   | "simulation_started"
   | "result_viewed"
-  | "result_copied";
+  | "result_copied"
+  | "simulateur_cta_click";
 
 type CalculatorEventPayload = {
-  source: "termination_calculator";
+  source: "termination_calculator" | "seo_cta";
   seniorityYears?: number;
   referenceSalary?: number;
   retainedGrossIndemnity?: number;
   estimatedNetIndemnity?: number;
+  button_text?: string;
+  button_type?: string;
+  page_location?: string;
+  page_title?: string;
 };
 
 type DataLayerEvent = {

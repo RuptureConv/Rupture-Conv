@@ -236,15 +236,17 @@ const basePillarPages: PillarPage[] = [
     title: `Indemnité légale rupture conventionnelle | ${siteName}`,
     h1: "Indemnité légale de rupture conventionnelle",
     description:
-      "Comprendre l'indemnité légale minimale de rupture conventionnelle : formule, ancienneté, salaire de référence, exemples et vérifications nécessaires.",
+      "Calcul 2026 de l'indemnité légale minimale de rupture conventionnelle : formule, ancienneté, salaire de référence, exemples et simulateur gratuit.",
     relatedLinks: [
+      "/calcul-indemnite-rupture-conventionnelle-net",
       "/calcul-indemnite-rupture-conventionnelle",
       "/simulateur-rupture-conventionnelle",
+      "/modele-lettre-rupture-conventionnelle",
       "/rupture-conventionnelle-cdi",
       "/blog/montant-minimum-rupture-conventionnelle"
     ],
     intro: [
-      "L'indemnité légale de rupture conventionnelle représente le montant minimum que le salarié doit recevoir lors d'une rupture conventionnelle homologuée. Elle constitue un plancher : l'employeur et le salarié peuvent convenir d'un montant supérieur, mais pas d'un montant inférieur au minimum applicable.",
+      "L'indemnité légale de rupture conventionnelle représente le montant minimum que le salarié doit recevoir lors d'une rupture conventionnelle homologuée. Vous pouvez l'estimer gratuitement avec le simulateur, puis vérifier la formule, l'ancienneté et le salaire de référence.",
       `Comprendre cette indemnité est indispensable avant de signer une convention. Elle dépend principalement de l'ancienneté et du salaire brut de référence, mais elle peut aussi être influencée par la convention collective et par la structure de rémunération du salarié. ${mandatoryDisclaimer}`
     ],
     sections: [
@@ -487,9 +489,11 @@ const basePillarPages: PillarPage[] = [
 ];
 
 const requiredInternalLinks = [
+  "/calcul-indemnite-rupture-conventionnelle-net",
   "/simulateur-rupture-conventionnelle",
   "/calcul-indemnite-rupture-conventionnelle",
-  "/indemnite-legale-rupture-conventionnelle"
+  "/indemnite-legale-rupture-conventionnelle",
+  "/modele-lettre-rupture-conventionnelle"
 ];
 
 function calculateMinimumIndemnity(years: number, salary: number) {
@@ -511,13 +515,17 @@ function highIntentPage({
   h1,
   description,
   example,
-  angle
+  angle,
+  extraSections = [],
+  extraFaq = []
 }: {
   slug: string;
   h1: string;
   description: string;
   example: string;
   angle: string;
+  extraSections?: SeoSection[];
+  extraFaq?: FaqEntry[];
 }): PillarPage {
   return {
     slug,
@@ -543,7 +551,8 @@ function highIntentPage({
           example,
           "Pour obtenir votre propre montant, il faut saisir vos dates exactes, votre salaire brut et les informations complémentaires connues. Le résultat peut ensuite servir de base de discussion avec l'employeur, le salarié ou le service paie."
         ]
-      }
+      },
+      ...extraSections
     ],
     faq: [
       {
@@ -560,7 +569,8 @@ function highIntentPage({
         question: "Pourquoi utiliser le simulateur ?",
         answer:
           "Le simulateur évite les calculs approximatifs et donne une base claire pour préparer une négociation ou vérifier un montant proposé."
-      }
+      },
+      ...extraFaq
     ],
     conclusion: [
       "Le bon réflexe consiste à comprendre la règle, regarder un exemple, puis lancer une simulation avec vos propres données.",
@@ -584,11 +594,67 @@ const highIntentPages: PillarPage[] = [
     slug: "calcul-indemnite-rupture-conventionnelle-net",
     h1: "Calcul de l’indemnité de rupture conventionnelle nette",
     description:
-      "Comprenez le calcul net d'une indemnité de rupture conventionnelle avec simulateur gratuit 2026, brut, net indicatif et exemple.",
+      "Calcul gratuit de l'indemnité de rupture conventionnelle nette 2026 : brut, net indicatif, minimum légal, exemple et simulation sans inscription.",
     angle:
-      "Le net dépend du traitement social et fiscal ; il doit donc être lu comme une estimation indicative, jamais comme un montant garanti.",
+      "Le calcul est gratuit, rapide et sans inscription : il permet de distinguer le minimum brut, le net indicatif et la part éventuellement négociée.",
     example:
-      "Exemple : une indemnité brute minimale de 5 000 euros peut donner un net différent selon la part exonérée, la part supra-légale et la situation personnelle du salarié."
+      "Exemple : avec 8 ans d'ancienneté et 2 700 euros bruts mensuels, le minimum indicatif est de 2 700 x 1/4 x 8, soit 5 400 euros bruts avant estimation du net.",
+    extraSections: [
+      {
+        title: "Indemnité brute et indemnité nette : la différence",
+        paragraphs: [
+          "Le minimum de rupture conventionnelle se calcule d'abord sur une base brute. C'est ce montant brut qui sert à vérifier le plancher applicable avant signature.",
+          "Le net indicatif correspond à une lecture pratique de ce qui pourrait être perçu. Il peut varier selon le traitement social et fiscal, la part supra-légale, les exonérations possibles et la situation individuelle. Il doit donc rester un repère prudent."
+        ]
+      },
+      {
+        title: "Indemnité légale ou indemnité négociée",
+        paragraphs: [
+          "L'indemnité légale correspond au minimum à respecter. La convention collective peut parfois prévoir mieux, et les parties peuvent aussi négocier une indemnité supérieure.",
+          "Pour comparer correctement une proposition, séparez toujours trois niveaux : minimum légal ou conventionnel, part négociée au-delà du minimum, puis net indicatif. Cette séparation évite de confondre un droit minimum avec une enveloppe de sortie."
+        ]
+      },
+      {
+        title: "Ancienneté et salaire de référence",
+        paragraphs: [
+          "L'ancienneté pèse directement sur le montant : jusqu'à 10 ans, la formule courante applique un quart de mois par année. Au-delà, les années supplémentaires sont généralement calculées au tiers de mois.",
+          "Le salaire de référence doit être relu avec attention. Primes régulières, variables, commissions, absences ou changement récent de rémunération peuvent modifier la base de calcul. Une erreur sur cette base peut faire varier fortement le résultat."
+        ]
+      },
+      {
+        title: "Deux exemples chiffrés",
+        paragraphs: [
+          "Exemple 1 : avec 3 ans d'ancienneté et 2 200 euros bruts mensuels, le minimum indicatif est de 2 200 x 1/4 x 3, soit 1 650 euros bruts avant lecture du net indicatif.",
+          "Exemple 2 : avec 12 ans d'ancienneté et 3 000 euros bruts mensuels, les dix premières années représentent 7 500 euros, puis les deux années suivantes environ 2 000 euros. Le total indicatif atteint 9 500 euros bruts avant vérification conventionnelle."
+        ]
+      },
+      {
+        title: "Erreurs fréquentes avant de signer",
+        paragraphs: [
+          "Les erreurs les plus courantes consistent à calculer sur le salaire net, à oublier une prime régulière, à arrondir l'ancienneté trop vite ou à ne pas vérifier la convention collective.",
+          "Autre piège : comparer uniquement le montant net affiché sans comprendre la part brute minimale et la part éventuellement négociée. Le simulateur aide à remettre ces montants dans le bon ordre."
+        ],
+        bullets: [
+          "Calculer sur le brut avant de regarder le net indicatif.",
+          "Vérifier l'ancienneté avec les dates exactes.",
+          "Relire le salaire de référence et les primes.",
+          "Comparer minimum légal, convention collective et montant négocié.",
+          "Garder le résultat comme base de discussion, pas comme garantie définitive."
+        ]
+      }
+    ],
+    extraFaq: [
+      {
+        question: "Peut-on connaître exactement le net à l'avance ?",
+        answer:
+          "Pas toujours. Le net dépend de paramètres sociaux et fiscaux qui peuvent varier. Le simulateur donne un net indicatif utile pour se repérer, mais le montant final doit être confirmé avec la paie ou un conseil adapté."
+      },
+      {
+        question: "Faut-il négocier en brut ou en net ?",
+        answer:
+          "Le minimum et la convention sont généralement relus en brut. Le net indicatif aide à comprendre l'ordre de grandeur perçu, mais la négociation doit rester claire sur la base utilisée."
+      }
+    ]
   }),
   highIntentPage({
     slug: "simulateur-indemnite-rupture-conventionnelle-net",
@@ -604,7 +670,7 @@ const highIntentPages: PillarPage[] = [
     slug: "indemnite-rupture-conventionnelle-anciennete-10-ans",
     h1: "Indemnité de rupture conventionnelle avec 10 ans d’ancienneté",
     description:
-      "Estimez l'indemnité de rupture conventionnelle pour 10 ans d'ancienneté avec calcul, simulateur gratuit 2026 et exemple concret.",
+      "Estimez l'indemnité de rupture conventionnelle après 10 ans d'ancienneté avec exemple de calcul 2026, simulateur gratuit et repères brut/net.",
     angle:
       "À 10 ans d'ancienneté, le calcul atteint le seuil important avant le passage à la règle du tiers de mois au-delà.",
     example:
@@ -640,14 +706,17 @@ const resourcePlaceholderPages: PillarPage[] = [
     description:
       "Modèle de lettre rupture conventionnelle à copier : courrier, email, variantes prudentes, erreurs à éviter et étapes après l'envoi.",
     relatedLinks: [
+      "/calcul-indemnite-rupture-conventionnelle-net",
       "/simulateur-rupture-conventionnelle",
       "/negocier-rupture-conventionnelle",
       "/rupture-conventionnelle-chomage",
       "/calcul-indemnite-rupture-conventionnelle",
+      "/indemnite-legale-rupture-conventionnelle",
       "/rupture-conventionnelle-cdi"
     ],
     intro: [
-      "Un modèle de lettre de demande de rupture conventionnelle sert à ouvrir une discussion claire avec l’employeur. Il ne valide pas la rupture à lui seul : la rupture conventionnelle repose sur un accord commun, une procédure encadrée, un délai de rétractation et une homologation.",
+      "Ce modèle gratuit de lettre de rupture conventionnelle peut être copié puis adapté pour demander un entretien à votre employeur. Il sert à ouvrir une discussion claire, sans valider la rupture à lui seul.",
+      "La rupture conventionnelle repose sur un accord commun, une procédure encadrée, un délai de rétractation et une homologation.",
       `L’objectif d’un courrier ou d’un email est donc de formuler une demande professionnelle, factuelle et prudente, sans pression ni ultimatum. Avant d’envoyer votre demande, il est utile d’estimer votre indemnité indicative pour savoir de quoi vous parlez si un échange s’ouvre. Les informations présentées sont générales et indicatives. Elles ne remplacent pas un conseil juridique personnalisé.`
     ],
     sections: [
@@ -1394,11 +1463,14 @@ const blogPostsData: BlogPost[] = [
     slug: "indemnite-rupture-conventionnelle-anciennete-10-ans",
     title: "Indemnité rupture conventionnelle ancienneté 10 ans",
     description:
-      "Calculer une indemnité de rupture conventionnelle avec 10 ans d'ancienneté : formule, exemple et points de vigilance.",
+      "Calculer une indemnité de rupture conventionnelle après 10 ans d'ancienneté : formule 2026, exemple chiffré et simulateur gratuit.",
     relatedPillars: [
+      "/calcul-indemnite-rupture-conventionnelle-net",
       "/calcul-indemnite-rupture-conventionnelle",
       "/indemnite-legale-rupture-conventionnelle",
-      "/simulateur-rupture-conventionnelle"
+      "/simulateur-rupture-conventionnelle",
+      "/indemnite-rupture-conventionnelle-9-ans",
+      "/indemnite-rupture-conventionnelle-11-ans"
     ],
     intro: [
       "Avec 10 ans d'ancienneté, le calcul de l'indemnité de rupture conventionnelle est particulièrement important, car le salarié atteint le seuil avant l'application de la tranche au-delà de dix ans.",
@@ -2025,14 +2097,17 @@ const blogPostsData: BlogPost[] = [
     slug: "rupture-conventionnelle-et-preavis",
     title: "Rupture conventionnelle et préavis",
     description:
-      "Existe-t-il un préavis en rupture conventionnelle ? Comprendre la date de rupture, le calendrier et les différences avec le licenciement.",
+      "Rupture conventionnelle et préavis : règles 2026, délais, date de rupture, différence avec licenciement et calcul de l'indemnité.",
     relatedPillars: [
+      "/calcul-indemnite-rupture-conventionnelle-net",
       "/rupture-conventionnelle-cdi",
       "/simulateur-rupture-conventionnelle",
-      "/licenciement-indemnite"
+      "/licenciement-indemnite",
+      "/indemnite-legale-rupture-conventionnelle",
+      "/modele-lettre-rupture-conventionnelle"
     ],
     intro: [
-      "La rupture conventionnelle ne fonctionne pas comme une démission ou un licenciement avec préavis classique. La date de rupture est fixée dans la convention, après respect de la procédure.",
+      "En rupture conventionnelle, il n'y a pas de préavis classique comme dans une démission ou un licenciement. La date de rupture est fixée dans la convention, après le délai de rétractation et l'homologation.",
       `${mandatoryDisclaimer}`
     ],
     sections: [

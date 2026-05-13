@@ -8,6 +8,7 @@ import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import { MiniFaq } from "@/components/seo/MiniFaq";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
+import { TrackedSimulatorLink } from "@/components/seo/TrackedSimulatorLink";
 import { TrustPanel } from "@/components/seo/TrustPanel";
 import { absoluteUrl, mandatoryDisclaimer } from "@/lib/seo-content";
 import {
@@ -138,6 +139,12 @@ export function ProgrammaticSeoTemplate({
           <p className="mt-4 text-base leading-8 text-[#5B6B7C]">
             {dynamicText.lead}
           </p>
+          <TrackedSimulatorLink
+            buttonType="programmatic_hero"
+            className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+          >
+            Calcul gratuit sans inscription →
+          </TrackedSimulatorLink>
         </header>
 
         <div className="mt-10 space-y-10">
@@ -185,7 +192,12 @@ export function ProgrammaticSeoTemplate({
           </section>
 
           <AdSlot format="horizontal" position="after-content" />
-          <SimulatorCTA />
+          <SimulatorCTA
+            buttonText="Simuler avec mes données →"
+            buttonType="programmatic_after_table"
+            description="Utilisez vos dates exactes et votre salaire brut de référence pour obtenir un montant plus utile que l'exemple standard."
+            title="Affinez ce calcul avec le simulateur"
+          />
           <MiniFaq items={dynamicText.faq} />
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
@@ -228,6 +240,44 @@ export function ProgrammaticSeoTemplate({
               </ul>
             </nav>
           ) : null}
+
+          <nav
+            aria-label="Calculs complémentaires"
+            className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"
+          >
+            <h2 className="text-2xl font-extrabold text-[#061B3A]">
+              Calculs liés
+            </h2>
+            <ul className="mt-4 list-disc space-y-2 pl-6 text-sm font-semibold leading-7 text-[#102A4C]">
+              {[
+                {
+                  href: "/calcul-indemnite-rupture-conventionnelle-net",
+                  label: "calcul de l'indemnité nette"
+                },
+                {
+                  href: "/calcul-indemnite-rupture-conventionnelle",
+                  label: "méthode complète de calcul"
+                },
+                {
+                  href: "/indemnite-legale-rupture-conventionnelle",
+                  label: "minimum légal à vérifier"
+                },
+                {
+                  href: "/modele-lettre-rupture-conventionnelle",
+                  label: "modèle de demande à copier"
+                }
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    className="transition hover:text-[#22AFA3]"
+                    href={link.href as Route}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">

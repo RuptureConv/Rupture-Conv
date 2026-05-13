@@ -14,9 +14,9 @@ export const homeSeoSnippet: SeoSnippet = {
 };
 
 export const blogIndexSeoSnippet: SeoSnippet = {
-  title: "Guides rupture conventionnelle et indemnités",
+  title: "Blog rupture conventionnelle : guides pratiques 2026",
   description:
-    "Retrouvez des guides clairs pour calculer votre indemnité, préparer une rupture conventionnelle et comprendre vos droits en droit du travail français."
+    "Guides pratiques 2026 sur rupture conventionnelle, indemnités, chômage, préavis, négociation et modèles, avec accès au simulateur gratuit."
 };
 
 const pillarSeoSnippets: Record<string, SeoSnippet> = {
@@ -31,9 +31,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Comprenez le calcul de votre indemnité de rupture conventionnelle : ancienneté, salaire de référence, minimum légal et estimation rapide."
   },
   "indemnite-legale-rupture-conventionnelle": {
-    title: "Indemnité légale de rupture conventionnelle",
+    title: "Indemnité légale de rupture conventionnelle : calcul 2026",
     description:
-      "Vérifiez le minimum légal de votre indemnité de rupture conventionnelle, avec formule, exemples et repères issus du droit du travail français."
+      "Vérifiez le minimum légal de votre indemnité de rupture conventionnelle en 2026 avec formule, exemples et simulateur gratuit."
   },
   "rupture-conventionnelle-cdi": {
     title: "Rupture conventionnelle CDI : procédure et indemnité",
@@ -56,9 +56,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Estimez l’impact de l’ancienneté sur votre indemnité de rupture conventionnelle, avec une méthode claire et des exemples pratiques."
   },
   "calcul-indemnite-rupture-conventionnelle-net": {
-    title: "Indemnité de rupture conventionnelle : brut ou net ?",
+    title: "Calcul indemnité rupture conventionnelle nette 2026",
     description:
-      "Comprenez la différence entre indemnité brute et net indicatif pour mieux lire une proposition de rupture conventionnelle."
+      "Calculez gratuitement votre indemnité de rupture conventionnelle nette ou brute en 2026, rapidement et sans inscription."
   },
   "simulateur-indemnite-rupture-conventionnelle-net": {
     title: "Simulateur d’indemnité nette de rupture conventionnelle",
@@ -66,9 +66,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Obtenez une estimation nette indicative de votre indemnité de rupture conventionnelle, gratuitement, rapidement et sans inscription."
   },
   "indemnite-rupture-conventionnelle-anciennete-10-ans": {
-    title: "Indemnité de rupture conventionnelle avec 10 ans",
+    title: "Indemnité rupture conventionnelle après 10 ans : exemple",
     description:
-      "Calculez votre indemnité avec 10 ans d’ancienneté et comprenez le rôle du salaire brut, du minimum légal et de la convention collective."
+      "Calculez votre indemnité après 10 ans d’ancienneté avec exemple 2026, salaire brut, minimum légal et simulateur gratuit."
   },
   "calcul-indemnite-cadre": {
     title: "Calcul de l’indemnité pour cadre en rupture conventionnelle",
@@ -81,9 +81,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Calculez l’indemnité de rupture conventionnelle d’un salarié non-cadre avec une méthode simple, rapide et conforme au droit français."
   },
   "modele-lettre-rupture-conventionnelle": {
-    title: "Modèle de lettre de rupture conventionnelle CDI",
+    title: "Modèle de lettre de rupture conventionnelle gratuit à copier",
     description:
-      "Copiez un modèle de lettre de rupture conventionnelle clair et professionnel, avec variantes email et conseils avant l’envoi."
+      "Copiez un modèle gratuit de lettre de rupture conventionnelle CDI, avec variante email, conseils prudents et calcul avant négociation."
   },
   "rupture-conventionnelle-chomage": {
     title: "Rupture conventionnelle et chômage : vos droits",
@@ -194,9 +194,9 @@ const blogSeoSnippets: Record<string, SeoSnippet> = {
       "Comprenez le traitement des congés payés lors d’une rupture conventionnelle et leur différence avec l’indemnité spécifique."
   },
   "rupture-conventionnelle-et-preavis": {
-    title: "Rupture conventionnelle et préavis : ce qu’il faut savoir",
+    title: "Rupture conventionnelle et préavis : règles, délais et calcul",
     description:
-      "Découvrez pourquoi la rupture conventionnelle ne fonctionne pas comme un préavis classique et comment fixer une date cohérente."
+      "Comprenez les règles 2026 : pas de préavis classique, date de rupture, délais d’homologation et calcul de l’indemnité."
   },
   "calcul-indemnite-rupture-conventionnelle-exemple": {
     title: "Exemples de calcul d’indemnité de rupture conventionnelle",
@@ -258,8 +258,8 @@ export function getPillarSeoSnippet(
     }`;
 
     return {
-      title: `Indemnité de rupture conventionnelle : ${yearsLabel}`,
-      description: `Estimez l’indemnité de rupture conventionnelle pour ${yearsLabel} d’ancienneté, avec calcul rapide, gratuit et exemples concrets.`
+      title: `Indemnité rupture conventionnelle après ${yearsLabel} : calcul gratuit 2026`,
+      description: `Estimez l’indemnité de rupture conventionnelle pour ${yearsLabel} d’ancienneté avec exemple chiffré, calcul gratuit 2026 et simulateur.`
     };
   }
 

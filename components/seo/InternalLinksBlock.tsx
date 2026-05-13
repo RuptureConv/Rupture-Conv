@@ -7,16 +7,24 @@ const internalLinks = [
     label: "guide complet rupture conventionnelle"
   },
   {
-    href: "/simulateur-rupture-conventionnelle",
-    label: "simulateur rupture conventionnelle"
+    href: "/calcul-indemnite-rupture-conventionnelle-net",
+    label: "calcul indemnité rupture conventionnelle nette"
   },
   {
     href: "/calcul-indemnite-rupture-conventionnelle",
-    label: "calcul indemnité rupture conventionnelle"
+    label: "méthode de calcul de l'indemnité"
   },
   {
     href: "/indemnite-legale-rupture-conventionnelle",
-    label: "montant indemnité rupture conventionnelle"
+    label: "indemnité légale de rupture conventionnelle"
+  },
+  {
+    href: "/simulateur-rupture-conventionnelle",
+    label: "simulateur de rupture conventionnelle"
+  },
+  {
+    href: "/modele-lettre-rupture-conventionnelle",
+    label: "modèle de lettre de rupture conventionnelle"
   },
   {
     href: "/rupture-conventionnelle-ou-demission",
