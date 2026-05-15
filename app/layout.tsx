@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Footer } from "@/components/Footer";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import {
   GoogleTagManagerBody,
   GoogleTagManagerHead
@@ -100,6 +101,7 @@ export default function RootLayout({
     <html lang="fr">
       <head>
         <GoogleTagManagerHead />
+        <GoogleAnalytics />
 
         <meta
           name="google-site-verification"

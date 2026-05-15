@@ -23,30 +23,47 @@ type DataLayerEvent = {
 
 declare global {
   interface Window {
-    dataLayer?: DataLayerEvent[];
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
 const GTM_ID_PATTERN = /^GTM-[A-Z0-9]+$/;
+const GA_MEASUREMENT_ID_PATTERN = /^G-[A-Z0-9]+$/;
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-P9XX929G";
+export const GA_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-HDDQ9CV6YQ";
 
 export function isGoogleTagManagerReady(): boolean {
   return GTM_ID_PATTERN.test(GTM_ID);
+}
+
+export function isGoogleAnalyticsReady(): boolean {
+  return GA_MEASUREMENT_ID_PATTERN.test(GA_MEASUREMENT_ID);
 }
 
 export function trackCalculatorEvent(
   name: CalculatorEventName,
   payload: CalculatorEventPayload
 ) {
-  if (!isGoogleTagManagerReady() || typeof window === "undefined") {
+  if (typeof window === "undefined") {
     return;
   }
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: name,
-    event_category: "calculator",
-    ...payload
-  });
+  if (isGoogleTagManagerReady()) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: name,
+      event_category: "calculator",
+      ...payload
+    } satisfies DataLayerEvent);
+  }
+
+  if (isGoogleAnalyticsReady() && typeof window.gtag === "function") {
+    window.gtag("event", name, {
+      event_category: "calculator",
+      ...payload
+    });
+  }
 }
