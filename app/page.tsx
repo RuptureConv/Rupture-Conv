@@ -17,6 +17,7 @@ import { HubCtaBlock } from "@/components/seo/HubCtaBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
 import { SeoContent } from "@/components/SeoContent";
+import { serializeJsonLd } from "@/lib/json-ld";
 import { siteName, siteUrl } from "@/lib/site";
 
 export default function Home() {
@@ -52,11 +53,11 @@ export default function Home() {
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplicationJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(webApplicationJsonLd) }}
       />
       <Header />
       <Hero />

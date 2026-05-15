@@ -18,10 +18,15 @@ export const ADSENSE_SLOTS = {
 
 export type AdsenseSlotId = keyof typeof ADSENSE_SLOTS;
 
+const ADSENSE_CLIENT_PATTERN = /^ca-pub-\d+$/;
+const ADSENSE_SLOT_PATTERN = /^\d+$/;
+
 export function isAdsenseReady(): boolean {
-  return ENABLE_ADSENSE && ADSENSE_CLIENT.startsWith("ca-pub-");
+  return ENABLE_ADSENSE && ADSENSE_CLIENT_PATTERN.test(ADSENSE_CLIENT);
 }
 
 export function getAdsenseSlot(slotId: string): string | undefined {
-  return ADSENSE_SLOTS[slotId as AdsenseSlotId] || undefined;
+  const slot = ADSENSE_SLOTS[slotId as AdsenseSlotId];
+
+  return slot && ADSENSE_SLOT_PATTERN.test(slot) ? slot : undefined;
 }

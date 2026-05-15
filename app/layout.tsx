@@ -7,6 +7,7 @@ import {
 } from "@/components/GoogleTagManager";
 import { StickyMobileCTA } from "@/components/seo/StickyMobileCTA";
 import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
+import { serializeJsonLd } from "@/lib/json-ld";
 import { homeSeoSnippet } from "@/lib/seo-metadata";
 import { siteAlternateName, siteName, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -118,13 +119,13 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteJsonLd)
+            __html: serializeJsonLd(websiteJsonLd)
           }}
         />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd)
+            __html: serializeJsonLd(organizationJsonLd)
           }}
         />
       </head>
