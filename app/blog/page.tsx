@@ -58,6 +58,7 @@ export default function BlogIndexPage() {
     ]
   };
   const categories = [
+    "Réforme 2026",
     "Calcul indemnité",
     "Procédure",
     "Chômage",
@@ -65,10 +66,10 @@ export default function BlogIndexPage() {
     "Négociation"
   ];
   const featuredSlugs = new Set([
+    "reforme-rupture-conventionnelle-2026",
+    "rupture-conventionnelle-chomage-2026",
     "comment-calculer-une-rupture-conventionnelle-facilement",
-    "rupture-conventionnelle-et-preavis",
-    "indemnite-rupture-conventionnelle-anciennete-10-ans",
-    "calcul-indemnite-brut-ou-net"
+    "rupture-conventionnelle-et-preavis"
   ]);
 
   return (
@@ -133,6 +134,26 @@ export default function BlogIndexPage() {
                 </h3>
                 <p className="mt-3 text-sm leading-7 text-[#5B6B7C]">
                   {post.description}
+                </p>
+              </article>
+            ))}
+          {pillarPages
+            .filter((page) => featuredSlugs.has(page.slug))
+            .map((page) => (
+              <article
+                key={page.slug}
+                className="rounded-2xl border border-[#BFE8E3] bg-[#EAF8F6] p-6 shadow-sm"
+              >
+                <h3 className="text-xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
+                  <Link
+                    className="transition hover:text-[#168F86]"
+                    href={`/${page.slug}`}
+                  >
+                    {page.h1}
+                  </Link>
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-[#5B6B7C]">
+                  {page.description}
                 </p>
               </article>
             ))}

@@ -20,6 +20,31 @@ export const blogIndexSeoSnippet: SeoSnippet = {
 };
 
 const pillarSeoSnippets: Record<string, SeoSnippet> = {
+  "reforme-rupture-conventionnelle-2026": {
+    title: "Réforme rupture conventionnelle 2026 : ce qui change pour le chômage",
+    description:
+      "La rupture conventionnelle donne-t-elle toujours droit au chômage en 2026 ? Durée réduite, salariés de moins de 55 ans, seniors, employeurs : le point clair sur la réforme."
+  },
+  "rupture-conventionnelle-chomage-2026": {
+    title: "Rupture conventionnelle chômage 2026 : droit maintenu",
+    description:
+      "La rupture conventionnelle donne encore droit au chômage sous conditions en 2026, mais la durée maximale d'indemnisation est réduite."
+  },
+  "rupture-conventionnelle-senior-55-ans-2026": {
+    title: "Rupture conventionnelle senior 55 ans 2026",
+    description:
+      "Rupture conventionnelle après 55 ans : durée chômage réduite, indemnité maintenue, points France Travail et retraite à vérifier."
+  },
+  "rupture-conventionnelle-employeur-cout-2026": {
+    title: "Rupture conventionnelle employeur 2026 : coût et 40 %",
+    description:
+      "Coût employeur d'une rupture conventionnelle en 2026 : indemnité, contribution patronale 40 %, chômage et vigilance RH."
+  },
+  "rupture-conventionnelle-avant-apres-reforme-2026": {
+    title: "Rupture conventionnelle 2026 : tableau avant / après",
+    description:
+      "Avant / après réforme 2026 : durées chômage, moins de 55 ans, seniors, outre-mer, indemnité maintenue et coût employeur."
+  },
   "simulateur-rupture-conventionnelle": {
     title: "Simulateur gratuit de rupture conventionnelle 2026",
     description:

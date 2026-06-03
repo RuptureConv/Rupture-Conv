@@ -16,6 +16,7 @@ import {
 } from "@/components/seo/PageSummary";
 import { ProfessionalLetterBlock } from "@/components/seo/ProfessionalLetterBlock";
 import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
+import { RuptureReformNotice } from "@/components/seo/RuptureReformNotice";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import { MiniFaq } from "@/components/seo/MiniFaq";
@@ -33,6 +34,8 @@ type SeoContentLayoutProps = {
   intro: string[];
   relatedLinks: string[];
   sections: SeoSection[];
+  updatedAt?: string;
+  updatedLabel?: string;
 };
 
 const HUB_LINK_PATHS = new Set([
@@ -47,6 +50,16 @@ const HUB_LINK_PATHS = new Set([
   "/blog/delai-rupture-conventionnelle-combien-de-temps"
 ]);
 
+const REFORM_NOTICE_PATHS = new Set([
+  "/simulateur-rupture-conventionnelle",
+  "/calcul-indemnite-rupture-conventionnelle",
+  "/calcul-indemnite-rupture-conventionnelle-net",
+  "/indemnite-legale-rupture-conventionnelle",
+  "/rupture-conventionnelle-cdi",
+  "/rupture-conventionnelle-chomage",
+  "/modele-lettre-rupture-conventionnelle"
+]);
+
 function formatRelatedLinkLabel(href: string) {
   const label = href
     .replace(/^\/blog\//, "Article : ")
@@ -58,6 +71,15 @@ function formatRelatedLinkLabel(href: string) {
 
 function buildTakeaways(h1: string): string[] {
   const normalized = h1.toLocaleLowerCase("fr-FR");
+
+  if (normalized.includes("réforme") || normalized.includes("2026")) {
+    return [
+      "La rupture conventionnelle continue de pouvoir ouvrir droit au chômage sous conditions.",
+      "La réforme annoncée réduit surtout la durée maximale d’indemnisation.",
+      "L’indemnité minimale de rupture conventionnelle n’est pas supprimée.",
+      "Les textes publiés et les règles France Travail doivent être revérifiés avant signature."
+    ];
+  }
 
   if (normalized.includes("chômage")) {
     return [
@@ -102,6 +124,14 @@ function buildExample(h1: string) {
       situation: "Avant d’envoyer une demande",
       body:
         "Un salarié peut préparer une demande courte, puis estimer son indemnité avant l’échange pour parler du calendrier et du montant avec plus de clarté."
+    };
+  }
+
+  if (normalized.includes("réforme") || normalized.includes("2026")) {
+    return {
+      situation: "Après l'adoption parlementaire du 2 juin 2026",
+      body:
+        "Une personne qui envisage une rupture conventionnelle doit continuer à calculer son indemnité minimale, puis vérifier séparément la durée maximale d'indemnisation chômage applicable à sa date de fin de contrat."
     };
   }
 
@@ -206,7 +236,9 @@ export function SeoContentLayout({
   h1,
   intro,
   relatedLinks,
-  sections
+  sections,
+  updatedAt,
+  updatedLabel
 }: SeoContentLayoutProps) {
   const displayH1 = buildCtrTitle(h1);
   const normalizedH1 = h1.toLocaleLowerCase("fr-FR");
@@ -269,7 +301,7 @@ export function SeoContentLayout({
     headline: displayH1,
     description: intro[0],
     mainEntityOfPage: absoluteUrl(canonicalPath),
-    dateModified: "2026-05-06",
+    dateModified: updatedAt ?? "2026-05-06",
     author: {
       "@type": "Organization",
       name: siteName
@@ -313,6 +345,12 @@ export function SeoContentLayout({
             ))}
           </div>
 
+          {updatedLabel ? (
+            <p className="mt-5 rounded-2xl bg-[#F7FBFA] p-4 text-sm font-bold leading-7 text-[#102A4C]">
+              {updatedLabel}
+            </p>
+          ) : null}
+
           <TrackedSimulatorLink
             buttonType="hero"
             className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
@@ -323,6 +361,9 @@ export function SeoContentLayout({
 
         <div className="mt-10 space-y-10">
           <AdSlot format="horizontal" position="top" />
+          {REFORM_NOTICE_PATHS.has(canonicalPath) ? (
+            <RuptureReformNotice compact />
+          ) : null}
           <KeyTakeaways items={buildTakeaways(h1)} />
           <TrustPanel />
           {shouldShowHubCta ? (
@@ -397,6 +438,33 @@ export function SeoContentLayout({
                       <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
+                ) : null}
+
+                {section.table ? (
+                  <div className="overflow-x-auto rounded-2xl border border-[#E5EEF0]">
+                    <table className="min-w-full divide-y divide-[#E5EEF0] text-left text-sm">
+                      <thead className="bg-[#F7FBFA] text-[#102A4C]">
+                        <tr>
+                          {section.table.headers.map((header) => (
+                            <th className="px-4 py-3 font-extrabold" key={header}>
+                              {header}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#E5EEF0] bg-white text-[#5B6B7C]">
+                        {section.table.rows.map((row) => (
+                          <tr key={row.join("|")}>
+                            {row.map((cell) => (
+                              <td className="px-4 py-3 align-top" key={cell}>
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : null}
 
                 {section.boxedText &&

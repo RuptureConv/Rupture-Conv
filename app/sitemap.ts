@@ -20,6 +20,16 @@ const NON_CANONICAL_BLOG_SLUGS = new Set(
     .map((post) => post.slug)
 );
 
+const REFORM_2026_SLUGS = new Set([
+  "reforme-rupture-conventionnelle-2026",
+  "rupture-conventionnelle-chomage-2026",
+  "rupture-conventionnelle-senior-55-ans-2026",
+  "rupture-conventionnelle-employeur-cout-2026",
+  "rupture-conventionnelle-avant-apres-reforme-2026"
+]);
+
+const REFORM_2026_LAST_MODIFIED = new Date("2026-06-03T08:00:00.000Z");
+
 function daysAgo(days: number): Date {
   const date = new Date();
   date.setUTCHours(8, 0, 0, 0);
@@ -69,7 +79,18 @@ function getSeoPages(): SitemapRoute[] {
       .filter((page) => page.slug !== "simulateur-rupture-conventionnelle")
       .filter((page) => !parseProgrammaticSeoSlug(page.slug))
       .filter((page) => !["a-propos", "sources-juridiques"].includes(page.slug))
-      .map((page) => createRoute(`/${page.slug}`, 0.9, "weekly", 14)),
+      .map((page) => {
+        if (REFORM_2026_SLUGS.has(page.slug)) {
+          return {
+            path: `/${page.slug}`,
+            lastModified: REFORM_2026_LAST_MODIFIED,
+            priority: page.slug === "reforme-rupture-conventionnelle-2026" ? 1 : 0.9,
+            changeFrequency: "daily" as const
+          };
+        }
+
+        return createRoute(`/${page.slug}`, 0.9, "weekly", 14);
+      }),
     ...comparisonPages.map((page) => createRoute(`/${page.slug}`, 0.9, "weekly", 14))
   ];
 }

@@ -3,6 +3,14 @@ import type { Route } from "next";
 
 const internalLinks = [
   {
+    href: "/reforme-rupture-conventionnelle-2026",
+    label: "réforme rupture conventionnelle 2026"
+  },
+  {
+    href: "/rupture-conventionnelle-chomage-2026",
+    label: "chômage après rupture conventionnelle en 2026"
+  },
+  {
     href: "/rupture-conventionnelle",
     label: "guide complet rupture conventionnelle"
   },

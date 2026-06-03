@@ -3,6 +3,7 @@ import type { Route } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
+import { RuptureReformNotice } from "@/components/seo/RuptureReformNotice";
 import { absoluteUrl } from "@/lib/seo-content";
 import { siteName } from "@/lib/site";
 
@@ -40,6 +41,12 @@ export const metadata: Metadata = {
 };
 
 const quickActions = [
+  {
+    title: "Réforme 2026 chômage",
+    text: "Le droit au chômage reste possible, mais la durée maximale annoncée évolue.",
+    href: "/reforme-rupture-conventionnelle-2026",
+    label: "Voir la réforme"
+  },
   {
     title: "Calculer mon indemnité",
     text: "Vous voulez surtout savoir combien vous pouvez toucher ? Commencez par le calcul.",
@@ -282,6 +289,7 @@ const faq = [
 ];
 
 const sidebarLinks = [
+  ["Réforme 2026", "#reforme-2026"],
   ["Comprendre", "#comprendre"],
   ["Parcours", "#parcours"],
   ["Outils", "#outils"],
@@ -431,6 +439,10 @@ export default function RuptureConventionnelleHubPage() {
         </aside>
 
         <div className="space-y-12">
+          <section id="reforme-2026" className="scroll-mt-24">
+            <RuptureReformNotice />
+          </section>
+
           <section aria-labelledby="actions-title">
             <div className="flex items-end justify-between gap-4">
               <div>

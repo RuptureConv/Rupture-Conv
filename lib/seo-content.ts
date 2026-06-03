@@ -10,6 +10,10 @@ export type SeoSection = {
   paragraphs: string[];
   bullets?: string[];
   boxedText?: string[];
+  table?: {
+    headers: string[];
+    rows: string[][];
+  };
 };
 
 export type PillarPage = {
@@ -17,6 +21,8 @@ export type PillarPage = {
   title: string;
   h1: string;
   description: string;
+  updatedAt?: string;
+  updatedLabel?: string;
   intro: string[];
   sections: SeoSection[];
   faq: FaqEntry[];
@@ -36,6 +42,89 @@ export type BlogPost = {
 
 export const mandatoryDisclaimer =
   "Ce simulateur fournit une estimation indicative et ne remplace pas un conseil juridique personnalisé.";
+
+export const reform2026Disclaimer =
+  "Réforme 2026 : informations à vérifier selon la date de publication au Journal officiel et les textes d'application ou d'agrément. La réforme annoncée concerne principalement la durée maximale d'indemnisation chômage après une rupture conventionnelle individuelle, pas le calcul de l'indemnité minimale.";
+
+export const reform2026MainPath = "/reforme-rupture-conventionnelle-2026";
+
+const reform2026Links = [
+  "/reforme-rupture-conventionnelle-2026",
+  "/rupture-conventionnelle-chomage-2026",
+  "/rupture-conventionnelle-senior-55-ans-2026",
+  "/rupture-conventionnelle-employeur-cout-2026",
+  "/rupture-conventionnelle-avant-apres-reforme-2026"
+];
+
+const reform2026RelatedLinks = [
+  "/simulateur-rupture-conventionnelle",
+  "/rupture-conventionnelle-chomage",
+  "/indemnite-legale-rupture-conventionnelle",
+  "/modele-lettre-rupture-conventionnelle",
+  ...reform2026Links
+];
+
+const reformSourceBullets = [
+  "Assemblée nationale : dossier législatif du projet de loi adopté sans modification en deuxième lecture le 2 juin 2026.",
+  "Sénat : dossier législatif et rapports sur le projet de loi de transposition de l'avenant n°3 du 25 février 2026.",
+  "Conseil d'État : avis du 19 mars 2026 sur le projet de loi et la base légale de la modulation.",
+  "Service-Public.fr : rappel que la rupture conventionnelle permet toujours, sous conditions, une indemnisation France Travail et que l'indemnité minimale reste due.",
+  "Service-Public.fr : contribution patronale spécifique portée à 40 % sur la part exonérée de cotisations sociales."
+];
+
+const reform2026Faq: FaqEntry[] = [
+  {
+    question: "La rupture conventionnelle donne-t-elle encore droit au chômage en 2026 ?",
+    answer:
+      "Oui, elle continue de pouvoir ouvrir droit au chômage si les conditions habituelles sont remplies. La réforme 2026 porte surtout sur la durée maximale d'indemnisation, pas sur la disparition du droit."
+  },
+  {
+    question: "La réforme supprime-t-elle l'indemnité de rupture conventionnelle ?",
+    answer:
+      "Non. L'indemnité spécifique de rupture conventionnelle reste due et ne peut pas être inférieure au minimum légal ou conventionnel applicable."
+  },
+  {
+    question: "Qu'est-ce qui change pour les moins de 55 ans ?",
+    answer:
+      "La durée maximale d'indemnisation chômage après une rupture conventionnelle individuelle serait réduite à 15 mois en métropole, contre 18 mois auparavant, sous réserve des textes définitivement applicables."
+  },
+  {
+    question: "Qu'est-ce qui change pour les salariés de 55 ans et plus ?",
+    answer:
+      "La durée maximale serait réduite à 20,5 mois pour les salariés seniors concernés, avec une vérification nécessaire selon l'âge exact, la date de fin de contrat et les textes d'agrément."
+  },
+  {
+    question: "La réforme concerne-t-elle le montant de l'ARE ?",
+    answer:
+      "Les informations disponibles visent principalement la durée maximale d'indemnisation. Le montant de l'allocation dépend toujours des règles France Travail et de la situation individuelle."
+  },
+  {
+    question: "Les règles sont-elles déjà applicables ?",
+    answer:
+      "Le Parlement a adopté le texte le 2 juin 2026, mais il faut rester prudent sur l'entrée en vigueur concrète : publication au Journal officiel, agrément et textes d'application doivent être vérifiés."
+  },
+  {
+    question: "Que doit vérifier un employeur en 2026 ?",
+    answer:
+      "L'employeur doit vérifier le coût global, notamment l'indemnité, les congés payés, le calendrier, les documents de fin de contrat et la contribution patronale spécifique de 40 % sur la part exonérée de cotisations sociales."
+  }
+];
+
+const reformNoticeSection: SeoSection = {
+  title: "Réforme 2026 : ce qu'il faut garder en tête",
+  paragraphs: [
+    "Le Parlement a adopté le 2 juin 2026 le texte de transposition de l'avenant n°3 relatif à l'assurance chômage. Pour une rupture conventionnelle individuelle, la réforme vise surtout la durée maximale d'indemnisation chômage.",
+    "La rupture conventionnelle continue de pouvoir ouvrir droit au chômage si les conditions habituelles sont remplies. Le calcul de l'indemnité minimale n'est pas supprimé par cette réforme.",
+    reform2026Disclaimer
+  ],
+  bullets: [
+    "Moins de 55 ans : durée maximale annoncée à 15 mois en métropole.",
+    "Seniors : durée maximale annoncée à 20,5 mois pour les salariés concernés.",
+    "Outre-mer hors Mayotte : durées spécifiques annoncées selon l'âge.",
+    "Employeurs : contribution patronale spécifique de 40 % depuis le 1er janvier 2026 sur la part exonérée de cotisations sociales.",
+    "Lire le guide complet : /reforme-rupture-conventionnelle-2026"
+  ]
+};
 
 const commonSimulatorCta =
   "Utilisez le simulateur de rupture conventionnelle pour obtenir une première estimation du minimum brut, un net indicatif et une base de discussion. Le résultat doit ensuite être vérifié avec les bulletins de paie, la convention collective applicable et le contexte exact du dossier.";
@@ -1399,10 +1488,522 @@ const eeatPages: PillarPage[] = [
   }
 ];
 
+const reform2026Pages: PillarPage[] = [
+  {
+    slug: "reforme-rupture-conventionnelle-2026",
+    title: "Réforme rupture conventionnelle 2026 : ce qui change pour le chômage",
+    h1: "Réforme rupture conventionnelle 2026 : ce qui change pour le chômage",
+    description:
+      "La rupture conventionnelle donne-t-elle toujours droit au chômage en 2026 ? Durée réduite, salariés de moins de 55 ans, seniors, employeurs : le point clair sur la réforme.",
+    updatedAt: "2026-06-03",
+    updatedLabel: "Dernière mise à jour : juin 2026",
+    relatedLinks: reform2026RelatedLinks,
+    intro: [
+      "La réforme 2026 ne signe pas la fin de la rupture conventionnelle. Elle ne supprime pas non plus l'indemnité spécifique. Le changement principal annoncé concerne la durée maximale d'indemnisation chômage après une rupture conventionnelle individuelle.",
+      "À la date du 3 juin 2026, le Parlement a définitivement adopté le texte transposant l'avenant n°3 du 25 février 2026 relatif à l'assurance chômage. Le contenu doit toutefois rester prudent jusqu'à la publication au Journal officiel et aux textes d'application ou d'agrément.",
+      reform2026Disclaimer
+    ],
+    sections: [
+      {
+        title: "Ce qui change vraiment",
+        paragraphs: [
+          "La réforme vise principalement la durée maximale pendant laquelle une personne peut être indemnisée par l'assurance chômage après une rupture conventionnelle individuelle, lorsque les conditions d'ouverture de droits sont remplies.",
+          "Pour les salariés de moins de 55 ans en métropole, la durée maximale annoncée passerait de 18 mois à 15 mois. Pour les salariés seniors concernés, la durée maximale serait réduite à 20,5 mois. Des durées spécifiques sont prévues pour l'outre-mer hors Mayotte."
+        ],
+        bullets: [
+          "Durée maximale d'indemnisation réduite pour les moins de 55 ans.",
+          "Durée maximale également réduite pour les salariés seniors concernés.",
+          "Accompagnement renforcé par France Travail annoncé.",
+          "Durées particulières pour l'outre-mer hors Mayotte.",
+          "Entrée en vigueur concrète à vérifier avec les textes publiés."
+        ]
+      },
+      {
+        title: "Ce qui ne change pas",
+        paragraphs: [
+          "La rupture conventionnelle homologuée continue de pouvoir ouvrir droit au chômage si les conditions habituelles sont réunies. Il ne faut donc pas écrire ou retenir que la rupture conventionnelle ne donne plus droit au chômage.",
+          "L'indemnité spécifique de rupture conventionnelle reste due. Son minimum continue de dépendre notamment de l'ancienneté, du salaire de référence et, le cas échéant, d'une convention collective plus favorable."
+        ],
+        bullets: [
+          "Le principe d'ouverture possible des droits au chômage est maintenu.",
+          "L'indemnité minimale n'est pas supprimée.",
+          "La procédure de rupture conventionnelle reste encadrée.",
+          "Les différés France Travail et les documents de fin de contrat restent à vérifier."
+        ]
+      },
+      {
+        title: "Avant / après réforme 2026",
+        paragraphs: [
+          "Le tableau ci-dessous résume les principaux repères connus au 3 juin 2026. Il simplifie volontairement la lecture et doit être vérifié avec les textes d'application et les règles France Travail à jour."
+        ],
+        table: {
+          headers: ["Situation", "Avant", "Après réforme annoncée"],
+          rows: [
+            ["Moins de 55 ans en métropole", "18 mois maximum", "15 mois maximum"],
+            [
+              "55 ans et plus / seniors concernés",
+              "22,5 mois ou 27 mois selon les cas",
+              "20,5 mois maximum annoncé"
+            ],
+            [
+              "Outre-mer hors Mayotte",
+              "Durées spécifiques selon les règles applicables",
+              "20 mois ou 30 mois selon l'âge"
+            ],
+            [
+              "Droit au chômage après rupture conventionnelle",
+              "Possible sous conditions",
+              "Toujours possible sous conditions"
+            ],
+            [
+              "Indemnité minimale de rupture",
+              "Minimum légal ou conventionnel",
+              "Pas de suppression annoncée"
+            ]
+          ]
+        }
+      },
+      {
+        title: "Cas des salariés de moins de 55 ans",
+        paragraphs: [
+          "Pour un salarié de moins de 55 ans, le point de vigilance principal devient la durée maximale d'indemnisation. Le droit peut exister, mais la période maximale couverte serait plus courte qu'auparavant.",
+          "Exemple : un salarié de 42 ans qui signe une rupture conventionnelle peut toujours faire examiner ses droits par France Travail. En revanche, la durée maximale annoncée serait de 15 mois, sous réserve de son dossier et des textes applicables."
+        ]
+      },
+      {
+        title: "Cas des salariés de 55 ans et plus",
+        paragraphs: [
+          "Pour les salariés seniors, la réforme réduit aussi la durée maximale annoncée. Le sujet doit être traité avec prudence, car l'âge exact, la date de rupture, les règles d'affiliation et les textes d'application peuvent changer l'analyse.",
+          "Avant de signer une rupture conventionnelle proche de 55 ans ou après 55 ans, il est conseillé de vérifier séparément le montant de l'indemnité, le calendrier de départ, les droits France Travail et la situation retraite."
+        ]
+      },
+      {
+        title: "Cas de l'outre-mer hors Mayotte",
+        paragraphs: [
+          "Les informations disponibles prévoient des durées spécifiques pour l'outre-mer hors Mayotte : 20 mois ou 30 mois selon l'âge. Cette mention doit être maniée avec prudence, car le territoire, l'âge et les textes applicables peuvent modifier le résultat.",
+          "Pour une situation en outre-mer, il est préférable de vérifier les règles auprès de France Travail et des sources officielles au moment de la fin du contrat."
+        ]
+      },
+      {
+        title: "Impact pour les salariés",
+        paragraphs: [
+          "Le premier impact est pratique : si la durée maximale d'indemnisation baisse, la transition professionnelle doit être préparée avec davantage d'anticipation. Cela ne signifie pas que les droits disparaissent, mais que le calendrier peut devenir plus contraint.",
+          "Le bon réflexe reste de distinguer trois sujets : l'indemnité versée à la rupture, le droit potentiel à l'ARE et le début effectif du paiement après les éventuels différés."
+        ]
+      },
+      {
+        title: "Impact pour les employeurs",
+        paragraphs: [
+          "Pour l'employeur, la réforme chômage ne modifie pas le minimum d'indemnité à verser au salarié. En revanche, le coût global doit être regardé avec la contribution patronale spécifique sur les indemnités de rupture conventionnelle et de mise à la retraite, portée à 40 % au 1er janvier 2026 sur la part exonérée de cotisations sociales.",
+          "Le dossier doit aussi rester clair pour éviter une mauvaise information du salarié : la rupture conventionnelle n'est pas privée de chômage, mais la durée maximale d'indemnisation peut être réduite."
+        ]
+      },
+      {
+        title: "Impact sur le calcul de l'indemnité",
+        paragraphs: [
+          "La réforme 2026 ne change pas le calcul de l'indemnité minimale de rupture conventionnelle. Le simulateur RuptureConv continue donc d'estimer le minimum brut à partir de l'ancienneté et du salaire de référence.",
+          "En pratique, il faut continuer à vérifier la convention collective, les primes, les absences, la date de rupture et la part éventuellement négociée au-delà du minimum."
+        ]
+      },
+      {
+        title: "Exemple concret",
+        paragraphs: [
+          "Une salariée de 38 ans avec 6 ans d'ancienneté et 2 500 euros bruts mensuels peut estimer son indemnité minimale avec la formule habituelle : 2 500 x 1/4 x 6, soit 3 750 euros bruts avant vérification conventionnelle.",
+          "La réforme ne retire pas cette indemnité. Le changement se situe plutôt du côté de la durée maximale d'indemnisation chômage, qui serait de 15 mois pour un profil de moins de 55 ans en métropole, sous réserve des règles applicables."
+        ]
+      },
+      {
+        title: "À retenir",
+        paragraphs: [
+          "La bonne lecture est simple : l'indemnité minimale reste à calculer comme avant, l'ouverture possible au chômage est maintenue sous conditions, mais la durée maximale d'indemnisation annoncée baisse.",
+          "Avant une signature en 2026, vérifiez donc à la fois le montant de rupture, le coût employeur éventuel, les textes de publication et les règles France Travail à jour."
+        ],
+        bullets: [
+          "La rupture conventionnelle continue de pouvoir ouvrir droit au chômage.",
+          "La durée maximale d'indemnisation serait réduite.",
+          "L'indemnité minimale n'est pas supprimée.",
+          "Les employeurs doivent intégrer la contribution patronale spécifique de 40 %.",
+          "Le simulateur reste utile pour le calcul de l'indemnité, pas pour calculer les droits ARE."
+        ]
+      },
+      {
+        title: "Sources officielles à vérifier",
+        paragraphs: [
+          "Cette page est fondée sur les sources officielles et institutionnelles disponibles au 3 juin 2026. Les règles doivent être revérifiées avant mise en production définitive et après publication des textes attendus."
+        ],
+        bullets: reformSourceBullets
+      }
+    ],
+    faq: reform2026Faq,
+    conclusion: [
+      "La réforme 2026 doit être expliquée sans dramatiser : elle réduit la durée maximale d'indemnisation chômage annoncée, mais elle ne supprime ni le principe d'un droit possible au chômage, ni le minimum d'indemnité de rupture conventionnelle.",
+      "Pour une décision concrète, estimez l'indemnité avec vos chiffres, puis vérifiez les droits France Travail selon la date exacte de rupture et les textes publiés."
+    ]
+  },
+  {
+    slug: "rupture-conventionnelle-chomage-2026",
+    title: "Rupture conventionnelle et chômage en 2026",
+    h1: "La rupture conventionnelle donne-t-elle encore droit au chômage en 2026 ?",
+    description:
+      "Rupture conventionnelle et chômage en 2026 : droit maintenu sous conditions, durée maximale réduite, salariés de moins de 55 ans et points à vérifier.",
+    updatedAt: "2026-06-03",
+    updatedLabel: "Dernière mise à jour : juin 2026",
+    relatedLinks: reform2026RelatedLinks,
+    intro: [
+      "Oui, une rupture conventionnelle peut encore ouvrir droit au chômage en 2026 si les conditions habituelles sont remplies. La réforme annoncée ne supprime pas ce principe.",
+      "Le changement à retenir concerne surtout la durée maximale d'indemnisation : elle serait réduite pour les moins de 55 ans et pour les salariés seniors concernés. Il faut toutefois vérifier l'entrée en vigueur concrète avec les textes publiés.",
+      reform2026Disclaimer
+    ],
+    sections: [
+      {
+        title: "Le droit au chômage reste possible",
+        paragraphs: [
+          "La rupture conventionnelle homologuée reste un mode de rupture qui peut permettre une indemnisation par France Travail. Le salarié doit toutefois remplir les conditions générales : affiliation suffisante, inscription, recherche d'emploi et dossier conforme.",
+          "Il ne faut donc pas confondre deux choses : le principe d'ouverture possible des droits, qui reste maintenu, et la durée maximale d'indemnisation, qui est le point visé par la réforme."
+        ]
+      },
+      {
+        title: "Ce qui change en 2026",
+        paragraphs: [
+          "Pour les moins de 55 ans, la durée maximale annoncée passerait à 15 mois en métropole. Pour les salariés de 55 ans et plus concernés, la durée maximale serait réduite à 20,5 mois.",
+          "Ces repères doivent être confirmés selon la date de rupture, les textes d'application, l'agrément et les informations France Travail à jour."
+        ],
+        table: {
+          headers: ["Profil", "Repère annoncé 2026", "À vérifier"],
+          rows: [
+            ["Moins de 55 ans", "15 mois maximum", "Date de fin de contrat et droits ouverts"],
+            ["55 ans et plus", "20,5 mois maximum", "Âge exact et règles applicables"],
+            ["Outre-mer hors Mayotte", "20 ou 30 mois", "Territoire, âge et textes publiés"]
+          ]
+        }
+      },
+      {
+        title: "Exemple simple pour un salarié inquiet",
+        paragraphs: [
+          "Un salarié de 45 ans signe une rupture conventionnelle en 2026. Il peut toujours faire examiner ses droits au chômage après la fin du contrat, avec l'attestation employeur et son inscription France Travail.",
+          "La différence est que la durée maximale annoncée serait plus courte : 15 mois au lieu de 18 mois en métropole, si les textes applicables confirment ce régime pour sa date de rupture."
+        ]
+      },
+      {
+        title: "Ce que la réforme ne change pas",
+        paragraphs: [
+          "La réforme ne supprime pas l'indemnité spécifique de rupture conventionnelle. Elle ne modifie pas non plus le besoin de vérifier le salaire de référence, l'ancienneté, les congés payés et la convention collective.",
+          "Une indemnité supra-légale peut toujours avoir un effet sur les différés d'indemnisation. Ce point reste distinct de la durée maximale totale."
+        ]
+      },
+      {
+        title: "Avant de signer",
+        paragraphs: [
+          "Avant de signer, estimez l'indemnité minimale, relisez le calendrier, vérifiez les documents de fin de contrat et posez explicitement la question de vos droits à France Travail.",
+          "Le simulateur RuptureConv aide à estimer l'indemnité de rupture. Il ne calcule pas les droits ARE, qui doivent être vérifiés auprès des sources officielles."
+        ],
+        bullets: [
+          "Simuler l'indemnité : /simulateur-rupture-conventionnelle",
+          "Lire le guide réforme : /reforme-rupture-conventionnelle-2026",
+          "Préparer une demande : /modele-lettre-rupture-conventionnelle",
+          "Comprendre les différés : /rupture-conventionnelle-chomage"
+        ]
+      },
+      {
+        title: "Sources officielles à vérifier",
+        paragraphs: [
+          "La situation doit être suivie après publication au Journal officiel et mise à jour des fiches France Travail, Service-Public.fr ou Unédic."
+        ],
+        bullets: reformSourceBullets
+      }
+    ],
+    faq: reform2026Faq.slice(0, 6),
+    conclusion: [
+      "La réponse rassurante est oui : la rupture conventionnelle peut encore ouvrir droit au chômage en 2026. La réponse prudente est qu'il faut vérifier la durée maximale applicable à votre date de rupture.",
+      "Ne signez pas uniquement sur une idée générale de la réforme : séparez l'indemnité, les droits chômage, les différés et les textes applicables."
+    ]
+  },
+  {
+    slug: "rupture-conventionnelle-senior-55-ans-2026",
+    title: "Rupture conventionnelle senior 55 ans 2026",
+    h1: "Rupture conventionnelle après 55 ans : ce que la réforme change pour le chômage",
+    description:
+      "Rupture conventionnelle après 55 ans en 2026 : durée maximale d'indemnisation réduite, droit au chômage maintenu sous conditions et prudence avant signature.",
+    updatedAt: "2026-06-03",
+    updatedLabel: "Dernière mise à jour : juin 2026",
+    relatedLinks: reform2026RelatedLinks,
+    intro: [
+      "Après 55 ans, une rupture conventionnelle doit être préparée avec une attention particulière : indemnité, chômage, retraite, calendrier et documents de fin de contrat se répondent.",
+      "La réforme 2026 ne supprime pas le droit possible au chômage, mais elle réduit la durée maximale annoncée pour les salariés seniors concernés. Les règles exactes doivent être vérifiées selon l'âge, la date de rupture et les textes applicables.",
+      reform2026Disclaimer
+    ],
+    sections: [
+      {
+        title: "Ce qui change pour les seniors",
+        paragraphs: [
+          "La durée maximale d'indemnisation des salariés seniors concernés serait ramenée à 20,5 mois. Cette baisse doit être comparée aux durées antérieures de 22,5 mois ou 27 mois selon les cas.",
+          "La situation d'un salarié proche de 55 ans ou au-delà de 55 ans doit rester individualisée. Un mois de différence, une date de fin de contrat ou un texte d'application peuvent modifier la lecture."
+        ],
+        table: {
+          headers: ["Sujet", "Repère prudent"],
+          rows: [
+            ["Droit au chômage", "Maintenu sous conditions"],
+            ["Durée maximale annoncée", "20,5 mois pour les seniors concernés"],
+            ["Indemnité minimale", "Non supprimée par la réforme"],
+            ["Retraite", "À vérifier séparément selon la situation"]
+          ]
+        }
+      },
+      {
+        title: "Exemple de situation",
+        paragraphs: [
+          "Un salarié de 57 ans avec 18 ans d'ancienneté envisage une rupture conventionnelle. Il doit d'abord estimer son indemnité minimale avec la règle habituelle, puis vérifier s'il existe une règle conventionnelle plus favorable.",
+          "Ensuite seulement, il doit regarder les droits France Travail, la durée maximale applicable, les éventuels différés et le lien avec son calendrier retraite. La réforme chômage ne remplace pas cette analyse globale."
+        ]
+      },
+      {
+        title: "Points à vérifier avant signature",
+        paragraphs: [
+          "La vigilance porte surtout sur les dates : date d'entrée, date de rupture, date d'inscription France Travail, date d'âge pivot éventuelle et date de départ à la retraite envisagée.",
+          "Il est aussi utile de comparer le montant négocié avec le calendrier d'indemnisation. Une indemnité plus élevée peut aider à financer la transition, mais elle peut aussi interagir avec certains différés."
+        ],
+        bullets: [
+          "Ancienneté et salaire de référence.",
+          "Convention collective et part négociée.",
+          "Durée maximale d'indemnisation applicable.",
+          "Différés France Travail éventuels.",
+          "Situation retraite et accompagnement France Travail."
+        ]
+      },
+      {
+        title: "Ce qui ne change pas",
+        paragraphs: [
+          "La rupture conventionnelle reste un accord libre entre salarié et employeur. Elle ne peut pas être imposée et doit respecter la procédure d'homologation.",
+          "Le minimum d'indemnité reste dû. La réforme ne transforme pas la rupture conventionnelle en démission et ne supprime pas l'accès possible au chômage."
+        ]
+      },
+      {
+        title: "Sources officielles à vérifier",
+        paragraphs: [
+          "Pour les seniors, la prudence est particulièrement importante : vérifiez les textes publiés, les informations France Travail et, si nécessaire, la situation retraite avec les organismes compétents."
+        ],
+        bullets: reformSourceBullets
+      }
+    ],
+    faq: [
+      ...reform2026Faq.slice(0, 2),
+      reform2026Faq[3],
+      {
+        question: "Faut-il attendre 55 ans pour signer ?",
+        answer:
+          "Il ne faut pas décider uniquement sur ce critère. L'âge exact, la date de rupture, les textes applicables, l'indemnité, les différés et la retraite doivent être regardés ensemble."
+      },
+      {
+        question: "La retraite est-elle calculée par RuptureConv ?",
+        answer:
+          "Non. RuptureConv estime l'indemnité de rupture conventionnelle. Les effets retraite et France Travail doivent être vérifiés auprès des organismes compétents."
+      },
+      {
+        question: "Un senior peut-il négocier plus que le minimum ?",
+        answer:
+          "Oui, si l'employeur l'accepte. Le minimum reste un plancher, et une part supra-légale peut être discutée selon le contexte."
+      }
+    ],
+    conclusion: [
+      "Pour un salarié senior, la réforme 2026 impose surtout de mieux anticiper la durée maximale d'indemnisation. Elle ne supprime pas l'indemnité ni le droit possible au chômage.",
+      "Avant de signer, estimez l'indemnité, vérifiez les textes à jour et relisez la situation France Travail et retraite avec prudence."
+    ]
+  },
+  {
+    slug: "rupture-conventionnelle-employeur-cout-2026",
+    title: "Rupture conventionnelle employeur coût 2026",
+    h1: "Rupture conventionnelle en 2026 : coût employeur, contribution patronale 40 %, chômage et vigilance RH",
+    description:
+      "Rupture conventionnelle côté employeur en 2026 : indemnité, contribution patronale 40 %, coût global, chômage du salarié et points RH à vérifier.",
+    updatedAt: "2026-06-03",
+    updatedLabel: "Dernière mise à jour : juin 2026",
+    relatedLinks: reform2026RelatedLinks,
+    intro: [
+      "Côté employeur, la réforme chômage 2026 ne dispense pas de calculer correctement l'indemnité de rupture conventionnelle. Le minimum reste dû et le salarié peut toujours ouvrir des droits au chômage sous conditions.",
+      "Le point coût à intégrer en 2026 est la contribution patronale spécifique portée à 40 % au 1er janvier 2026 sur la part exonérée de cotisations sociales des indemnités de rupture conventionnelle et de mise à la retraite.",
+      reform2026Disclaimer
+    ],
+    sections: [
+      {
+        title: "Les postes de coût à anticiper",
+        paragraphs: [
+          "Le coût employeur ne se limite pas à l'indemnité spécifique. Il faut aussi intégrer les congés payés, les salaires jusqu'à la date de rupture, les éventuelles primes, les documents de fin de contrat et la contribution patronale spécifique.",
+          "La réforme chômage doit être présentée au salarié avec prudence : elle réduit une durée maximale annoncée, mais ne supprime pas le droit possible au chômage."
+        ],
+        bullets: [
+          "Indemnité minimale ou conventionnelle.",
+          "Part supra-légale éventuellement négociée.",
+          "Congés payés et éléments variables.",
+          "Contribution patronale spécifique de 40 %.",
+          "Calendrier et documents de fin de contrat."
+        ]
+      },
+      {
+        title: "Contribution patronale 40 %",
+        paragraphs: [
+          "Depuis le 1er janvier 2026, la contribution patronale spécifique sur les indemnités de rupture conventionnelle et de mise à la retraite est indiquée à 40 % sur la part exonérée de cotisations sociales.",
+          "Cette contribution doit être vérifiée avec la paie ou le conseil social, notamment en cas d'indemnité importante, de part supra-légale ou de situation proche de la retraite."
+        ]
+      },
+      {
+        title: "Exemple de lecture RH",
+        paragraphs: [
+          "Une entreprise envisage une rupture conventionnelle avec une indemnité minimale de 6 000 euros bruts et une part négociée supplémentaire. Elle doit distinguer le minimum, la part supra-légale, le traitement social, fiscal et la contribution patronale applicable.",
+          "Le simulateur donne une première estimation de l'indemnité. Il ne remplace pas un bulletin de paie de sortie ni une validation sociale complète."
+        ]
+      },
+      {
+        title: "Informer sans inquiéter",
+        paragraphs: [
+          "Un employeur doit éviter les formulations alarmistes comme « vous n'aurez plus droit au chômage ». La formulation correcte est plus nuancée : la rupture conventionnelle peut ouvrir droit au chômage sous conditions, mais la durée maximale d'indemnisation est réduite par la réforme annoncée.",
+          "Cette précision évite de fragiliser l'échange et montre que l'entreprise distingue bien le calcul de l'indemnité, le coût employeur et les droits France Travail."
+        ]
+      },
+      {
+        title: "Checklist avant homologation",
+        paragraphs: [
+          "Avant l'envoi du dossier, vérifiez que le montant respecte le minimum, que les dates sont cohérentes, que la convention collective a été relue et que le salarié reçoit une information claire sur les documents de fin de contrat.",
+          "En cas de doute sur la date d'application de la réforme, il est préférable d'ajouter une mention de prudence plutôt qu'une affirmation définitive."
+        ],
+        bullets: [
+          "Montant minimal contrôlé.",
+          "Contribution patronale 40 % intégrée au budget.",
+          "Date de rupture compatible avec les délais.",
+          "Information chômage formulée sans promesse absolue.",
+          "Textes 2026 revérifiés avant signature."
+        ]
+      },
+      {
+        title: "Sources officielles à vérifier",
+        paragraphs: [
+          "Les règles sociales et paie doivent être vérifiées avec les sources officielles au moment de la rupture, surtout si la signature intervient peu après la publication des textes."
+        ],
+        bullets: reformSourceBullets
+      }
+    ],
+    faq: [
+      reform2026Faq[0],
+      reform2026Faq[1],
+      reform2026Faq[6],
+      {
+        question: "La réforme change-t-elle le calcul employeur de l'indemnité minimale ?",
+        answer:
+          "Non. La réforme chômage annoncée ne modifie pas la formule du minimum. L'employeur doit toujours vérifier l'ancienneté, le salaire de référence et la convention collective."
+      },
+      {
+        question: "Faut-il informer le salarié sur la réforme ?",
+        answer:
+          "Il est utile de donner une information prudente et claire, sans affirmer que le droit au chômage disparaît. Les droits exacts relèvent de France Travail."
+      },
+      {
+        question: "Le simulateur calcule-t-il le coût employeur complet ?",
+        answer:
+          "Non. Il estime l'indemnité de rupture. Le coût global employeur doit être validé avec la paie, notamment pour la contribution patronale et le traitement social."
+      }
+    ],
+    conclusion: [
+      "En 2026, l'employeur doit raisonner en trois blocs : indemnité minimale, coût social de sortie et information prudente sur le chômage.",
+      "La réforme ne change pas le minimum d'indemnité, mais elle impose une vigilance accrue sur la durée maximale d'indemnisation et sur la contribution patronale spécifique."
+    ]
+  },
+  {
+    slug: "rupture-conventionnelle-avant-apres-reforme-2026",
+    title: "Rupture conventionnelle avant après réforme 2026",
+    h1: "Avant / après réforme : tableau simple des nouvelles règles",
+    description:
+      "Tableau avant/après de la réforme 2026 de la rupture conventionnelle : chômage, moins de 55 ans, seniors, outre-mer, indemnité et coût employeur.",
+    updatedAt: "2026-06-03",
+    updatedLabel: "Dernière mise à jour : juin 2026",
+    relatedLinks: reform2026RelatedLinks,
+    intro: [
+      "Ce tableau résume les effets annoncés de la réforme 2026 sur la rupture conventionnelle et l'assurance chômage. Il sert de repère rapide, pas de consultation juridique personnalisée.",
+      "La règle clé : la réforme réduit surtout la durée maximale d'indemnisation chômage. Elle ne supprime ni l'indemnité minimale de rupture conventionnelle, ni le principe d'un droit possible au chômage sous conditions.",
+      reform2026Disclaimer
+    ],
+    sections: [
+      {
+        title: "Tableau avant / après",
+        paragraphs: [
+          "Les repères ci-dessous sont volontairement synthétiques. Ils doivent être relus avec la date de publication au Journal officiel, les textes d'application et les fiches France Travail à jour."
+        ],
+        table: {
+          headers: ["Thème", "Avant réforme", "Après réforme annoncée"],
+          rows: [
+            ["Moins de 55 ans", "18 mois maximum", "15 mois maximum"],
+            ["Seniors concernés", "22,5 mois ou 27 mois selon les cas", "20,5 mois maximum"],
+            ["Outre-mer hors Mayotte", "Durées spécifiques", "20 ou 30 mois selon l'âge"],
+            ["Droit au chômage", "Possible sous conditions", "Possible sous conditions"],
+            ["Indemnité minimale", "Due", "Toujours due"],
+            ["Contribution employeur", "30 % auparavant", "40 % depuis le 1er janvier 2026"]
+          ]
+        }
+      },
+      {
+        title: "Lecture rapide pour un salarié",
+        paragraphs: [
+          "Si vous êtes salarié, ne retenez pas que vos droits disparaissent. Retenez plutôt que la durée maximale peut être plus courte et que votre situation doit être vérifiée selon la date de rupture.",
+          "L'indemnité de rupture conventionnelle reste un sujet séparé : elle dépend de votre ancienneté, de votre salaire brut de référence et de la convention collective."
+        ]
+      },
+      {
+        title: "Lecture rapide pour un employeur",
+        paragraphs: [
+          "Si vous êtes employeur, le tableau ne remplace pas une validation paie. Il rappelle seulement les points à intégrer dans l'échange : indemnité, contribution spécifique de 40 %, documents de fin de contrat et information prudente sur le chômage.",
+          "Évitez les raccourcis : la rupture conventionnelle reste compatible avec une indemnisation chômage sous conditions."
+        ]
+      },
+      {
+        title: "Exemple synthétique",
+        paragraphs: [
+          "Un salarié de 50 ans en métropole ne perd pas mécaniquement son droit au chômage parce qu'il signe une rupture conventionnelle. En revanche, la durée maximale annoncée serait de 15 mois, contre 18 mois auparavant.",
+          "Le même salarié doit continuer à calculer son indemnité minimale comme avant. Une convention collective plus favorable ou une négociation peut augmenter le montant versé."
+        ]
+      },
+      {
+        title: "Sources officielles à vérifier",
+        paragraphs: [
+          "Ce comparatif doit être revérifié après publication et mise à jour des organismes publics. Les fiches opérationnelles de France Travail ou Service-Public peuvent préciser l'application concrète."
+        ],
+        bullets: reformSourceBullets
+      }
+    ],
+    faq: reform2026Faq,
+    conclusion: [
+      "Le tableau avant / après permet de retenir l'essentiel : durée maximale réduite, droit au chômage maintenu sous conditions, indemnité minimale maintenue.",
+      "Pour agir, faites ensuite deux vérifications séparées : le montant de votre indemnité avec le simulateur, puis vos droits France Travail avec les textes à jour."
+    ]
+  }
+];
+
+const reformNoticeTargetSlugs = new Set([
+  "simulateur-rupture-conventionnelle",
+  "calcul-indemnite-rupture-conventionnelle",
+  "calcul-indemnite-rupture-conventionnelle-net",
+  "indemnite-legale-rupture-conventionnelle",
+  "rupture-conventionnelle-cdi",
+  "rupture-conventionnelle-chomage",
+  "modele-lettre-rupture-conventionnelle"
+]);
+
+function withReformNotice(page: PillarPage): PillarPage {
+  if (!reformNoticeTargetSlugs.has(page.slug)) {
+    return page;
+  }
+
+  return {
+    ...page,
+    updatedAt: page.updatedAt ?? "2026-06-03",
+    updatedLabel: page.updatedLabel ?? "Dernière mise à jour : juin 2026",
+    relatedLinks: Array.from(new Set([reform2026MainPath, ...page.relatedLinks])),
+    sections: [reformNoticeSection, ...page.sections]
+  };
+}
+
 export const pillarPages: PillarPage[] = [
-  ...basePillarPages,
-  ...highIntentPages,
-  ...resourcePlaceholderPages,
+  ...reform2026Pages,
+  ...basePillarPages.map(withReformNotice),
+  ...highIntentPages.map(withReformNotice),
+  ...resourcePlaceholderPages.map(withReformNotice),
   ...programmaticSeniorityPages,
   ...programmaticSalaryPages,
   ...eeatPages

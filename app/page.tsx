@@ -16,6 +16,7 @@ import { DecisionGuide } from "@/components/seo/DecisionGuide";
 import { HubCtaBlock } from "@/components/seo/HubCtaBlock";
 import { KeyTakeaways } from "@/components/seo/KeyTakeaways";
 import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
+import { RuptureReformNotice } from "@/components/seo/RuptureReformNotice";
 import { SeoContent } from "@/components/SeoContent";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { siteName, siteUrl } from "@/lib/site";
@@ -62,6 +63,11 @@ export default function Home() {
       <Header />
       <Hero />
       <TrustBlock />
+      <section className="bg-white">
+        <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <RuptureReformNotice />
+        </div>
+      </section>
       <section className="bg-white">
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-12 xl:grid-cols-[0.95fr_1.05fr]">
           <KeyTakeaways
