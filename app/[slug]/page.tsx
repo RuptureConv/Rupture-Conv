@@ -141,6 +141,8 @@ export default async function PillarPage({ params }: PillarPageProps) {
       intro={page.intro}
       relatedLinks={page.relatedLinks}
       sections={page.sections}
+      updatedAt={page.updatedAt}
+      updatedLabel={page.updatedLabel}
     />
   );
 }
