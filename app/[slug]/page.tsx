@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ComparisonPageLayout } from "@/components/seo/ComparisonPageLayout";
 import { ProgrammaticSeoTemplate } from "@/components/seo/ProgrammaticSeoTemplate";
+import { SalarySeoPageLayout } from "@/components/seo/SalarySeoPageLayout";
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
 import {
   comparisonPageBySlug,
@@ -14,6 +15,10 @@ import {
 } from "@/lib/seo-content";
 import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
 import { getPillarSeoSnippet } from "@/lib/seo-metadata";
+import {
+  salarySeoPageBySlug,
+  salarySeoPages
+} from "@/lib/salary-seo-pages";
 import { siteName } from "@/lib/site";
 
 type PillarPageProps = {
@@ -27,7 +32,8 @@ export const dynamicParams = false;
 export function generateStaticParams() {
   return [
     ...pillarPages.map((page) => ({ slug: page.slug })),
-    ...comparisonPages.map((page) => ({ slug: page.slug }))
+    ...comparisonPages.map((page) => ({ slug: page.slug })),
+    ...salarySeoPages.map((page) => ({ slug: page.slug }))
   ];
 }
 
@@ -36,7 +42,40 @@ export async function generateMetadata({
 }: PillarPageProps): Promise<Metadata> {
   const { slug } = await params;
   const comparisonPage = comparisonPageBySlug[slug];
+  const salaryPage = salarySeoPageBySlug[slug];
   const page = pillarPageBySlug[slug];
+
+  if (salaryPage) {
+    const canonicalPath = `/${salaryPage.slug}`;
+    const canonicalUrl = absoluteUrl(canonicalPath);
+
+    return {
+      title: {
+        absolute: salaryPage.seoTitle
+      },
+      description: salaryPage.description,
+      alternates: {
+        canonical: canonicalUrl
+      },
+      robots: {
+        index: true,
+        follow: true
+      },
+      openGraph: {
+        title: salaryPage.seoTitle,
+        description: salaryPage.description,
+        url: canonicalUrl,
+        siteName,
+        type: "article",
+        locale: "fr_FR"
+      },
+      twitter: {
+        card: "summary",
+        title: salaryPage.seoTitle,
+        description: salaryPage.description
+      }
+    };
+  }
 
   if (comparisonPage) {
     const canonicalPath = `/${comparisonPage.slug}`;
@@ -110,7 +149,12 @@ export async function generateMetadata({
 export default async function PillarPage({ params }: PillarPageProps) {
   const { slug } = await params;
   const comparisonPage = comparisonPageBySlug[slug];
+  const salaryPage = salarySeoPageBySlug[slug];
   const page = pillarPageBySlug[slug];
+
+  if (salaryPage) {
+    return <SalarySeoPageLayout page={salaryPage} />;
+  }
 
   if (comparisonPage) {
     return <ComparisonPageLayout page={comparisonPage} />;

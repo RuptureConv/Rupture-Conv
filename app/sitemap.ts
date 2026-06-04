@@ -3,6 +3,7 @@ import { hrTools } from "@/lib/calculators/tools-registry";
 import { comparisonPages } from "@/lib/comparison-pages";
 import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
 import { blogPosts, pillarPageBySlug, pillarPages } from "@/lib/seo-content";
+import { salarySeoPages } from "@/lib/salary-seo-pages";
 import { siteUrl } from "@/lib/site";
 
 type SitemapRoute = {
@@ -69,7 +70,8 @@ function getMainPages(): SitemapRoute[] {
       changeFrequency: "weekly"
     },
     createRoute("/rupture-conventionnelle", 1, "weekly", 7),
-    createRoute("/simulateur-rupture-conventionnelle", 1, "weekly", 7)
+    createRoute("/simulateur-rupture-conventionnelle", 1, "weekly", 7),
+    createRoute("/salaire-brut-net", 0.9, "weekly", 14)
   ];
 }
 
@@ -93,6 +95,12 @@ function getSeoPages(): SitemapRoute[] {
       }),
     ...comparisonPages.map((page) => createRoute(`/${page.slug}`, 0.9, "weekly", 14))
   ];
+}
+
+function getSalarySeoPages(): SitemapRoute[] {
+  return salarySeoPages.map((page) =>
+    createRoute(`/${page.slug}`, page.category === "Smic" ? 0.85 : 0.8, "monthly", 21)
+  );
 }
 
 function getProgrammaticPages(): SitemapRoute[] {
@@ -151,6 +159,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const allRoutes: SitemapRoute[] = [
     ...getMainPages(),
     ...getSeoPages(),
+    ...getSalarySeoPages(),
     ...getProgrammaticPages(),
     ...getBlogPages(),
     ...getToolPages(),
