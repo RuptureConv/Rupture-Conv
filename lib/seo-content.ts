@@ -1,4 +1,5 @@
 import { siteName, siteUrl } from "@/lib/site";
+import { editorialArticlePages } from "@/lib/editorial-article-pages";
 
 export type FaqEntry = {
   question: string;
@@ -2002,6 +2003,7 @@ function withReformNotice(page: PillarPage): PillarPage {
 export const pillarPages: PillarPage[] = [
   ...reform2026Pages,
   ...basePillarPages.map(withReformNotice),
+  ...editorialArticlePages.map(withReformNotice),
   ...highIntentPages.map(withReformNotice),
   ...resourcePlaceholderPages.map(withReformNotice),
   ...programmaticSeniorityPages,

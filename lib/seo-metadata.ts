@@ -129,6 +129,56 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
     title: "Sources juridiques du calcul de rupture conventionnelle",
     description:
       "Consultez les références utiles pour comprendre le calcul de l’indemnité : Code du travail, convention collective et limites d’une simulation."
+  },
+  "rupture-conventionnelle-droit-chomage": {
+    title: "Rupture conventionnelle et chômage : droit ARE",
+    description:
+      "Rupture conventionnelle et chômage : droit ARE, inscription France Travail, différés, indemnité supra-légale et points à vérifier."
+  },
+  "rupture-conventionnelle-combien-demander": {
+    title: "Combien demander en rupture conventionnelle ?",
+    description:
+      "Combien demander pour une rupture conventionnelle : minimum légal, indemnité supra-légale, ancienneté, contexte et négociation."
+  },
+  "rupture-conventionnelle-refus-employeur": {
+    title: "Refus de rupture conventionnelle par l’employeur",
+    description:
+      "L’employeur peut-il refuser une rupture conventionnelle ? Accord commun, absence d’obligation, relance, alternatives et prudence."
+  },
+  "rupture-conventionnelle-delai": {
+    title: "Délais d’une rupture conventionnelle : étapes",
+    description:
+      "Délais de rupture conventionnelle : entretien, signature, rétractation, homologation, date de rupture et inscription France Travail."
+  },
+  "rupture-conventionnelle-arret-maladie": {
+    title: "Rupture conventionnelle pendant un arrêt maladie",
+    description:
+      "Rupture conventionnelle pendant un arrêt maladie : possibilité, consentement libre, pression, indemnité, prudence et points RH."
+  },
+  "rupture-conventionnelle-burn-out": {
+    title: "Rupture conventionnelle et burn-out : prudence",
+    description:
+      "Rupture conventionnelle et burn-out : avantages, risques, pression, santé, chômage, indemnité et questions à vérifier avant de signer."
+  },
+  "rupture-conventionnelle-pieges": {
+    title: "Pièges à éviter en rupture conventionnelle",
+    description:
+      "Pièges rupture conventionnelle : indemnité trop basse, date mal choisie, pression, congés payés, chômage, solde de tout compte."
+  },
+  "rupture-conventionnelle-entretien": {
+    title: "Entretien de rupture conventionnelle : préparer",
+    description:
+      "Préparer un entretien de rupture conventionnelle : arguments, documents, posture, indemnité, calendrier, questions et erreurs à éviter."
+  },
+  "rupture-conventionnelle-indemnite-minimum": {
+    title: "Indemnité minimum de rupture conventionnelle",
+    description:
+      "Indemnité minimum de rupture conventionnelle : calcul, salaire de référence, ancienneté, convention collective et simulateur."
+  },
+  "lettre-demande-rupture-conventionnelle": {
+    title: "Lettre de demande de rupture conventionnelle",
+    description:
+      "Modèle de lettre pour demander une rupture conventionnelle : exemple simple, email, ton à adopter, entretien et points à vérifier."
   }
 };
 
