@@ -12,7 +12,12 @@ export const faqItems = [
   {
     question: "Ce simulateur convient-il à un employeur ?",
     answer:
-      "Oui, il donne un premier ordre de grandeur pour préparer une discussion RH. Il ne remplace pas une vérification juridique, paie ou conventionnelle."
+      "Oui, il donne un premier ordre de grandeur pour préparer une discussion RH, avec une estimation du coût employeur. Il ne remplace pas une vérification juridique, paie ou conventionnelle."
+  },
+  {
+    question: "Qu'est-ce qui change pour la rupture conventionnelle en 2026 ?",
+    answer:
+      "La réforme 2026 augmente la contribution patronale due par l'employeur. Elle passe de 30 % à 40 % sur la part de l'indemnité exonérée de cotisations sociales. Le montant minimum dû au salarié n'est pas diminué par cette réforme."
   },
   {
     question: "La convention collective est-elle prise en compte ?",

@@ -10,6 +10,14 @@ import {
 } from "@/lib/calculators/rupture-conventionnelle";
 import { calculateIndicativeNegotiationRange } from "@/lib/calculators/negotiation-range";
 import { applyCollectiveAgreementRules } from "@/lib/conventions/rules";
+import {
+  calculateEmployerContribution,
+  calculateTotalEmployerCost,
+  getEmployerContributionRate,
+  RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_BEFORE_2026,
+  RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026,
+  RUPTURE_CONVENTIONNELLE_REFORM_2026_EFFECTIVE_DATE
+} from "@/lib/legal/rupture-conventionnelle";
 import type {
   TerminationCalculationResult,
   TerminationCalculatorInput
@@ -287,6 +295,116 @@ describe("rupture conventionnelle calculator", () => {
     expect(estimateNetFromGrossIndemnity(10000)).toBe(7800);
   });
 
+  it("applique une contribution employeur de 30 % avant 2026", () => {
+    const contribution = calculateEmployerContribution({
+      indemnityAmount: 3000,
+      exemptSocialSecurityAmount: 3000,
+      ruptureDate: "2025-12-31"
+    });
+
+    expect(getEmployerContributionRate("2025-12-31")).toBe(
+      RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_BEFORE_2026
+    );
+    expect(contribution.contributionRate).toBe(0.3);
+    expect(contribution.employerContribution).toBe(900);
+    expect(contribution.totalEmployerCost).toBe(3900);
+  });
+
+  it("applique une contribution employeur de 40 % à partir du 1er janvier 2026", () => {
+    const contribution = calculateEmployerContribution({
+      indemnityAmount: 3000,
+      exemptSocialSecurityAmount: 3000,
+      ruptureDate: RUPTURE_CONVENTIONNELLE_REFORM_2026_EFFECTIVE_DATE
+    });
+
+    expect(getEmployerContributionRate("2026-01-01")).toBe(
+      RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
+    );
+    expect(contribution.contributionRate).toBe(0.4);
+    expect(contribution.employerContribution).toBe(1200);
+    expect(contribution.totalEmployerCost).toBe(4200);
+  });
+
+  it("conserve la même indemnité salarié avant et après la réforme à ancienneté identique", () => {
+    const beforeReform = calculateTerminationConventionnelle({
+      ...baseInput,
+      startDate: "2020-12-31",
+      ruptureDate: "2025-12-31",
+      averageMonthlyGrossSalary: 3000
+    });
+    const fromReform = calculateTerminationConventionnelle({
+      ...baseInput,
+      startDate: "2021-01-01",
+      ruptureDate: "2026-01-01",
+      averageMonthlyGrossSalary: 3000
+    });
+
+    expect(beforeReform.minimumGrossIndemnity).toBe(fromReform.minimumGrossIndemnity);
+    expect(beforeReform.retainedGrossIndemnity).toBe(fromReform.retainedGrossIndemnity);
+    expect(beforeReform.employerContributionAmount).toBe(1125);
+    expect(fromReform.employerContributionAmount).toBe(1500);
+  });
+
+  it("gère une date de rupture invalide ou absente sans crash", () => {
+    const invalidDate = calculateEmployerContribution({
+      indemnityAmount: 3000,
+      ruptureDate: "date-invalide"
+    });
+    const missingDate = calculateEmployerContribution({
+      indemnityAmount: 3000
+    });
+
+    expect(invalidDate.usedFallbackDate).toBe(true);
+    expect(invalidDate.contributionRate).toBe(
+      RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
+    );
+    expect(missingDate.usedFallbackDate).toBe(true);
+    expect(missingDate.totalEmployerCost).toBe(4200);
+  });
+
+  it("gère défensivement les montants nuls ou négatifs", () => {
+    expect(
+      calculateEmployerContribution({
+        indemnityAmount: 0,
+        ruptureDate: "2026-01-01"
+      }).totalEmployerCost
+    ).toBe(0);
+    expect(
+      calculateEmployerContribution({
+        indemnityAmount: -3000,
+        ruptureDate: "2026-01-01"
+      }).employerContribution
+    ).toBe(0);
+    expect(calculateTotalEmployerCost({ indemnityAmount: -3000, employerContribution: -200 })).toBe(
+      0
+    );
+  });
+
+  it("ignore défensivement une assiette exonérée explicite négative", () => {
+    const contribution = calculateEmployerContribution({
+      indemnityAmount: 3000,
+      exemptSocialSecurityAmount: -500,
+      ruptureDate: "2026-01-01"
+    });
+
+    expect(contribution.contributionBase).toBe(0);
+    expect(contribution.employerContribution).toBe(0);
+    expect(contribution.totalEmployerCost).toBe(3000);
+  });
+
+  it("utilise le minimum calculé comme base indicative si l'assiette exonérée n'est pas calculée", () => {
+    const result = calculateTerminationConventionnelle({
+      ...baseInput,
+      negotiatedGrossIndemnity: 8000
+    });
+
+    expect(result.retainedGrossIndemnity).toBe(8000);
+    expect(result.employerContributionBase).toBe(result.minimumGrossIndemnity);
+    expect(result.employerContributionBaseIsIndicative).toBe(true);
+    expect(result.employerContributionAmount).toBe(1500);
+    expect(result.totalEmployerCost).toBe(9500);
+  });
+
   it("conserve le calcul légal quand aucune convention collective n'est renseignée", () => {
     const result = calculateTerminationConventionnelle(baseInput);
 
@@ -367,6 +485,20 @@ describe("rupture conventionnelle calculator", () => {
     );
     expect(source).toContain("id=\"collectiveAgreement\"");
     expect(source).toContain("<select");
+  });
+
+  it("affiche le bloc coût employeur sans masquer le résultat salarié", () => {
+    const source = readFileSync(
+      join(process.cwd(), "components/tools/TerminationCalculatorTool.tsx"),
+      "utf8"
+    );
+
+    expect(source).toContain("Indemnité minimale estimée");
+    expect(source).toContain("Coût employeur estimé");
+    expect(source).toContain("Contribution patronale 2026");
+    expect(source).toContain("Contribution patronale avant 2026");
+    expect(source).toContain("réduit pas l&apos;indemnité");
+    expect(source).toContain("minimale due au salarié.");
   });
 
   it("donne le même minimum légal pour cadre et non-cadre hors convention spécifique", () => {

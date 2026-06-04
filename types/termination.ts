@@ -100,6 +100,13 @@ export type TerminationCalculationResult = {
   negotiatedGrossIndemnity?: number;
   retainedGrossIndemnity: number;
   estimatedNetIndemnity: number;
+  employerContributionBase: number;
+  employerContributionRate: number;
+  employerContributionAmount: number;
+  totalEmployerCost: number;
+  employerContributionRuptureDate: string;
+  employerContributionUsesFallbackDate: boolean;
+  employerContributionBaseIsIndicative: boolean;
   negotiatedBelowMinimum: boolean;
   detailLines: string[];
   employeeSummary: string;

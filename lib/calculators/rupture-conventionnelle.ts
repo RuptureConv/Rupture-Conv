@@ -9,6 +9,7 @@ import type {
 } from "@/types/termination";
 import { getAbsenceRule } from "@/lib/calculators/absence-rules";
 import { applyCollectiveAgreementRules } from "@/lib/conventions/rules";
+import { calculateEmployerContribution } from "@/lib/legal/rupture-conventionnelle";
 import { formatCurrency, formatNumber, formatPreciseCurrency } from "@/lib/utils/format";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
@@ -311,6 +312,32 @@ export function estimateNetFromGrossIndemnity(grossIndemnity: number): number {
   return roundMoney(grossIndemnity * 0.78);
 }
 
+function withEmployerContribution(
+  result: TerminationCalculationResult,
+  input: TerminationCalculatorInput
+): TerminationCalculationResult {
+  const employerContribution = calculateEmployerContribution({
+    baseIsIndicative: true,
+    exemptSocialSecurityAmount: result.minimumGrossIndemnity,
+    indemnityAmount: result.retainedGrossIndemnity,
+    ruptureDate: input.ruptureDate
+  });
+  const detailLine = `Coût employeur indicatif : contribution patronale de ${formatNumber(employerContribution.contributionRate * 100, 0)} % sur une base estimée de ${formatPreciseCurrency(employerContribution.contributionBase)}, soit ${formatPreciseCurrency(employerContribution.employerContribution)}.`;
+
+  return {
+    ...result,
+    employerContributionBase: employerContribution.contributionBase,
+    employerContributionRate: employerContribution.contributionRate,
+    employerContributionAmount: employerContribution.employerContribution,
+    totalEmployerCost: employerContribution.totalEmployerCost,
+    employerContributionRuptureDate: employerContribution.ruptureDateUsed,
+    employerContributionUsesFallbackDate: employerContribution.usedFallbackDate,
+    employerContributionBaseIsIndicative: employerContribution.baseIsIndicative,
+    detailLines: [...result.detailLines, detailLine],
+    employerSummary: `Estimation employeur ${result.employmentStatus === "cadre" ? "cadre" : "non-cadre"} : indemnité ${formatCurrency(result.retainedGrossIndemnity)}, contribution patronale indicative ${formatCurrency(employerContribution.employerContribution)}, coût total estimé ${formatCurrency(employerContribution.totalEmployerCost)}.`
+  };
+}
+
 export function calculateTerminationConventionnelle(
   input: TerminationCalculatorInput
 ): TerminationCalculationResult {
@@ -410,6 +437,13 @@ export function calculateTerminationConventionnelle(
     negotiatedGrossIndemnity: negotiated,
     retainedGrossIndemnity,
     estimatedNetIndemnity,
+    employerContributionBase: 0,
+    employerContributionRate: 0,
+    employerContributionAmount: 0,
+    totalEmployerCost: 0,
+    employerContributionRuptureDate: input.ruptureDate,
+    employerContributionUsesFallbackDate: false,
+    employerContributionBaseIsIndicative: true,
     negotiatedBelowMinimum,
     detailLines,
     employeeSummary: `Estimation salarié ${employmentStatusLabel.toLowerCase()} : indemnité brute retenue ${formatCurrency(retainedGrossIndemnity)}, soit environ ${formatCurrency(estimatedNetIndemnity)} net indicatif.`,
@@ -418,5 +452,5 @@ export function calculateTerminationConventionnelle(
     employmentStatusMessage
   };
 
-  return applyCollectiveAgreementRules(baseResult, input);
+  return withEmployerContribution(applyCollectiveAgreementRules(baseResult, input), input);
 }

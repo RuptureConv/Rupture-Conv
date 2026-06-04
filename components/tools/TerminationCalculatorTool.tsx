@@ -11,7 +11,11 @@ import { trackCalculatorEvent } from "@/lib/analytics";
 import { absenceRules, getAbsenceRule } from "@/lib/calculators/absence-rules";
 import { calculateIndicativeNegotiationRange } from "@/lib/calculators/negotiation-range";
 import { collectiveAgreements } from "@/lib/conventions/conventions";
-import { formatCurrency, formatPreciseCurrency } from "@/lib/utils/format";
+import {
+  RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_BEFORE_2026,
+  RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
+} from "@/lib/legal/rupture-conventionnelle";
+import { formatCurrency, formatNumber, formatPreciseCurrency } from "@/lib/utils/format";
 import type {
   AbsenceImpact,
   AbsenceType,
@@ -170,6 +174,10 @@ function getEmploymentStatusLabel(status: FormState["employmentStatus"]): string
   return status === "cadre" ? "Cadre" : "Non-cadre";
 }
 
+function formatContributionRate(rate: number): string {
+  return `${formatNumber(rate * 100, 0)} %`;
+}
+
 export function TerminationCalculatorTool() {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [copied, setCopied] = useState(false);
@@ -189,6 +197,12 @@ export function TerminationCalculatorTool() {
   }, [errors, form]);
   const profileCopy = getProfileCopy(form.userProfile);
   const selectedAbsenceRule = getAbsenceRule(form.absenceType);
+  const contributionRateBefore2026Label = formatContributionRate(
+    RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_BEFORE_2026
+  );
+  const contributionRateFrom2026Label = formatContributionRate(
+    RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
+  );
 
   useEffect(() => {
     if (!result) {
@@ -239,6 +253,8 @@ export function TerminationCalculatorTool() {
       `- Salaire de référence : ${formatPreciseCurrency(result.referenceSalary)}`,
       `- Indemnité brute minimale : ${formatPreciseCurrency(result.minimumGrossIndemnity)}`,
       `- Indemnité brute retenue : ${formatPreciseCurrency(result.retainedGrossIndemnity)}`,
+      `- Contribution patronale estimée : ${formatPreciseCurrency(result.employerContributionAmount)} (${formatContributionRate(result.employerContributionRate)})`,
+      `- Coût employeur total estimé : ${formatPreciseCurrency(result.totalEmployerCost)}`,
       form.userProfile === "employee"
         ? `- Net indicatif : ${formatPreciseCurrency(result.estimatedNetIndemnity)}`
         : "- Net indicatif : non prioritaire côté employeur",
@@ -592,7 +608,7 @@ export function TerminationCalculatorTool() {
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <ResultSummaryCard
-                label="Minimum légal estimé"
+                label="Indemnité minimale estimée"
                 value={formatCurrency(result.minimumGrossIndemnity)}
                 help="Le plancher indicatif à vérifier selon votre dossier."
               />
@@ -619,6 +635,67 @@ export function TerminationCalculatorTool() {
                 }
               />
             </div>
+
+            <section className="mt-4 rounded-xl border border-[#D7E7E8] bg-[#F7FBFA] p-4">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full bg-[#EAF8F6] px-3 py-1 text-xs font-bold text-[#168F86]">
+                  Réforme 2026 prise en compte
+                </span>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-bold text-[#061B3A]">
+                  {result.employerContributionRate ===
+                  RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
+                    ? `Contribution employeur actualisée à ${contributionRateFrom2026Label}`
+                    : "Barème antérieur appliqué"}
+                </span>
+              </div>
+              <div className="mt-3">
+                <h3 className="text-base font-black text-[#061B3A]">
+                  Coût employeur estimé
+                </h3>
+                <p className="mt-2 text-sm font-semibold leading-6 text-[#5B6B7C]">
+                  Depuis 2026, la rupture conventionnelle coûte plus cher à
+                  l&apos;employeur : la contribution patronale passe de{" "}
+                  {contributionRateBefore2026Label} à{" "}
+                  {contributionRateFrom2026Label} sur la part exonérée de
+                  cotisations sociales. Cela ne réduit pas l&apos;indemnité
+                  minimale due au salarié.
+                </p>
+              </div>
+              <div className="mt-4 grid gap-3">
+                <ResultLine
+                  label="Indemnité brute estimée"
+                  value={formatCurrency(result.retainedGrossIndemnity)}
+                />
+                <ResultLine
+                  label="Base estimée de contribution"
+                  value={formatCurrency(result.employerContributionBase)}
+                  detail={
+                    result.employerContributionBaseIsIndicative
+                      ? "Base indicative utilisée faute de calcul social complet de la part exonérée."
+                      : "Part exclue de l'assiette des cotisations sociales."
+                  }
+                />
+                <ResultLine
+                  label={
+                    result.employerContributionRate ===
+                    RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
+                      ? "Contribution patronale 2026"
+                      : "Contribution patronale avant 2026"
+                  }
+                  value={formatContributionRate(result.employerContributionRate)}
+                  detail={`Taux appliqué selon la date de rupture : ${result.employerContributionRuptureDate}.`}
+                />
+                <ResultLine
+                  label="Contribution patronale estimée"
+                  value={formatCurrency(result.employerContributionAmount)}
+                />
+                <ResultLine
+                  label="Coût total estimé"
+                  value={formatCurrency(result.totalEmployerCost)}
+                  detail="Indemnité + contribution patronale estimée, hors autres éléments de fin de contrat."
+                />
+              </div>
+            </section>
 
             <div className="mt-4 grid gap-3">
               <ResultLine label="Ancienneté brute" value={result.grossSeniority.label} />

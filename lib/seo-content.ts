@@ -45,7 +45,7 @@ export const mandatoryDisclaimer =
   "Ce simulateur fournit une estimation indicative et ne remplace pas un conseil juridique personnalisé.";
 
 export const reform2026Disclaimer =
-  "Réforme 2026 : informations à vérifier selon la date de publication au Journal officiel et les textes d'application ou d'agrément. La réforme annoncée concerne principalement la durée maximale d'indemnisation chômage après une rupture conventionnelle individuelle, pas le calcul de l'indemnité minimale.";
+  "Réforme 2026 : le minimum légal dû au salarié n'est pas réduit. Le coût employeur augmente avec la contribution patronale spécifique portée à 40 % sur la part de l'indemnité exonérée de cotisations sociales.";
 
 export const reform2026MainPath = "/reforme-rupture-conventionnelle-2026";
 
@@ -83,6 +83,11 @@ const reform2026Faq: FaqEntry[] = [
     question: "La réforme supprime-t-elle l'indemnité de rupture conventionnelle ?",
     answer:
       "Non. L'indemnité spécifique de rupture conventionnelle reste due et ne peut pas être inférieure au minimum légal ou conventionnel applicable."
+  },
+  {
+    question: "Qu'est-ce qui change pour la rupture conventionnelle en 2026 ?",
+    answer:
+      "La réforme 2026 augmente la contribution patronale due par l'employeur. Elle passe de 30 % à 40 % sur la part de l'indemnité exonérée de cotisations sociales. Le montant minimum dû au salarié n'est pas diminué par cette réforme."
   },
   {
     question: "Qu'est-ce qui change pour les moins de 55 ans ?",
@@ -149,7 +154,7 @@ const commonFaq: FaqEntry[] = [
   {
     question: "Un employeur peut-il utiliser le simulateur ?",
     answer:
-      "Oui. L'outil peut aider un employeur, un dirigeant ou un service RH à préparer une première enveloppe. Il ne remplace pas une validation paie, juridique ou conventionnelle, notamment en cas de rémunération variable, absence longue ou statut particulier."
+      "Oui. L'outil peut aider un employeur, un dirigeant ou un service RH à préparer une première enveloppe. En 2026, la contribution patronale applicable à la part exonérée de cotisations sociales passe de 30 % à 40 %, ce qui augmente le coût employeur sans réduire le minimum dû au salarié. Le simulateur reste indicatif et ne remplace pas une validation paie, juridique ou conventionnelle."
   },
   {
     question: "Quels documents préparer avant de faire le calcul ?",
@@ -222,7 +227,8 @@ const basePillarPages: PillarPage[] = [
         title: "Utiliser le simulateur au bon moment",
         paragraphs: [
           commonSimulatorCta,
-          "Le bon réflexe consiste à faire une première simulation avant l'entretien, puis à refaire le calcul avec les informations vérifiées : ancienneté exacte, salaire moyen, primes, congés restants et convention collective. Cela permet d'arriver avec une vision plus claire du dossier."
+          "Le bon réflexe consiste à faire une première simulation avant l'entretien, puis à refaire le calcul avec les informations vérifiées : ancienneté exacte, salaire moyen, primes, congés restants et convention collective. Cela permet d'arriver avec une vision plus claire du dossier.",
+          "En 2026, la réforme ne change pas le minimum légal dû au salarié, mais elle augmente le coût de la rupture conventionnelle pour l'employeur. La contribution patronale applicable à la part exonérée de cotisations sociales passe de 30 % à 40 %."
         ],
         bullets: [
           "Préparer les bulletins de paie récents.",
@@ -1788,7 +1794,7 @@ const reform2026Pages: PillarPage[] = [
     ],
     faq: [
       ...reform2026Faq.slice(0, 2),
-      reform2026Faq[3],
+      reform2026Faq[4],
       {
         question: "Faut-il attendre 55 ans pour signer ?",
         answer:
@@ -1885,7 +1891,7 @@ const reform2026Pages: PillarPage[] = [
     faq: [
       reform2026Faq[0],
       reform2026Faq[1],
-      reform2026Faq[6],
+      reform2026Faq[7],
       {
         question: "La réforme change-t-elle le calcul employeur de l'indemnité minimale ?",
         answer:
