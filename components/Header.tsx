@@ -15,6 +15,11 @@ const simulatorLinks = [
     href: "/salaire-brut-net",
     title: "Salaire brut en net",
     description: "Convertissez votre salaire brut en net."
+  },
+  {
+    href: "/simulateur-chomage-rupture-conventionnelle",
+    title: "Chômage après rupture",
+    description: "Projetez ARE, différés et premier versement."
   }
 ] as const;
 

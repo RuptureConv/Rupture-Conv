@@ -168,6 +168,12 @@ const tools = [
     text: "Pour distinguer le minimum brut, le net indicatif et le montant réellement versé."
   },
   {
+    title: "Projection chômage",
+    badge: "France Travail",
+    href: "/simulateur-chomage-rupture-conventionnelle",
+    text: "Pour estimer l'ARE, les différés, le premier versement et le revenu total potentiel."
+  },
+  {
     title: "Délais et calendrier",
     badge: "Procédure",
     href: "/blog/delai-rupture-conventionnelle-combien-de-temps",

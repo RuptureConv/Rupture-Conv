@@ -39,6 +39,10 @@ const internalLinks = [
     label: "chômage après rupture conventionnelle"
   },
   {
+    href: "/simulateur-chomage-rupture-conventionnelle",
+    label: "simulateur chômage rupture conventionnelle"
+  },
+  {
     href: "/modele-lettre-rupture-conventionnelle",
     label: "modèle de lettre de rupture conventionnelle"
   },

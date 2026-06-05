@@ -71,6 +71,7 @@ function getMainPages(): SitemapRoute[] {
     },
     createRoute("/rupture-conventionnelle", 1, "weekly", 7),
     createRoute("/simulateur-rupture-conventionnelle", 1, "weekly", 7),
+    createRoute("/simulateur-chomage-rupture-conventionnelle", 1, "weekly", 7),
     createRoute("/salaire-brut-net", 0.9, "weekly", 14)
   ];
 }

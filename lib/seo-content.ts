@@ -2072,12 +2072,282 @@ function withReformNotice(page: PillarPage): PillarPage {
   };
 }
 
+const unemploymentClusterConfigs = [
+  {
+    slug: "chomage-apres-rupture-conventionnelle",
+    title: "Chômage après rupture conventionnelle : montant, délai et durée",
+    intent: "comprendre les droits chômage après une rupture conventionnelle",
+    focus:
+      "La rupture conventionnelle peut ouvrir droit à l'ARE, mais le calendrier dépend des différés, des congés payés et des documents transmis à France Travail."
+  },
+  {
+    slug: "allocation-chomage-rupture-conventionnelle",
+    title: "Allocation chômage après rupture conventionnelle",
+    intent: "estimer l'allocation chômage après une rupture conventionnelle",
+    focus:
+      "L'allocation dépend du salaire journalier de référence, de l'âge, de la durée d'activité et des éventuels différés."
+  },
+  {
+    slug: "calcul-are-rupture-conventionnelle",
+    title: "Calcul ARE après rupture conventionnelle",
+    intent: "calculer l'ARE après une rupture conventionnelle",
+    focus:
+      "Le calcul compare deux formules à partir du SJR et doit être complété par une lecture du premier versement probable."
+  },
+  {
+    slug: "combien-chomage-apres-rupture-conventionnelle",
+    title: "Combien de chômage après une rupture conventionnelle ?",
+    intent: "savoir combien toucher chaque mois après une rupture conventionnelle",
+    focus:
+      "Le montant mensuel ne suffit pas : il faut aussi regarder l'indemnité de départ, les différés et le total potentiel."
+  },
+  {
+    slug: "delai-chomage-apres-rupture-conventionnelle",
+    title: "Délai chômage après rupture conventionnelle",
+    intent: "anticiper le délai avant le premier versement chômage",
+    focus:
+      "Le délai combine l'attente légale, les congés payés et le différé spécifique lié aux indemnités supérieures au minimum."
+  },
+  {
+    slug: "carence-chomage-rupture-conventionnelle",
+    title: "Carence chômage après rupture conventionnelle",
+    intent: "comprendre la carence et les différés France Travail",
+    focus:
+      "Le terme carence regroupe souvent plusieurs mécanismes distincts qu'il faut séparer pour estimer la trésorerie."
+  },
+  {
+    slug: "rupture-conventionnelle-et-france-travail",
+    title: "Rupture conventionnelle et France Travail",
+    intent: "préparer l'inscription France Travail après la rupture",
+    focus:
+      "L'attestation employeur, la date de fin, les indemnités et les congés payés doivent être cohérents avant l'inscription."
+  },
+  {
+    slug: "rupture-conventionnelle-et-are",
+    title: "Rupture conventionnelle et ARE",
+    intent: "relier rupture conventionnelle et allocation de retour à l'emploi",
+    focus:
+      "L'ARE peut être ouverte après homologation si les conditions sont remplies, mais elle n'est pas toujours versée immédiatement."
+  },
+  {
+    slug: "rupture-conventionnelle-et-retraite",
+    title: "Rupture conventionnelle, chômage et retraite",
+    intent: "évaluer les conséquences chômage retraite",
+    focus:
+      "À partir de 55 ans, puis 57 ans et 60 ans, la projection doit intégrer durée d'indemnisation, retraite et maintien éventuel."
+  },
+  {
+    slug: "chomage-apres-demission",
+    title: "Chômage après démission : droits, exceptions et 121 jours",
+    intent: "comprendre les droits après une démission",
+    focus:
+      "Une démission classique n'ouvre pas automatiquement droit à l'ARE ; les exceptions doivent être vérifiées avant de quitter son emploi."
+  },
+  {
+    slug: "demission-legitime-chomage",
+    title: "Démission légitime et chômage",
+    intent: "savoir quand une démission peut être légitime",
+    focus:
+      "La démission légitime dépend d'un motif reconnu et de justificatifs. Le simulateur aide à projeter le montant, pas à valider le motif."
+  },
+  {
+    slug: "reconversion-et-chomage",
+    title: "Reconversion et chômage après démission",
+    intent: "préparer une reconversion avec indemnisation chômage",
+    focus:
+      "Une reconversion doit être validée dans le bon ordre. Démissionner avant validation peut créer une période sans indemnisation."
+  },
+  {
+    slug: "reexamen-121-jours",
+    title: "Réexamen après 121 jours de chômage",
+    intent: "comprendre le réexamen France Travail après démission",
+    focus:
+      "Après une démission non indemnisée, un réexamen peut être demandé après 121 jours, mais il n'est pas automatique."
+  },
+  {
+    slug: "reliquat-droits-chomage",
+    title: "Reliquat de droits chômage : reprise et démission",
+    intent: "comprendre l'effet d'un reliquat de droits ARE",
+    focus:
+      "Un reliquat peut modifier la lecture d'une nouvelle fin de contrat. La confirmation France Travail est indispensable."
+  },
+  {
+    slug: "calcul-sjr",
+    title: "Calcul du SJR : salaire journalier de référence",
+    intent: "comprendre le calcul du salaire journalier de référence",
+    focus:
+      "Le SJR est la base de l'ARE. Une estimation à partir du salaire mensuel moyen reste utile, mais le calcul officiel est plus fin."
+  },
+  {
+    slug: "salaire-journalier-reference",
+    title: "Salaire journalier de référence : définition et impact",
+    intent: "comprendre l'impact du SJR sur l'allocation",
+    focus:
+      "Une variation du SJR change directement l'ARE, les différés congés payés et la projection financière."
+  },
+  ...[1500, 2000, 2500, 3000, 3500, 4000, 5000].map((salary) => ({
+    slug: `chomage-salaire-${salary}`,
+    title: `Chômage avec ${salary} € brut : estimation ARE`,
+    intent: `estimer le chômage avec ${salary} euros brut`,
+    focus: `Avec ${salary} € brut mensuels, l'ARE dépend du SJR estimé, du mode de rupture, de l'âge et des différés éventuels.`
+  })),
+  {
+    slug: "chomage-apres-50-ans",
+    title: "Chômage après 50 ans : durée, ARE et vigilance",
+    intent: "préparer une période de chômage après 50 ans",
+    focus:
+      "Après 50 ans, la durée, le retour à l'emploi et la retraite doivent être intégrés dans la décision de départ."
+  },
+  {
+    slug: "chomage-apres-55-ans",
+    title: "Chômage après 55 ans : règles seniors",
+    intent: "comprendre les règles chômage à partir de 55 ans",
+    focus:
+      "À partir de 55 ans, la période de recherche d'activité s'allonge et la dégressivité ne s'applique pas selon les repères France Travail."
+  },
+  {
+    slug: "chomage-apres-57-ans",
+    title: "Chômage après 57 ans : durée maximale et retraite",
+    intent: "comprendre la durée d'indemnisation après 57 ans",
+    focus:
+      "À 57 ans et plus, la durée maximale peut être plus longue, mais la retraite et les formations peuvent modifier l'analyse."
+  },
+  {
+    slug: "duree-indemnisation-chomage",
+    title: "Durée d'indemnisation chômage : comment l'estimer ?",
+    intent: "estimer la durée potentielle d'indemnisation",
+    focus:
+      "La durée dépend de l'activité retenue, du coefficient applicable, de l'âge et des plafonds réglementaires."
+  },
+  {
+    slug: "degressivite-are",
+    title: "Dégressivité ARE : qui est concerné ?",
+    intent: "comprendre la dégressivité de l'allocation chômage",
+    focus:
+      "La dégressivité vise certaines allocations élevées et ne concerne pas les allocataires ayant 55 ans ou plus à la fin du contrat."
+  },
+  {
+    slug: "chomage-apres-cdd",
+    title: "Chômage après fin de CDD",
+    intent: "estimer le chômage après une fin de CDD",
+    focus:
+      "Une fin de CDD peut ouvrir une indemnisation si les conditions d'activité sont remplies et si les documents sont cohérents."
+  },
+  {
+    slug: "chomage-apres-licenciement",
+    title: "Chômage après licenciement",
+    intent: "estimer le chômage après licenciement",
+    focus:
+      "Après un licenciement, l'analyse porte sur l'ARE, les différés, le CSP éventuel et la date probable du premier versement."
+  }
+] satisfies Array<{
+  slug: string;
+  title: string;
+  intent: string;
+  focus: string;
+}>;
+
+const unemploymentClusterPages: PillarPage[] = unemploymentClusterConfigs.map(
+  (config) => ({
+    slug: config.slug,
+    title: config.title,
+    h1: config.title,
+    description: `${config.title} : estimez ARE, différés, date de versement et projection financière avec le simulateur chômage gratuit.`,
+    relatedLinks: [
+      "/simulateur-chomage-rupture-conventionnelle",
+      "/rupture-conventionnelle-chomage",
+      "/rupture-conventionnelle-chomage-2026",
+      "/simulateur-rupture-conventionnelle",
+      "/calcul-indemnite-rupture-conventionnelle-net"
+    ],
+    intro: [
+      `Cette page répond à une intention précise : ${config.intent}. ${config.focus}`,
+      `L'objectif n'est pas d'affirmer un droit, mais de préparer une projection prudente avant inscription, négociation ou échange avec France Travail. ${mandatoryDisclaimer}`
+    ],
+    sections: [
+      {
+        title: "Réponse rapide",
+        paragraphs: [
+          config.focus,
+          "Le plus utile est de regarder ensemble trois montants : l'indemnité de départ éventuelle, l'allocation mensuelle estimée et le total potentiel sur la durée probable."
+        ],
+        bullets: [
+          "Éligibilité probable, jamais garantie.",
+          "ARE estimée à partir du salaire brut moyen et du SJR.",
+          "Différés possibles avant le premier versement.",
+          "Durée adaptée selon l'âge et l'activité retenue.",
+          "Confirmation nécessaire auprès de France Travail."
+        ]
+      },
+      {
+        title: "Pourquoi utiliser le simulateur chômage ?",
+        paragraphs: [
+          "Une décision de départ ne se prend pas seulement avec un montant mensuel. Le calendrier du premier versement, les congés payés, une indemnité supra-légale ou une démission peuvent changer fortement la situation réelle.",
+          "Le simulateur chômage RuptureConv transforme ces informations en projection : ARE brute, ARE nette indicative, différés, durée estimative et revenu total potentiel."
+        ]
+      },
+      {
+        title: "Points de vigilance",
+        paragraphs: [
+          "Le salaire journalier de référence officiel peut différer d'une estimation rapide si la rémunération est variable, si le temps partiel est irrégulier ou si plusieurs contrats se succèdent.",
+          "La démission classique doit être traitée avec une prudence particulière. Elle ne doit pas être assimilée à une rupture conventionnelle ou à un licenciement."
+        ],
+        bullets: [
+          "Vérifier l'attestation employeur.",
+          "Distinguer indemnité légale, supra-légale et congés payés.",
+          "Prévoir une trésorerie si le différé est important.",
+          "Demander confirmation à France Travail pour les cas atypiques."
+        ]
+      },
+      {
+        title: "Passer à une projection personnalisée",
+        paragraphs: [
+          "La page donne les repères, mais le montant dépend de vos propres données : âge, salaire, date de fin, mode de rupture, activité travaillée, congés payés et indemnité supra-légale.",
+          "Le simulateur dédié permet de tester ces hypothèses sans création de compte et sans stockage des données."
+        ],
+        bullets: [
+          "Lien utile : /simulateur-chomage-rupture-conventionnelle",
+          "Calcul de l'indemnité de rupture : /simulateur-rupture-conventionnelle",
+          "Chômage et rupture conventionnelle : /rupture-conventionnelle-chomage"
+        ]
+      }
+    ],
+    faq: [
+      {
+        question: "Le résultat vaut-il confirmation de droits ?",
+        answer:
+          "Non. Le résultat est indicatif. Il aide à préparer une décision, mais seul France Travail confirme les droits."
+      },
+      {
+        question: "Le simulateur calcule-t-il le premier versement ?",
+        answer:
+          "Il estime une date probable en additionnant attente légale, différé congés payés et différé spécifique."
+      },
+      {
+        question: "Faut-il saisir le salaire brut ou net ?",
+        answer:
+          "Il faut partir du salaire brut moyen. Le net affiché reste une estimation pratique du montant perçu."
+      },
+      {
+        question: "La démission est-elle indemnisée ?",
+        answer:
+          "Pas automatiquement. Les cas légitimes, reconversions validées, reliquats et réexamens doivent être confirmés."
+      }
+    ],
+    conclusion: [
+      "Une bonne projection chômage doit relier montant, délai et durée. C'est cette combinaison qui permet d'évaluer la situation réelle après la fin du contrat.",
+      "Avant toute décision, utilisez le simulateur puis confrontez le résultat aux documents employeur et aux informations France Travail."
+    ]
+  })
+);
+
 export const pillarPages: PillarPage[] = [
   ...reform2026Pages,
   ...basePillarPages.map(withReformNotice),
   ...editorialArticlePages.map(withReformNotice),
   ...highIntentPages.map(withReformNotice),
   ...resourcePlaceholderPages.map(withReformNotice),
+  ...unemploymentClusterPages,
   ...programmaticSeniorityPages,
   ...programmaticSalaryPages,
   ...eeatPages
