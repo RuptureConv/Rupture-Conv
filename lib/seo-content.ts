@@ -260,7 +260,9 @@ const basePillarPages: PillarPage[] = [
     description:
       "Méthode complète pour calculer l'indemnité de rupture conventionnelle : ancienneté, salaire de référence, formule légale, exemples chiffrés et simulateur.",
     relatedLinks: [
+      "/blog/calcul-indemnite-brut-ou-net",
       "/simulateur-rupture-conventionnelle",
+      "/calcul-indemnite-rupture-conventionnelle-net",
       "/indemnite-legale-rupture-conventionnelle",
       "/rupture-conventionnelle-cdi",
       "/blog/calcul-indemnite-rupture-conventionnelle-exemple"
@@ -270,6 +272,20 @@ const basePillarPages: PillarPage[] = [
       `Cette page explique la méthode étape par étape, avec des exemples simples et les principaux pièges à éviter. Elle permet de comprendre le résultat affiché par le simulateur et de préparer une vérification plus complète si le dossier présente des particularités. ${mandatoryDisclaimer}`
     ],
     sections: [
+      {
+        title: "Réponse rapide : quel salaire utiliser ?",
+        paragraphs: [
+          "Pour calculer une indemnité de rupture conventionnelle, on part du salaire brut de référence. Le salaire net versé sur le compte bancaire ne suffit pas pour déterminer le minimum légal.",
+          "Le salaire de référence doit être relu avec les bulletins de paie : primes régulières, variables, 13e mois, absences ou changement récent de rémunération peuvent modifier la base retenue."
+        ],
+        bullets: [
+          "Base du calcul : salaire brut de référence.",
+          "Le net sert surtout à comprendre le montant réellement perçu.",
+          "Les primes et variables peuvent modifier la moyenne.",
+          "La convention collective peut prévoir un montant plus favorable.",
+          "Le simulateur permet de tester la base avec votre ancienneté exacte."
+        ]
+      },
       {
         title: "Les trois données indispensables",
         paragraphs: [
@@ -303,7 +319,41 @@ const basePillarPages: PillarPage[] = [
         paragraphs: [
           "Le salaire de référence doit être déterminé avec attention. Il peut être influencé par les primes, les variables, les absences, les commissions ou les changements récents de rémunération. Une base trop basse entraîne mécaniquement une indemnité sous-estimée.",
           "En pratique, il est souvent utile de comparer plusieurs moyennes et de vérifier les éléments figurant sur les bulletins de paie. Le calcul doit rester cohérent avec la situation réelle du salarié."
-        ]
+        ],
+        table: {
+          headers: [
+            "Élément",
+            "Rôle dans le calcul",
+            "Point de vigilance"
+          ],
+          rows: [
+            [
+              "Salaire brut mensuel",
+              "Point de départ le plus courant pour estimer la base.",
+              "Ne pas le remplacer par le salaire net payé."
+            ],
+            [
+              "Moyennes 3 ou 12 mois",
+              "Permettent de relire la rémunération récente ou habituelle.",
+              "Comparer les moyennes si la paie a changé."
+            ],
+            [
+              "Primes régulières",
+              "Peuvent augmenter le salaire de référence selon leur nature.",
+              "Ne pas oublier un 13e mois, une prime variable ou une commission régulière."
+            ],
+            [
+              "Absences",
+              "Peuvent compliquer la lecture des derniers bulletins.",
+              "Vérifier si le salaire habituel doit être pris en compte."
+            ],
+            [
+              "Convention collective",
+              "Peut prévoir une règle plus favorable.",
+              "Toujours vérifier le texte applicable avant signature."
+            ]
+          ]
+        }
       },
       {
         title: "Indemnité légale, conventionnelle et supra-légale",
@@ -317,6 +367,20 @@ const basePillarPages: PillarPage[] = [
         paragraphs: [
           commonSimulatorCta,
           "Le simulateur est particulièrement utile lorsque l'on veut tester plusieurs hypothèses : date de départ différente, salaire moyen différent, ancienneté avec fraction d'année, montant négocié supérieur au minimum."
+        ]
+      },
+      {
+        title: "Erreurs fréquentes sur le salaire de référence",
+        paragraphs: [
+          "La plupart des écarts viennent d'une base trop rapide : dernier mois pris seul, net confondu avec le brut, prime oubliée ou ancienneté arrondie. Ces erreurs peuvent faire baisser artificiellement le minimum affiché.",
+          "Avant de signer, relisez la base avec vos bulletins et utilisez la simulation comme point de contrôle. Si la rémunération comprend beaucoup de variable, une vérification paie ou conventionnelle devient préférable."
+        ],
+        bullets: [
+          "Confondre salaire brut et salaire net.",
+          "Prendre uniquement le dernier mois sans regarder les moyennes.",
+          "Oublier les primes régulières, commissions ou 13e mois.",
+          "Ignorer une absence qui a réduit la paie récente.",
+          "Oublier la convention collective."
         ]
       }
     ],
@@ -585,10 +649,12 @@ const basePillarPages: PillarPage[] = [
 ];
 
 const requiredInternalLinks = [
+  "/blog/calcul-indemnite-brut-ou-net",
   "/calcul-indemnite-rupture-conventionnelle-net",
   "/simulateur-rupture-conventionnelle",
   "/calcul-indemnite-rupture-conventionnelle",
   "/indemnite-legale-rupture-conventionnelle",
+  "/rupture-conventionnelle-chomage",
   "/modele-lettre-rupture-conventionnelle"
 ];
 
@@ -2272,42 +2338,198 @@ const blogPostsData: BlogPost[] = [
 
   {
     slug: "calcul-indemnite-brut-ou-net",
-    title: "Calcul indemnité : brut ou net ?",
+    title: "Rupture conventionnelle : faut-il calculer avec le salaire brut ou net ?",
     description:
-      "Comprendre la différence entre indemnité brute et nette lors d'une rupture conventionnelle : minimum légal, net indicatif et vigilance.",
+      "Quel salaire utiliser pour une rupture conventionnelle : brut, net, salaire de référence, primes, indemnité nette, exemples et simulateur gratuit.",
     relatedPillars: [
+      "/simulateur-rupture-conventionnelle",
       "/calcul-indemnite-rupture-conventionnelle",
+      "/calcul-indemnite-rupture-conventionnelle-net",
       "/indemnite-legale-rupture-conventionnelle",
-      "/simulateur-rupture-conventionnelle"
+      "/rupture-conventionnelle-chomage",
+      "/indemnite-rupture-conventionnelle-salaire-1500",
+      "/indemnite-rupture-conventionnelle-salaire-2000",
+      "/indemnite-rupture-conventionnelle-salaire-2500",
+      "/indemnite-rupture-conventionnelle-salaire-3000"
     ],
     intro: [
-      "La question brut ou net revient systématiquement lors d'un calcul d'indemnité. Le minimum légal se raisonne en brut, mais le salarié veut souvent connaître ce qu'il percevra réellement.",
-      `Le net indicatif est utile, mais il ne doit pas être confondu avec une garantie de paiement. ${mandatoryDisclaimer}`
+      "Pour calculer une indemnité de rupture conventionnelle, on ne part pas du salaire net versé sur le compte bancaire, mais du salaire brut de référence. C'est ce montant qui sert de base au calcul légal minimum.",
+      `Le salaire net reste utile pour comprendre le montant réellement perçu, mais il ne remplace pas la base brute du calcul. Les primes, variables, absences et règles conventionnelles peuvent modifier le salaire de référence. ${mandatoryDisclaimer}`
     ],
     sections: [
       {
-        title: "Pourquoi le brut est la base",
+        title: "Réponse rapide",
         paragraphs: [
-          "Les règles de calcul utilisent généralement le salaire brut de référence. C'est donc en brut que l'on calcule le minimum applicable.",
-          "Le net dépend ensuite du traitement social et fiscal."
+          "Le calcul se fait avec le salaire brut de référence. Le salaire net sert surtout à se projeter sur le montant perçu après traitement social et fiscal.",
+          "L'indemnité légale est un minimum. La convention collective ou la négociation peuvent prévoir davantage."
+        ],
+        bullets: [
+          "Le calcul se fait avec le salaire brut de référence.",
+          "Le salaire net ne suffit pas pour calculer l'indemnité minimale.",
+          "Les primes, variables et 13e mois peuvent modifier la base.",
+          "L'indemnité légale est un plancher, pas un plafond.",
+          "La convention collective ou la négociation peuvent augmenter le montant."
         ]
       },
       {
-        title: "Pourquoi le net peut varier",
+        title: "Brut, net, salaire de référence : quelle différence ?",
         paragraphs: [
-          "Le net peut varier selon les exonérations, la part supra-légale, la situation du salarié et le traitement en paie.",
-          "Il est donc préférable de lire le net comme un ordre de grandeur."
+          "Ces notions répondent à des questions différentes. Les confondre peut conduire à une estimation trop basse ou à une mauvaise lecture de la proposition.",
+          "Le tableau ci-dessous permet de savoir quel montant regarder avant de lancer une simulation ou de relire une convention de rupture."
+        ],
+        table: {
+          headers: [
+            "Notion",
+            "Ce que cela signifie",
+            "Utilité pour la rupture conventionnelle",
+            "Erreur fréquente"
+          ],
+          rows: [
+            [
+              "Salaire brut",
+              "Rémunération avant cotisations salariales.",
+              "Point de départ pour déterminer le salaire de référence.",
+              "Le confondre avec le net à payer."
+            ],
+            [
+              "Salaire net",
+              "Montant après cotisations, avant ou après impôt selon la ligne lue.",
+              "Aide à comprendre le budget personnel, pas le minimum légal.",
+              "Calculer l'indemnité sur le net bancaire."
+            ],
+            [
+              "Salaire de référence",
+              "Base retenue pour appliquer la formule d'indemnité.",
+              "Donnée centrale du calcul avec l'ancienneté.",
+              "Prendre seulement le dernier mois sans vérifier les moyennes."
+            ],
+            [
+              "Indemnité brute",
+              "Montant calculé avant lecture du traitement social et fiscal.",
+              "Sert à vérifier le minimum légal ou conventionnel.",
+              "La comparer directement au net espéré."
+            ],
+            [
+              "Indemnité nette perçue",
+              "Montant indicatif susceptible d'être versé après traitement en paie.",
+              "Permet de se projeter sur la somme disponible.",
+              "La considérer comme garantie sans vérification paie."
+            ],
+            [
+              "Primes et variables",
+              "Éléments de rémunération réguliers ou variables selon le contrat.",
+              "Peuvent modifier le salaire de référence.",
+              "Oublier un 13e mois, une commission ou une prime régulière."
+            ]
+          ]
+        }
+      },
+      {
+        title: "Quel salaire utiliser pour le calcul ?",
+        paragraphs: [
+          "Le bon réflexe consiste à partir du salaire brut de référence, puis à vérifier si la rémunération habituelle doit être corrigée par des primes, variables, absences ou changements récents.",
+          "Si votre paie est stable, le salaire brut mensuel donne souvent un repère simple. Si votre rémunération varie, comparez les moyennes utiles et gardez les bulletins sous la main."
         ]
       },
       {
-        title: "Bon réflexe",
+        title: "Le salaire net est-il pris en compte ?",
         paragraphs: [
-          "Calculez d'abord le minimum brut, puis demandez une vérification paie pour le net final.",
-          commonSimulatorCta
+          "Le salaire net n'est pas la base de calcul du minimum. Il sert plutôt à comprendre ce que le salarié pourrait réellement percevoir une fois l'indemnité traitée en paie.",
+          "C'est pourquoi une page ou un simulateur sérieux doit séparer le minimum brut, le net indicatif et le montant éventuellement négocié."
+        ]
+      },
+      {
+        title: "Les primes et variables comptent-elles ?",
+        paragraphs: [
+          "Des primes régulières, commissions, variables ou un 13e mois peuvent modifier le salaire de référence selon leur nature et les règles applicables. Il faut donc éviter de saisir un salaire trop simplifié si la rémunération n'est pas fixe.",
+          "En cas de doute, testez plusieurs hypothèses dans le simulateur : salaire fixe seul, moyenne avec primes, puis montant éventuellement négocié."
+        ]
+      },
+      {
+        title: "Indemnité brute et montant net perçu : attention à la différence",
+        paragraphs: [
+          "L'indemnité minimale est d'abord lue en brut. Le montant net perçu dépend ensuite du traitement social et fiscal, notamment si une part supra-légale est négociée.",
+          "Le net indicatif reste utile pour préparer son budget, mais il doit être confirmé avec la paie lorsque le montant devient important ou que la situation est particulière."
+        ]
+      },
+      {
+        title: "Exemples avec 1 500 €, 2 000 €, 2 500 € et 3 000 € brut",
+        paragraphs: [
+          "Avec un salaire brut mensuel de 1 500 €, 2 000 €, 2 500 € ou 3 000 €, le montant ne dépend pas seulement du salaire. L'ancienneté change fortement le résultat.",
+          "Exemple indicatif avec 10 ans d'ancienneté : 1 500 € brut donne environ 3 750 € bruts, 2 000 € brut donne environ 5 000 € bruts, 2 500 € brut donne environ 6 250 € bruts et 3 000 € brut donne environ 7 500 € bruts avant vérification conventionnelle."
+        ],
+        bullets: [
+          "Voir l'exemple avec 1 500 € brut : /indemnite-rupture-conventionnelle-salaire-1500",
+          "Voir l'exemple avec 2 000 € brut : /indemnite-rupture-conventionnelle-salaire-2000",
+          "Voir l'exemple avec 2 500 € brut : /indemnite-rupture-conventionnelle-salaire-2500",
+          "Voir l'exemple avec 3 000 € brut : /indemnite-rupture-conventionnelle-salaire-3000"
+        ]
+      },
+      {
+        title: "Les erreurs fréquentes",
+        paragraphs: [
+          "Les erreurs les plus courantes viennent d'une confusion entre le brut, le net, la base de référence et le montant final perçu.",
+          "Avant de signer, vérifiez aussi la convention collective et l'impact possible d'une indemnité élevée sur les délais d'indemnisation chômage."
+        ],
+        bullets: [
+          "Confondre salaire brut et salaire net.",
+          "Oublier les primes, commissions ou variables réguliers.",
+          "Prendre uniquement le dernier mois.",
+          "Oublier la convention collective.",
+          "Croire que l'indemnité légale est un maximum.",
+          "Oublier l'impact possible sur le chômage."
+        ]
+      },
+      {
+        title: "Faire une simulation avec le bon salaire",
+        paragraphs: [
+          commonSimulatorCta,
+          "Saisissez d'abord votre salaire brut mensuel, puis ajoutez les moyennes brutes sur 3 ou 12 mois si elles sont plus représentatives. Le résultat sera plus utile qu'un calcul fait à partir du net bancaire."
         ]
       }
     ],
-    faq: commonFaq
+    faq: [
+      {
+        question: "Pour une rupture conventionnelle, faut-il utiliser le salaire brut ou net ?",
+        answer:
+          "Il faut utiliser le salaire brut de référence. Le salaire net sert surtout à comprendre le montant réellement perçu, mais il ne suffit pas pour calculer le minimum."
+      },
+      {
+        question: "Quel salaire sert de base au calcul de l'indemnité ?",
+        answer:
+          "La base est le salaire brut de référence, à relire avec les bulletins de paie, les primes, les variables et les règles conventionnelles applicables."
+      },
+      {
+        question: "Le salaire net est-il pris en compte ?",
+        answer:
+          "Le salaire net n'est pas la base du minimum légal. Il sert à donner un ordre de grandeur du montant disponible après traitement social et fiscal."
+      },
+      {
+        question: "Les primes comptent-elles dans le salaire de référence ?",
+        answer:
+          "Des primes régulières, variables, commissions ou un 13e mois peuvent parfois modifier la base. Il faut vérifier leur nature et les règles applicables."
+      },
+      {
+        question: "L'indemnité de rupture conventionnelle est-elle versée en brut ou en net ?",
+        answer:
+          "La convention mentionne généralement un montant brut. Le net perçu dépend ensuite du traitement en paie, des exonérations possibles et de la situation individuelle."
+      },
+      {
+        question: "Peut-on toucher plus que le minimum légal ?",
+        answer:
+          "Oui. Le minimum légal est un plancher. Une convention collective plus favorable ou une négociation peut conduire à une indemnité supérieure."
+      },
+      {
+        question: "La convention collective peut-elle changer le montant ?",
+        answer:
+          "Oui. Si elle prévoit une règle plus favorable, il faut en tenir compte avant de valider le montant proposé."
+      },
+      {
+        question: "Quel est l'impact sur le chômage après une rupture conventionnelle ?",
+        answer:
+          "La rupture conventionnelle peut ouvrir droit au chômage sous conditions. Une indemnité supra-légale peut toutefois influencer certains différés d'indemnisation."
+      }
+    ]
   },
 
   {

@@ -51,9 +51,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Estimez votre indemnité de rupture conventionnelle en quelques minutes, gratuitement et sans inscription, selon le droit du travail français."
   },
   "calcul-indemnite-rupture-conventionnelle": {
-    title: "Calcul de l’indemnité de rupture conventionnelle",
+    title: "Rupture conventionnelle : quel salaire utiliser ?",
     description:
-      "Comprenez le calcul de votre indemnité de rupture conventionnelle : ancienneté, salaire de référence, minimum légal et estimation rapide."
+      "Salaire brut de référence, primes, ancienneté : comprenez quelle base utiliser pour calculer votre rupture conventionnelle."
   },
   "indemnite-legale-rupture-conventionnelle": {
     title: "Indemnité légale de rupture conventionnelle : calcul 2026",
@@ -81,9 +81,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Estimez l’impact de l’ancienneté sur votre indemnité de rupture conventionnelle, avec une méthode claire et des exemples pratiques."
   },
   "calcul-indemnite-rupture-conventionnelle-net": {
-    title: "Calcul indemnité rupture conventionnelle nette 2026",
+    title: "Indemnité rupture conventionnelle nette : calcul",
     description:
-      "Calculez gratuitement votre indemnité de rupture conventionnelle nette ou brute en 2026, rapidement et sans inscription."
+      "Distinguez indemnité brute, net indicatif et montant réellement perçu, avec exemples et simulation gratuite."
   },
   "simulateur-indemnite-rupture-conventionnelle-net": {
     title: "Simulateur d’indemnité nette de rupture conventionnelle",
@@ -214,9 +214,9 @@ const blogSeoSnippets: Record<string, SeoSnippet> = {
       "Calculez l’indemnité d’un cadre en rupture conventionnelle et identifiez les points clés : salaire variable, ancienneté et négociation."
   },
   "calcul-indemnite-brut-ou-net": {
-    title: "Indemnité de rupture conventionnelle : brut ou net ?",
+    title: "Rupture conventionnelle : salaire brut ou net ?",
     description:
-      "Comprenez pourquoi le calcul part du brut, comment lire le net indicatif et ce qui peut modifier le montant réellement perçu."
+      "Quel salaire utiliser pour calculer une rupture conventionnelle : brut, net, primes, salaire de référence et simulation gratuite."
   },
   "rupture-conventionnelle-refus-employeur-que-faire": {
     title: "Rupture conventionnelle refusée : que faire ?",
@@ -340,8 +340,8 @@ export function getPillarSeoSnippet(
 
   if (programmaticParams?.type === "salaire") {
     return {
-      title: `Indemnité de rupture conventionnelle : salaire ${programmaticParams.value}€`,
-      description: `Calculez l’indemnité de rupture conventionnelle pour un salaire de ${programmaticParams.value}€ avec une estimation gratuite, rapide et sans inscription.`
+      title: `Rupture conventionnelle avec ${programmaticParams.value}€ brut`,
+      description: `Avec ${programmaticParams.value}€ brut, estimez votre indemnité selon l’ancienneté, le salaire de référence et les primes avec le simulateur gratuit.`
     };
   }
 

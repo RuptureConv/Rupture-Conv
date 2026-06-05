@@ -67,6 +67,7 @@ export default function BlogIndexPage() {
   ];
   const featuredSlugs = new Set([
     "reforme-rupture-conventionnelle-2026",
+    "calcul-indemnite-brut-ou-net",
     "rupture-conventionnelle-chomage-2026",
     "comment-calculer-une-rupture-conventionnelle-facilement",
     "rupture-conventionnelle-et-preavis"

@@ -71,10 +71,10 @@ export function ProgrammaticSeoTemplate({
   const takeaways =
     type === "salaire"
       ? [
-          "Le salaire brut de référence sert de base au calcul.",
-          "L’ancienneté reste indispensable pour estimer le montant.",
-          "Les primes régulières peuvent modifier la base retenue.",
-          "Le résultat affiché reste indicatif."
+          "Le montant dépend surtout de votre ancienneté.",
+          "Le calcul se fait à partir du salaire brut de référence.",
+          "Le salaire net ne suffit pas pour calculer l’indemnité.",
+          "Une convention collective ou une négociation peut augmenter le montant."
         ]
       : [
           "L’ancienneté influence directement le minimum indicatif.",
@@ -153,6 +153,29 @@ export function ProgrammaticSeoTemplate({
           <TrustPanel />
           <CalculationSchema compact />
 
+          {type === "salaire" ? (
+            <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+              <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
+                Réponse rapide
+              </h2>
+              <ul className="mt-4 list-disc space-y-2 pl-6 text-base leading-8 text-[#5B6B7C]">
+                <li>
+                  Avec {formatEuro(value)} brut mensuels, le montant dépend surtout
+                  de l&apos;ancienneté.
+                </li>
+                <li>
+                  Le calcul part du salaire brut de référence, pas du salaire net.
+                </li>
+                <li>
+                  Des primes, variables ou un 13e mois peuvent modifier la base.
+                </li>
+                <li>
+                  La convention collective ou la négociation peut prévoir davantage.
+                </li>
+              </ul>
+            </section>
+          ) : null}
+
           <ConcreteExample
             body={`Pour ${estimate.years} ${
               estimate.years === 1 ? "an" : "ans"
@@ -198,6 +221,27 @@ export function ProgrammaticSeoTemplate({
             description="Utilisez vos dates exactes et votre salaire brut de référence pour obtenir un montant plus utile que l'exemple standard."
             title="Affinez ce calcul avec le simulateur"
           />
+
+          {type === "salaire" ? (
+            <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+              <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
+                Brut ou net : quel salaire saisir ?
+              </h2>
+              <div className="mt-4 space-y-4 text-base leading-8 text-[#5B6B7C]">
+                <p>
+                  Pour une rupture conventionnelle, saisissez le salaire brut de
+                  référence. Le salaire net est utile pour votre budget, mais il
+                  ne permet pas de calculer le minimum légal.
+                </p>
+                <p>
+                  Si votre rémunération comprend des primes, une part variable ou
+                  un 13e mois, vérifiez les moyennes brutes avant de retenir une
+                  base. C&apos;est souvent le point qui explique les écarts entre
+                  une estimation rapide et le montant réellement proposé.
+                </p>
+              </div>
+            </section>
+          ) : null}
           <MiniFaq items={dynamicText.faq} />
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
@@ -250,6 +294,10 @@ export function ProgrammaticSeoTemplate({
             </h2>
             <ul className="mt-4 list-disc space-y-2 pl-6 text-sm font-semibold leading-7 text-[#102A4C]">
               {[
+                {
+                  href: "/blog/calcul-indemnite-brut-ou-net",
+                  label: "rupture conventionnelle brut ou net"
+                },
                 {
                   href: "/calcul-indemnite-rupture-conventionnelle-net",
                   label: "calcul de l'indemnité nette"

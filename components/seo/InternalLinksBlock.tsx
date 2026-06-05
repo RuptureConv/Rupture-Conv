@@ -19,8 +19,12 @@ const internalLinks = [
     label: "calcul indemnité rupture conventionnelle nette"
   },
   {
+    href: "/blog/calcul-indemnite-brut-ou-net",
+    label: "rupture conventionnelle brut ou net"
+  },
+  {
     href: "/calcul-indemnite-rupture-conventionnelle",
-    label: "méthode de calcul de l'indemnité"
+    label: "salaire brut de référence"
   },
   {
     href: "/indemnite-legale-rupture-conventionnelle",
@@ -29,6 +33,10 @@ const internalLinks = [
   {
     href: "/simulateur-rupture-conventionnelle",
     label: "simulateur de rupture conventionnelle"
+  },
+  {
+    href: "/rupture-conventionnelle-chomage",
+    label: "chômage après rupture conventionnelle"
   },
   {
     href: "/modele-lettre-rupture-conventionnelle",

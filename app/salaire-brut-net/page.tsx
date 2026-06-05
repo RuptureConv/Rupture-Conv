@@ -248,6 +248,11 @@ export default function SalaryGrossNetPage() {
               </h2>
               <ul className="mt-4 space-y-3 text-sm font-bold leading-6 text-[#102A4C]">
                 <li>
+                  <Link className="hover:text-[#22AFA3]" href="/blog/calcul-indemnite-brut-ou-net">
+                    Rupture conventionnelle : faut-il partir du brut ou du net ?
+                  </Link>
+                </li>
+                <li>
                   <Link className="hover:text-[#22AFA3]" href="/simulateur-rupture-conventionnelle">
                     Calculer votre indemnité de rupture conventionnelle
                   </Link>

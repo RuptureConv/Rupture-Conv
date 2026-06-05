@@ -103,29 +103,40 @@ export function generateDynamicText(
 
   if (params.type === "salaire") {
     return {
-      h1: `Indemnité de rupture conventionnelle avec un salaire de ${params.value}€`,
-      introAnswer: `Vous souhaitez estimer le montant possible avec un salaire brut de ${formatEuro(params.value)} ? Avec 10 ans d'ancienneté, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts.`,
+      h1: `Rupture conventionnelle avec ${formatEuro(params.value)} brut : combien toucher ?`,
+      introAnswer: `Avec ${formatEuro(params.value)} brut mensuels, le montant dépend surtout de votre ancienneté. À 10 ans d'ancienneté, l'indemnité minimale indicative est d'environ ${formatEuro(estimate.amount)} bruts.`,
       lead:
-        "Ce repère permet de mieux lire une proposition avant de vérifier la convention collective, les primes et le salaire réellement retenu.",
+        "Le calcul se fait à partir du salaire brut de référence, pas du salaire net. Ce repère doit ensuite être vérifié avec les primes, la convention collective et le montant éventuellement négocié.",
       differentiated: [
-        `Un salaire de ${formatEuro(params.value)} peut servir de base au calcul si ce montant correspond bien au salaire brut de référence.`,
+        `Avec ${formatEuro(params.value)} brut mensuels, le salaire saisi doit correspondre au salaire brut de référence. Le net mensuel ne suffit pas pour calculer le minimum.`,
         "L'ancienneté reste déterminante : les dix premières années sont calculées au quart de mois, puis les années suivantes au tiers de mois.",
-        "Si votre rémunération a changé récemment, comparez les moyennes utiles et vérifiez les primes régulières. Vous éviterez ainsi de sous-estimer le minimum ou de confondre brut, net indicatif et montant négocié."
+        "Si votre rémunération a changé récemment, comparez les moyennes utiles et vérifiez les primes régulières. Vous éviterez ainsi de sous-estimer le minimum ou de confondre brut, net indicatif et montant négocié.",
+        "Une convention collective plus favorable ou une négociation peut augmenter le montant. L'indemnité légale reste un plancher, pas un plafond."
       ],
       faq: [
         {
-          question: `Quelle indemnité pour un salaire de ${params.value}€ ?`,
-          answer: `Avec 10 ans d'ancienneté, un salaire de ${formatEuro(params.value)} donne un minimum indicatif d'environ ${formatEuro(estimate.amount)} bruts.`
+          question: `Quelle indemnité de rupture conventionnelle avec ${params.value}€ brut ?`,
+          answer: `Avec 10 ans d'ancienneté, un salaire de ${formatEuro(params.value)} donne un minimum indicatif d'environ ${formatEuro(estimate.amount)} bruts. Le résultat change si l'ancienneté, les primes ou la convention collective diffèrent.`
         },
         {
-          question: "Le salaire net est-il utilisé pour le calcul ?",
+          question: "Faut-il saisir le brut ou le net ?",
           answer:
-            "Non, le calcul du minimum se raisonne sur une base brute. Le net indicatif dépend ensuite du traitement social et fiscal."
+            "Il faut saisir le salaire brut de référence. Le net indicatif aide à se projeter sur le montant perçu, mais il n'est pas la base du minimum."
         },
         {
-          question: "La progression salariale change-t-elle le montant ?",
+          question: "Pourquoi l'ancienneté change-t-elle autant le résultat ?",
           answer:
-            "Oui, si la hausse entre dans le salaire de référence retenu. Les primes et variables réguliers peuvent aussi modifier la base."
+            "La formule applique une fraction de mois de salaire par année d'ancienneté. À salaire identique, une ancienneté plus élevée augmente donc mécaniquement le minimum indicatif."
+        },
+        {
+          question: "Les primes peuvent-elles changer le montant ?",
+          answer:
+            "Oui, si elles entrent dans le salaire de référence retenu. Les primes régulières, commissions, variables ou 13e mois doivent être vérifiés avec les bulletins de paie."
+        },
+        {
+          question: "Peut-on négocier plus que le minimum ?",
+          answer:
+            "Oui. Le minimum légal ou conventionnel sert de plancher. Les parties peuvent prévoir davantage si elles trouvent un accord."
         }
       ]
     };

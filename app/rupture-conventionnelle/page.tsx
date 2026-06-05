@@ -50,7 +50,7 @@ const quickActions = [
   {
     title: "Calculer mon indemnité",
     text: "Vous voulez surtout savoir combien vous pouvez toucher ? Commencez par le calcul.",
-    href: "/simulateur-rupture-conventionnelle",
+    href: "/#simulateur",
     label: "Ouvrir le simulateur"
   },
   {
@@ -102,7 +102,7 @@ const journeySteps = [
     step: "1",
     title: "Estimer l'indemnité",
     text: "Posez d'abord un chiffre indicatif. Cela évite de discuter à l'aveugle.",
-    href: "/simulateur-rupture-conventionnelle",
+    href: "/#simulateur",
     label: "Calculer maintenant",
     next: "Ensuite, vérifiez la règle de calcul."
   },
@@ -152,14 +152,20 @@ const tools = [
   {
     title: "Simulateur d'indemnité",
     badge: "Calcul",
-    href: "/simulateur-rupture-conventionnelle",
+    href: "/#simulateur",
     text: "Le point de départ si vous voulez un montant indicatif rapide."
   },
   {
-    title: "Calcul net / brut",
+    title: "Brut ou net ?",
     badge: "Montant",
+    href: "/blog/calcul-indemnite-brut-ou-net",
+    text: "Pour savoir quel salaire utiliser : brut, net, salaire de référence, primes et montant perçu."
+  },
+  {
+    title: "Indemnité nette",
+    badge: "Net indicatif",
     href: "/calcul-indemnite-rupture-conventionnelle-net",
-    text: "Pour comprendre pourquoi brut, net et fiscalité ne racontent pas toujours la même histoire."
+    text: "Pour distinguer le minimum brut, le net indicatif et le montant réellement versé."
   },
   {
     title: "Délais et calendrier",
@@ -363,7 +369,7 @@ export default function RuptureConventionnelleHubPage() {
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/simulateur-rupture-conventionnelle"
+                href="/#simulateur"
                 className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#22AFA3] px-6 text-sm font-black text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
               >
                 Calculer mon indemnité
@@ -386,7 +392,7 @@ export default function RuptureConventionnelleHubPage() {
               donnera tout de suite un repère.
             </p>
             <Link
-              href="/simulateur-rupture-conventionnelle"
+              href="/#simulateur"
               className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[#061B3A] px-4 text-sm font-black text-white transition hover:bg-[#102A4C]"
             >
               Lancer le simulateur
@@ -430,7 +436,7 @@ export default function RuptureConventionnelleHubPage() {
               ))}
             </nav>
             <Link
-              href="/simulateur-rupture-conventionnelle"
+              href="/#simulateur"
               className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-full bg-[#22AFA3] px-4 text-xs font-black text-white transition hover:bg-[#168F86]"
             >
               Calculer
@@ -636,7 +642,7 @@ export default function RuptureConventionnelleHubPage() {
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/simulateur-rupture-conventionnelle"
+                href="/#simulateur"
                 className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#22AFA3] px-6 text-sm font-black text-white transition hover:bg-[#168F86]"
               >
                 Calculer mon indemnité
