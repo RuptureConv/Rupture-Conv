@@ -73,8 +73,8 @@ const steps = [
   "Votre emploi",
   "Vos revenus",
   "Vos indemnités",
-  "Résultats",
-  "Projection financière"
+  "Vos résultats",
+  "Calendrier"
 ];
 
 const defaultForm: FormState = {
@@ -109,6 +109,31 @@ function euro(value: number): string {
 
 function dateFr(value: string): string {
   return new Intl.DateTimeFormat("fr-FR").format(new Date(`${value}T00:00:00Z`));
+}
+
+function monthsLabel(days: number): string {
+  const months = Math.max(1, Math.round(days / 30.42));
+  return `${months} mois`;
+}
+
+function exitIndemnityLabel(mode: EmploymentExitMode): string {
+  if (mode === "rupture_conventionnelle") return "Indemnité de rupture conventionnelle";
+  if (mode === "licenciement") return "Indemnité de départ ou de licenciement";
+  if (mode === "fin_cdd") return "Indemnité de fin de contrat estimée";
+  if (mode === "fin_mission_interim") return "Indemnité de fin de mission estimée";
+  return "Somme de départ estimée";
+}
+
+function confidenceItems(mode: EmploymentExitMode) {
+  return [
+    "votre ancienneté",
+    "votre salaire brut moyen",
+    "les règles France Travail 2026",
+    "les paramètres renseignés",
+    mode === "rupture_conventionnelle"
+      ? "la formule minimale de rupture conventionnelle"
+      : "le mode de fin de contrat sélectionné"
+  ];
 }
 
 function Field({
@@ -160,6 +185,23 @@ function NumberInput({
         </span>
       ) : null}
     </div>
+  );
+}
+
+function InfoTip({ children, label }: { children: React.ReactNode; label: string }) {
+  return (
+    <span className="group relative inline-flex align-middle">
+      <button
+        aria-label={`Comprendre : ${label}`}
+        className="ml-2 inline-flex h-5 w-5 items-center justify-center rounded-full border border-[#BFDADB] bg-white text-xs font-black text-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3]"
+        type="button"
+      >
+        ?
+      </button>
+      <span className="pointer-events-none absolute left-1/2 top-7 z-20 hidden w-64 -translate-x-1/2 rounded-xl border border-[#D7E7E8] bg-white p-3 text-xs font-semibold leading-5 text-[#102A4C] shadow-lg group-hover:block group-focus-within:block">
+        {children}
+      </span>
+    </span>
   );
 }
 
@@ -341,45 +383,170 @@ export function UnemploymentProjectionTool() {
           {step >= 4 && result ? (
             <div className="space-y-6">
               <h2 className="text-2xl font-black text-[#061B3A]">
-                {step === 4 ? "Résultats" : "Projection financière"}
+                {step === 4 ? "Vos résultats, dans l'ordre réel" : "Votre calendrier de versement"}
               </h2>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <ResultCard label="Éligibilité" value={result.eligibility.label} />
-                <ResultCard label="ARE brute estimée" value={`${euro(result.salary.monthlyGrossAre)} / mois`} />
-                <ResultCard label="ARE nette estimée" value={`${euro(result.salary.monthlyNetAre)} / mois`} />
-                <ResultCard label="Premier versement probable" value={dateFr(result.waitingPeriods.estimatedFirstPaymentDate)} />
-                <ResultCard label="Durée estimative" value={`${result.duration.estimatedDays} jours`} />
-                <ResultCard label="Diagnostic" value={result.decision.label} />
-              </div>
-              {step === 5 ? (
-                <div className="rounded-2xl bg-[#061B3A] p-5 text-white">
-                  <h3 className="text-xl font-black">Projection financière globale</h3>
-                  <dl className="mt-5 grid gap-4 text-sm sm:grid-cols-2">
-                    <ProjectionLine label="Indemnité rupture / départ" value={euro(result.projection.terminationIndemnity)} />
-                    <ProjectionLine label="Chômage mensuel estimé" value={euro(result.projection.monthlyUnemployment)} />
-                    <ProjectionLine label="Montant potentiel total ARE" value={euro(result.projection.totalPotentialAre)} />
-                    <ProjectionLine label="Revenus cumulés potentiels" value={euro(result.projection.cumulativePotentialIncome)} />
-                  </dl>
-                </div>
-              ) : null}
+              <section className="rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-5">
+                <h3 className="text-lg font-black text-[#061B3A]">
+                  Comprendre mon résultat
+                </h3>
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#102A4C]">
+                  Dans votre situation, vous pourriez percevoir environ{" "}
+                  <strong>{euro(result.projection.terminationIndemnity)}</strong>{" "}
+                  lors de votre départ, puis environ{" "}
+                  <strong>{euro(result.projection.monthlyUnemployment)} par mois</strong>{" "}
+                  de France Travail pendant une durée estimée de{" "}
+                  <strong>{monthsLabel(result.duration.estimatedDays)}</strong>.
+                </p>
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#102A4C]">
+                  Le total chômage et la projection globale sont des cumuls sur toute
+                  la période. Ce ne sont pas des sommes versées en une seule fois.
+                </p>
+              </section>
+
+              {step === 4 ? (
+                <>
+                  <div className="space-y-4">
+                    <MoneyResultCard
+                      amount={euro(result.projection.terminationIndemnity)}
+                      certainty="estimation à vérifier avec vos documents de fin de contrat"
+                      description="Cette somme correspond à l'indemnité estimée versée par votre employeur lors de votre départ. Selon votre négociation, ce montant peut être supérieur."
+                      label={exitIndemnityLabel(form.exitMode)}
+                      payer="Votre employeur"
+                      timing="Au moment du départ"
+                      type="Versement unique"
+                    />
+                    <MoneyResultCard
+                      amount={`${euro(result.projection.monthlyUnemployment)} / mois`}
+                      certainty="estimation à confirmer par France Travail"
+                      description="Ce montant correspond à votre allocation mensuelle estimée. Il sert à comprendre votre revenu régulier pendant la période indemnisée."
+                      label={
+                        <>
+                          Allocation chômage estimée
+                          <InfoTip label="ARE">
+                            L'ARE est l'allocation d'aide au retour à l'emploi. C'est
+                            le chômage versé par France Travail lorsque les conditions
+                            sont réunies.
+                          </InfoTip>
+                        </>
+                      }
+                      payer="France Travail"
+                      timing={`À partir du ${dateFr(result.waitingPeriods.estimatedFirstPaymentDate)}`}
+                      type="Montant mensuel"
+                    />
+                    <DurationResultCard
+                      days={result.duration.estimatedDays}
+                      label="Durée estimée d'indemnisation"
+                      note="Cette durée dépend de votre activité passée, de votre âge et des règles France Travail 2026."
+                    />
+                    <MoneyResultCard
+                      amount={euro(result.projection.totalPotentialAre)}
+                      certainty="projection théorique sur toute la période"
+                      description="Ce montant représente le cumul des allocations chômage sur l'ensemble de votre période d'indemnisation. Il ne s'agit pas d'un versement unique."
+                      label={
+                        <>
+                          Total ARE potentiel
+                          <InfoTip label="Total ARE potentiel">
+                            C'est l'addition des allocations mensuelles possibles sur
+                            toute la durée estimée. Vous ne recevez pas ce total d'un
+                            seul coup.
+                          </InfoTip>
+                        </>
+                      }
+                      payer="France Travail"
+                      timing={`Sur environ ${monthsLabel(result.duration.estimatedDays)}`}
+                      type="Cumul sur la durée"
+                    />
+                    <MoneyResultCard
+                      amount={euro(result.projection.cumulativePotentialIncome)}
+                      certainty="projection globale, pas un paiement immédiat"
+                      description="Cette projection additionne l'indemnité de départ et les allocations chômage potentielles sur toute la durée des droits."
+                      label={
+                        <>
+                          Projection globale
+                          <InfoTip label="Projection globale">
+                            Ce chiffre additionne deux choses différentes : une somme
+                            versée au départ et des allocations mensuelles étalées dans
+                            le temps.
+                          </InfoTip>
+                        </>
+                      }
+                      payer="Employeur puis France Travail"
+                      timing="Sur l'ensemble du scénario"
+                      type="Cumul employeur + ARE"
+                      warning="Ce n'est pas une somme reçue immédiatement."
+                    />
+                  </div>
+
+                  <ConfidencePanel items={confidenceItems(form.exitMode)} />
+                </>
+              ) : (
+                <>
+                  <PaymentTimeline
+                    firstPaymentDate={dateFr(result.waitingPeriods.estimatedFirstPaymentDate)}
+                    legalWaitingDays={result.waitingPeriods.legalWaitingDays}
+                    paidLeaveDays={result.waitingPeriods.paidLeaveDeferredDays}
+                    specificDays={result.waitingPeriods.specificDeferredDays}
+                    monthlyAre={euro(result.projection.monthlyUnemployment)}
+                    duration={monthsLabel(result.duration.estimatedDays)}
+                  />
+                  <section className="rounded-2xl border border-[#D7E7E8] bg-white p-5">
+                    <h3 className="text-lg font-black text-[#061B3A]">
+                      Les détails du calcul, sans jargon
+                    </h3>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <SmallExplanation
+                        label={
+                          <>
+                            SJR
+                            <InfoTip label="SJR">
+                              Le SJR est le salaire journalier de référence. Il sert
+                              de base au calcul du chômage.
+                            </InfoTip>
+                          </>
+                        }
+                        value={`${euro(result.salary.estimatedSjr)} par jour`}
+                      />
+                      <SmallExplanation
+                        label={
+                          <>
+                            Carence et différés
+                            <InfoTip label="Carence">
+                              C'est le temps possible entre la fin du contrat et le
+                              début du paiement chômage.
+                            </InfoTip>
+                          </>
+                        }
+                        value={`${result.waitingPeriods.totalDeferredDays} jours au total`}
+                      />
+                      <SmallExplanation
+                        label="Formule retenue"
+                        value={`${euro(result.salary.dailyGrossAre)} brut par jour`}
+                      />
+                      <SmallExplanation
+                        label="Situation du dossier"
+                        value={result.eligibility.label}
+                      />
+                    </div>
+                  </section>
+                </>
+              )}
+
               <section className="rounded-2xl border border-[#D7E7E8] bg-white p-5">
-                <h3 className="text-lg font-black text-[#061B3A]">Explications</h3>
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm font-semibold leading-6 text-[#5B6B7C]">
+                <h3 className="text-lg font-black text-[#061B3A]">
+                  Pourquoi vous pouvez faire confiance au résultat
+                </h3>
+                <ul className="mt-3 space-y-2 text-sm font-semibold leading-6 text-[#5B6B7C]">
                   {[
                     ...result.eligibility.reasons,
-                    `SJR estimé : ${euro(result.salary.estimatedSjr)} par jour.`,
-                    `Différés : ${result.waitingPeriods.totalDeferredDays} jours au total.`,
                     ...result.duration.notes,
                     ...result.decision.recommendations
                   ].map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item} className="rounded-xl bg-[#F7FBFA] px-4 py-3">
+                      {item}
+                    </li>
                   ))}
                 </ul>
               </section>
-              <p className="rounded-2xl bg-[#FFF8E8] p-4 text-sm font-bold leading-6 text-[#7A4A00]">
-                Estimation indicative, non opposable. France Travail reste seul compétent
-                pour confirmer l'ouverture, le montant, le calendrier et la durée des droits.
-              </p>
             </div>
           ) : null}
         </div>
@@ -389,30 +556,38 @@ export function UnemploymentProjectionTool() {
             <>
               <div className="rounded-2xl bg-[#061B3A] p-5 text-white">
                 <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8BE7DF]">
-                  Synthèse immédiate
+                  À retenir
                 </p>
-                <p className="mt-3 text-3xl font-black">
-                  {euro(result.projection.cumulativePotentialIncome)}
+                <p className="mt-3 text-2xl font-black">
+                  {euro(result.projection.monthlyUnemployment)} / mois
                 </p>
                 <p className="mt-2 text-sm font-semibold leading-6 text-[#D8F5F2]">
-                  Revenus cumulés potentiels : indemnité de départ + ARE nette
-                  estimée sur la durée affichée.
+                  Votre allocation chômage mensuelle estimée, versée par France
+                  Travail après les délais éventuels.
                 </p>
               </div>
               <div className="rounded-2xl border border-[#D7E7E8] bg-white p-5">
-                <h3 className="text-lg font-black text-[#061B3A]">Différés estimés</h3>
+                <h3 className="text-lg font-black text-[#061B3A]">
+                  Ce qui est versé, et par qui
+                </h3>
                 <dl className="mt-4 space-y-3 text-sm">
-                  <SmallLine label="Attente légale" value={`${result.waitingPeriods.legalWaitingDays} jours`} />
-                  <SmallLine label="Congés payés" value={`${result.waitingPeriods.paidLeaveDeferredDays} jours`} />
-                  <SmallLine label="Spécifique" value={`${result.waitingPeriods.specificDeferredDays} jours`} />
+                  <SmallLine label="Employeur au départ" value={euro(result.projection.terminationIndemnity)} />
+                  <SmallLine label="France Travail par mois" value={euro(result.projection.monthlyUnemployment)} />
+                  <SmallLine label="Début estimé" value={dateFr(result.waitingPeriods.estimatedFirstPaymentDate)} />
                 </dl>
               </div>
               <div className="rounded-2xl border border-[#D7E7E8] bg-white p-5">
-                <h3 className="text-lg font-black text-[#061B3A]">Formule ARE</h3>
+                <h3 className="text-lg font-black text-[#061B3A]">
+                  Délais avant paiement
+                  <InfoTip label="Délais avant paiement">
+                    Ces jours expliquent pourquoi le chômage ne commence pas
+                    forcément tout de suite après votre départ.
+                  </InfoTip>
+                </h3>
                 <dl className="mt-4 space-y-3 text-sm">
-                  <SmallLine label="Formule A" value={euro(result.salary.formulaA)} />
-                  <SmallLine label="Formule B" value={euro(result.salary.formulaB)} />
-                  <SmallLine label="Allocation journalière" value={euro(result.salary.dailyGrossAre)} />
+                  <SmallLine label="Attente légale" value={`${result.waitingPeriods.legalWaitingDays} jours`} />
+                  <SmallLine label="Congés payés" value={`${result.waitingPeriods.paidLeaveDeferredDays} jours`} />
+                  <SmallLine label="Différé spécifique" value={`${result.waitingPeriods.specificDeferredDays} jours`} />
                 </dl>
               </div>
             </>
@@ -446,22 +621,189 @@ export function UnemploymentProjectionTool() {
   );
 }
 
-function ResultCard({ label, value }: { label: string; value: string }) {
+function MoneyResultCard({
+  amount,
+  certainty,
+  description,
+  label,
+  payer,
+  timing,
+  type,
+  warning
+}: {
+  amount: string;
+  certainty: string;
+  description: string;
+  label: React.ReactNode;
+  payer: string;
+  timing: string;
+  type: string;
+  warning?: string;
+}) {
   return (
-    <div className="rounded-2xl border border-[#D7E7E8] bg-white p-4">
-      <dt className="text-xs font-black uppercase tracking-[0.12em] text-[#168F86]">
+    <article className="rounded-2xl border border-[#D7E7E8] bg-white p-5 shadow-sm">
+      <p className="text-sm font-black text-[#168F86]">
+        {label}
+      </p>
+      <p className="mt-2 text-3xl font-black text-[#061B3A]">{amount}</p>
+      <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+        {description}
+      </p>
+      {warning ? (
+        <p className="mt-3 rounded-xl bg-[#FFF8E8] px-4 py-3 text-sm font-black leading-6 text-[#7A4A00]">
+          {warning}
+        </p>
+      ) : null}
+      <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+        <ContextMetric label="Qui verse ?" value={payer} />
+        <ContextMetric label="Quand ?" value={timing} />
+        <ContextMetric label="Nature" value={type} />
+      </dl>
+      <p className="mt-3 text-xs font-bold uppercase tracking-[0.08em] text-[#5B6B7C]">
+        {certainty}
+      </p>
+    </article>
+  );
+}
+
+function DurationResultCard({
+  days,
+  label,
+  note
+}: {
+  days: number;
+  label: string;
+  note: string;
+}) {
+  return (
+    <article className="rounded-2xl border border-[#D7E7E8] bg-white p-5 shadow-sm">
+      <p className="text-sm font-black text-[#168F86]">{label}</p>
+      <p className="mt-2 text-3xl font-black text-[#061B3A]">
+        {monthsLabel(days)}
+      </p>
+      <p className="mt-2 text-sm font-bold text-[#102A4C]">
+        soit environ {days} jours indemnisables
+      </p>
+      <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+        {note}
+      </p>
+      <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-3">
+        <ContextMetric label="Qui décide ?" value="France Travail" />
+        <ContextMetric label="Quand ?" value="Après ouverture des droits" />
+        <ContextMetric label="Nature" value="Durée estimée" />
+      </dl>
+    </article>
+  );
+}
+
+function ContextMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl bg-[#F7FBFA] p-3">
+      <dt className="text-[11px] font-black uppercase tracking-[0.08em] text-[#5B6B7C]">
         {label}
       </dt>
-      <dd className="mt-2 text-xl font-black text-[#061B3A]">{value}</dd>
+      <dd className="mt-1 text-sm font-black leading-5 text-[#061B3A]">
+        {value}
+      </dd>
     </div>
   );
 }
 
-function ProjectionLine({ label, value }: { label: string; value: string }) {
+function ConfidencePanel({ items }: { items: string[] }) {
   return (
-    <div>
-      <dt className="font-semibold text-[#BDEDEA]">{label}</dt>
-      <dd className="mt-1 text-2xl font-black">{value}</dd>
+    <section className="rounded-2xl border border-[#BFE5E1] bg-white p-5 shadow-sm">
+      <h3 className="text-lg font-black text-[#061B3A]">Calcul basé sur</h3>
+      <ul className="mt-4 grid gap-3 text-sm font-bold leading-6 text-[#102A4C] sm:grid-cols-2">
+        {items.map((item) => (
+          <li key={item} className="rounded-xl bg-[#EAF8F6] px-4 py-3">
+            ✓ {item}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function PaymentTimeline({
+  duration,
+  firstPaymentDate,
+  legalWaitingDays,
+  monthlyAre,
+  paidLeaveDays,
+  specificDays
+}: {
+  duration: string;
+  firstPaymentDate: string;
+  legalWaitingDays: number;
+  monthlyAre: string;
+  paidLeaveDays: number;
+  specificDays: number;
+}) {
+  const items = [
+    {
+      title: "Aujourd'hui",
+      body: "Vous renseignez votre situation pour obtenir une projection lisible."
+    },
+    {
+      title: "Indemnité RC versée",
+      body: "Votre employeur verse l'indemnité de départ à la fin du contrat."
+    },
+    {
+      title: "Délai de carence éventuel",
+      body: `${legalWaitingDays} jours d'attente, ${paidLeaveDays} jours liés aux congés payés et ${specificDays} jours de différé spécifique dans cette simulation.`
+    },
+    {
+      title: "Début des versements France Travail",
+      body: `Premier paiement estimé autour du ${firstPaymentDate}.`
+    },
+    {
+      title: "ARE mensuelle",
+      body: `${monthlyAre} par mois dans cette projection.`
+    },
+    {
+      title: "Fin estimée des droits",
+      body: `Durée estimée : ${duration}, sous réserve de confirmation par France Travail.`
+    }
+  ];
+
+  return (
+    <section className="rounded-2xl border border-[#D7E7E8] bg-white p-5 shadow-sm">
+      <h3 className="text-lg font-black text-[#061B3A]">
+        Timeline pédagogique
+      </h3>
+      <ol className="mt-5 space-y-4">
+        {items.map((item, index) => (
+          <li key={item.title} className="grid grid-cols-[24px_minmax(0,1fr)] gap-3">
+            <div className="flex flex-col items-center">
+              <span className="h-4 w-4 rounded-full bg-[#22AFA3]" />
+              {index < items.length - 1 ? (
+                <span className="mt-1 h-full min-h-10 w-px bg-[#BFE5E1]" />
+              ) : null}
+            </div>
+            <div className="rounded-xl bg-[#F7FBFA] px-4 py-3">
+              <p className="text-sm font-black text-[#061B3A]">{item.title}</p>
+              <p className="mt-1 text-sm font-semibold leading-6 text-[#5B6B7C]">
+                {item.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+function SmallExplanation({
+  label,
+  value
+}: {
+  label: React.ReactNode;
+  value: string;
+}) {
+  return (
+    <div className="rounded-xl bg-[#F7FBFA] p-4">
+      <dt className="text-sm font-black text-[#168F86]">{label}</dt>
+      <dd className="mt-2 text-base font-black text-[#061B3A]">{value}</dd>
     </div>
   );
 }

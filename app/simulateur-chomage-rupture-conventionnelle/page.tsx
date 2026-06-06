@@ -10,13 +10,13 @@ const canonicalPath = "/simulateur-chomage-rupture-conventionnelle";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
 const title = "Simulateur chômage après rupture conventionnelle";
 const description =
-  "Estimez votre chômage après une rupture conventionnelle, démission, licenciement ou fin de contrat : ARE, différés, date de versement et projection.";
+  "Comprenez ce que vous pourriez toucher après une rupture conventionnelle, un licenciement, une démission ou une fin de contrat : indemnité, ARE, délais et calendrier.";
 
 const faqItems = [
   {
     question: "Le simulateur confirme-t-il mes droits au chômage ?",
     answer:
-      "Non. Il donne une éligibilité probable ou à confirmer. Seul France Travail peut confirmer l'ouverture réelle des droits, le montant et la durée."
+      "Non. Il vous aide à comprendre votre scénario, mais France Travail confirme seul l'ouverture des droits, le montant exact et la durée."
   },
   {
     question: "Une rupture conventionnelle donne-t-elle droit au chômage ?",
@@ -31,7 +31,7 @@ const faqItems = [
   {
     question: "Comment est estimé le montant de l'ARE ?",
     answer:
-      "Le simulateur estime un SJR à partir du salaire brut moyen, puis compare les deux formules France Travail : 40,4 % du SJR plus une partie fixe et 57 % du SJR."
+      "Le simulateur part de votre salaire brut moyen, estime un SJR, puis compare les deux formules France Travail : 40,4 % du SJR plus une partie fixe et 57 % du SJR."
   },
   {
     question: "Pourquoi le premier versement peut-il être décalé ?",
@@ -161,13 +161,12 @@ export default function UnemploymentSimulatorPage() {
               Simulateur chômage après rupture conventionnelle
             </h1>
             <p className="mt-5 max-w-3xl text-lg font-semibold leading-8 text-[#5B6B7C]">
-              Estimez l'ARE, les différés, la date probable du premier versement,
-              la durée d'indemnisation et le revenu total potentiel après une
-              rupture conventionnelle, une démission, un licenciement, une fin de
-              CDD ou une fin de mission.
+              Visualisez ce que vous pourriez percevoir au départ, ce que France
+              Travail pourrait verser chaque mois, quand les paiements peuvent
+              commencer et ce que cela représente sur toute la période.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 text-sm font-black text-[#102A4C]">
-              {["ARE brute et nette", "Délai de carence", "Démission", "Seniors 55+", "Projection totale"].map((item) => (
+              {["Indemnité de départ", "ARE mensuelle", "Délai de carence", "Début des versements", "Projection globale expliquée"].map((item) => (
                 <span className="rounded-full bg-white px-4 py-2 shadow-sm" key={item}>
                   {item}
                 </span>
@@ -179,9 +178,8 @@ export default function UnemploymentSimulatorPage() {
               À retenir
             </p>
             <p className="mt-3 text-sm font-bold leading-7 text-[#102A4C]">
-              Le résultat n'est jamais une notification de droits. Il s'agit
-              d'une estimation locale, prudente, destinée à préparer une décision
-              avant inscription ou échange avec France Travail.
+              Le résultat sert à comprendre votre scénario avant une décision.
+              France Travail reste l'organisme qui confirme vos droits.
             </p>
           </aside>
         </header>
