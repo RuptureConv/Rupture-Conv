@@ -19,6 +19,12 @@ export type SalarySeoSection = {
   bullets?: string[];
 };
 
+export type SalarySeoTableRow = {
+  label: string;
+  value: string;
+  note: string;
+};
+
 export type SalarySeoFaq = {
   question: string;
   answer: string;
@@ -58,8 +64,12 @@ export type SalarySeoPage = {
     eyebrow: string;
     summary: string;
   };
+  immediateAnswer?: string;
   sections: SalarySeoSection[];
   examples: SalarySeoExample[];
+  tableRows?: SalarySeoTableRow[];
+  schemaSteps?: string[];
+  mistakes?: string[];
   faq: SalarySeoFaq[];
   internalLinks: SalarySeoInternalLink[];
   cta: {
@@ -90,13 +100,18 @@ const percentFormatter = new Intl.NumberFormat("fr-FR", {
 });
 
 const commonLinks = {
+  hub: {
+    href: "/salaire",
+    label: "Guide salaire",
+    description: "Revenir au guide central pour comprendre brut, net, impôt et annuel."
+  },
   tool: {
     href: "/salaire-brut-net",
     label: "Simulateur salaire brut/net",
     description: "Affiner le calcul avec votre statut, vos heures et votre taux d'impôt."
   },
   annual: {
-    href: "/salaire-annuel-brut-en-net",
+    href: "/salaire-annuel-brut-net",
     label: "Salaire annuel brut en net",
     description: "Passer d'une rémunération annuelle à un salaire mensuel estimé."
   },
@@ -116,9 +131,39 @@ const commonLinks = {
     description: "Obtenir un repère simple pour un salarié du privé non-cadre."
   },
   tax: {
-    href: "/net-avant-impot-net-apres-impot",
+    href: "/salaire-net-avant-impot",
     label: "Net avant impôt ou après impôt",
     description: "Distinguer le salaire net de la retenue à la source."
+  },
+  taxAfter: {
+    href: "/salaire-net-apres-impot",
+    label: "Salaire net après impôt",
+    description: "Comprendre le montant réellement versé après prélèvement à la source."
+  },
+  difference: {
+    href: "/difference-brut-net",
+    label: "Différence brut/net",
+    description: "Comprendre simplement pourquoi le brut annoncé n'est pas le net versé."
+  },
+  calculateNet: {
+    href: "/calcul-salaire-net",
+    label: "Calcul salaire net",
+    description: "Voir la méthode pour estimer son salaire net à partir du brut."
+  },
+  unemployment: {
+    href: "/calcul-chomage",
+    label: "Calcul chômage",
+    description: "Préparer la suite si votre salaire sert à estimer une allocation."
+  },
+  termination: {
+    href: "/rupture-conventionnelle",
+    label: "Rupture conventionnelle",
+    description: "Relier salaire, indemnité de rupture et préparation du départ."
+  },
+  simulator: {
+    href: "/simulateur",
+    label: "Simulateur rupture conventionnelle",
+    description: "Estimer une indemnité de rupture à partir du salaire de référence."
   },
   taxable: {
     href: "/salaire-net-imposable",
@@ -1761,12 +1806,851 @@ function buildConceptParagraphs(topic: string, sectionTitle: string, index: numb
 
 const conceptPages = conceptPagesConfig.map(createConceptPage);
 
+function richFaq(topic: string): SalarySeoFaq[] {
+  return [
+    {
+      question: `Quel montant faut-il regarder pour ${topic} ?`,
+      answer:
+        "Le bon montant dépend de votre besoin. Pour comparer une offre ou une augmentation, le brut annuel et le net avant impôt sont les repères les plus stables. Pour organiser votre budget mensuel, le net après impôt est plus concret, car il correspond au montant qui arrive réellement sur le compte bancaire."
+    },
+    {
+      question: "Pourquoi le résultat reste-t-il une estimation ?",
+      answer:
+        "Une fiche de paie dépend de lignes que le simulateur ne peut pas toutes connaître : mutuelle, prévoyance, titres-restaurant, absences, heures supplémentaires, primes, convention collective, régime local ou avantages en nature. L'estimation donne un ordre de grandeur fiable pour se repérer, mais le bulletin de paie reste la référence finale."
+    },
+    {
+      question: "Cadre et non-cadre donnent-ils toujours un net différent ?",
+      answer:
+        "À brut égal, le statut cadre peut produire un net légèrement plus bas dans une estimation simplifiée, car certaines cotisations sont différentes. L'écart réel dépend toutefois du paramétrage de paie, de la retraite complémentaire, de la prévoyance et des accords appliqués par l'entreprise."
+    },
+    {
+      question: "Faut-il inclure le prélèvement à la source dans la comparaison ?",
+      answer:
+        "Pour comparer deux salaires, il vaut mieux raisonner en net avant impôt, car le taux de prélèvement dépend du foyer fiscal et non uniquement de l'employeur. Pour savoir ce qui restera chaque mois, ajoutez ensuite votre taux de prélèvement à la source afin d'obtenir un net après impôt indicatif."
+    },
+    {
+      question: "Comment utiliser ces repères avant une rupture conventionnelle ?",
+      answer:
+        "Le salaire sert souvent de base à plusieurs calculs liés à la fin du contrat : indemnité minimale, négociation, projections chômage et budget de transition. Avant un échange RH, il est utile de clarifier le brut, le net avant impôt et les primes récurrentes pour éviter de discuter sur des montants incomparables."
+    },
+    {
+      question: "Le salaire annuel doit-il être divisé par 12 ou par 13 ?",
+      answer:
+        "Pour comparer deux rémunérations annuelles, on raisonne d'abord sur le total brut annuel. Pour anticiper le versement mensuel, il faut ensuite vérifier le rythme réel : 12 mois, 13 mois, prime annuelle ou variable. Un même brut annuel peut donc produire un mois habituel différent selon l'entreprise."
+    }
+  ];
+}
+
+function salaryTableRows(example: SalarySeoExample): SalarySeoTableRow[] {
+  return [
+    {
+      label: "Brut mensuel",
+      value: example.grossMonthly,
+      note: "Montant avant cotisations salariales, souvent utilisé dans le contrat ou l'offre."
+    },
+    {
+      label: "Net avant impôt",
+      value: example.netMonthly,
+      note: "Montant après cotisations, utile pour comparer deux salaires."
+    },
+    {
+      label: "Net après impôt",
+      value: example.netAfterTaxMonthly ?? "À calculer selon votre taux",
+      note: "Montant indicatif après prélèvement à la source si un taux est renseigné."
+    },
+    {
+      label: "Brut annuel",
+      value: example.grossAnnual,
+      note: "Base fréquente des offres d'emploi et des négociations."
+    },
+    {
+      label: "Net annuel",
+      value: example.netAnnual,
+      note: "Repère annuel avant impôt, hors primes non intégrées."
+    }
+  ];
+}
+
+function salarySchemaSteps(kind = "standard"): string[] {
+  if (kind === "reverse") {
+    return [
+      "Salaire net souhaité",
+      "Réintégration des cotisations estimées",
+      "Salaire brut mensuel approché",
+      "Salaire brut annuel sur 12 mois",
+      "Vérification avec le statut et les primes"
+    ];
+  }
+
+  if (kind === "tax") {
+    return [
+      "Salaire brut",
+      "Cotisations salariales",
+      "Salaire net avant impôt",
+      "Prélèvement à la source",
+      "Salaire net après impôt"
+    ];
+  }
+
+  return [
+    "Salaire brut",
+    "Cotisations salariales",
+    "Salaire net avant impôt",
+    "Net imposable sur la fiche de paie",
+    "Net versé après impôt"
+  ];
+}
+
+const standardMistakes = [
+  "Comparer un brut annuel avec un net mensuel sans les remettre sur la même période.",
+  "Oublier le 13e mois, une prime variable ou une prime d'ancienneté dans le package global.",
+  "Confondre net avant impôt, net imposable et net réellement versé sur le compte.",
+  "Appliquer un taux brut/net unique sans tenir compte du statut cadre, non-cadre ou fonction publique.",
+  "Décider uniquement sur le salaire mensuel sans regarder la mutuelle, les titres-restaurant et les horaires."
+];
+
+function makeRichGuidePage(config: {
+  slug: string;
+  title: string;
+  seoTitle: string;
+  description: string;
+  excerpt: string;
+  eyebrow: string;
+  summary: string;
+  immediateAnswer: string;
+  exampleAmount: number;
+  period?: SalaryPeriod;
+  profile?: SalaryProfileKey;
+  sections: SalarySeoSection[];
+  links: SalarySeoInternalLink[];
+  schemaKind?: string;
+  category?: SalarySeoCategory;
+}): SalarySeoPage {
+  const example = getSalarySeoExample(
+    config.exampleAmount,
+    config.period ?? "monthly",
+    config.profile ?? "privateNonExecutive",
+    5,
+    "Exemple chiffré",
+    "Cas simple pour relier le brut, le net avant impôt et le net après impôt."
+  );
+
+  return makePage({
+    slug: config.slug,
+    title: config.title,
+    seoTitle: config.seoTitle,
+    description: config.description,
+    excerpt: config.excerpt,
+    category: config.category ?? "Guide salaire",
+    readingTime: "7 min",
+    hero: {
+      eyebrow: config.eyebrow,
+      summary: config.summary
+    },
+    immediateAnswer: config.immediateAnswer,
+    sections: config.sections,
+    examples: [example],
+    tableRows: salaryTableRows(example),
+    schemaSteps: salarySchemaSteps(config.schemaKind),
+    mistakes: standardMistakes,
+    faq: richFaq(config.title.toLocaleLowerCase("fr-FR")),
+    internalLinks: [commonLinks.hub, commonLinks.tool, ...config.links].slice(0, 8),
+    cta: baseCta(config.title.toLocaleLowerCase("fr-FR")),
+    warning: warning(config.title.toLocaleLowerCase("fr-FR"))
+  });
+}
+
+const requestedSalaryClusterPages: SalarySeoPage[] = [
+  makeRichGuidePage({
+    slug: "salaire",
+    title: "Salaire : comprendre le brut, le net, l'impôt et le salaire annuel",
+    seoTitle: "Salaire : guide complet brut, net, impôt et annuel",
+    description:
+      "Guide complet pour comprendre son salaire : brut, net, net imposable, prélèvement à la source, charges, temps partiel et salaire annuel.",
+    excerpt:
+      "Comprendre son salaire, c'est savoir passer du brut au net, distinguer le net avant impôt du net versé et lire une offre annuelle sans se tromper.",
+    eyebrow: "Page pilier",
+    summary:
+      "Le salaire ne se résume pas au montant versé. Cette page sert de porte d'entrée vers tout le cluster salaire de RuptureConv.",
+    immediateAnswer:
+      "Le salaire brut est le montant avant cotisations. Le salaire net avant impôt est le montant après cotisations. Le net après impôt est le montant versé après prélèvement à la source. Pour comparer une offre, partez du brut annuel et du net avant impôt ; pour votre budget, regardez le net après impôt.",
+    exampleAmount: 2500,
+    sections: [
+      {
+        title: "Comprendre son salaire sans parler comme un bulletin de paie",
+        paragraphs: [
+          "La plupart des confusions viennent d'un vocabulaire trop proche : brut, net, net imposable, net à payer avant impôt, net versé. Pourtant chaque ligne répond à une question simple. Le brut dit combien l'employeur rémunère le poste avant retenues salariales. Le net avant impôt dit ce qu'il reste après cotisations. Le net après impôt dit ce qui arrive réellement sur votre compte.",
+          "Cette distinction est utile dans des situations très concrètes : accepter une offre, négocier une augmentation, comparer un CDI avec un autre poste, préparer une rupture conventionnelle ou estimer une période de chômage. Une bonne lecture du salaire évite de surestimer un montant annoncé en brut ou de sous-estimer l'effet d'une prime."
+        ]
+      },
+      {
+        title: "Brut, net et cotisations : le mécanisme central",
+        paragraphs: [
+          "Le passage du brut au net repose principalement sur les cotisations salariales. Elles financent notamment une partie de la protection sociale et varient selon le statut, le régime et certaines lignes de paie. Pour un salarié du privé non-cadre, l'ordre de grandeur utilisé pour une estimation rapide tourne autour de 22 %. Pour un cadre, il peut être plus élevé.",
+          "Ce taux n'est pas une vérité universelle. Deux salariés au même brut peuvent avoir un net différent à cause de la mutuelle, de la prévoyance, des titres-restaurant, d'une absence, d'heures supplémentaires ou d'une convention collective. C'est pourquoi le simulateur donne un repère immédiatement exploitable, pas une copie de fiche de paie."
+        ]
+      },
+      {
+        title: "Net avant impôt, net imposable et net après impôt",
+        paragraphs: [
+          "Le net avant impôt est souvent le meilleur montant pour comparer deux rémunérations, car il neutralise votre situation fiscale personnelle. Le net imposable, lui, sert à calculer l'impôt et peut être différent du net à payer. Le net après impôt correspond au montant versé après la retenue à la source.",
+          "Dans la vraie vie, cette différence compte. Deux collègues au même salaire peuvent recevoir un montant différent après impôt si l'un a un taux personnalisé élevé et l'autre un taux neutre ou individualisé. Cela ne veut pas dire que l'employeur paie différemment : c'est l'impôt qui intervient après le salaire net."
+        ]
+      },
+      {
+        title: "Salaire mensuel, annuel et temps partiel",
+        paragraphs: [
+          "Les offres d'emploi sont souvent exprimées en brut annuel, tandis que les dépenses se pilotent au mois. La méthode simple consiste à diviser le brut annuel par 12, puis à convertir en net selon le statut. Mais il faut vérifier si la rémunération est versée sur 12 ou 13 mois, avec une part variable ou des primes conditionnelles.",
+          "À temps partiel, la difficulté vient du volume d'heures. Un taux horaire brut doit être multiplié par les heures réellement prévues au contrat, puis converti en net. Un salarié à 24 heures par semaine et un salarié à 35 heures ne peuvent pas comparer uniquement un taux horaire sans regarder le volume mensuel."
+        ]
+      },
+      {
+        title: "Salaire et rupture conventionnelle",
+        paragraphs: [
+          "Le salaire est aussi une donnée clé lorsqu'un salarié prépare une rupture conventionnelle. Il sert à comprendre le niveau de vie avant départ, à vérifier les primes régulières et à construire une base de discussion pour l'indemnité. Un montant mal lu au départ peut fausser toute la négociation.",
+          "Avant un entretien RH, le bon réflexe consiste à clarifier trois chiffres : le brut mensuel ou annuel, le net avant impôt et les éléments récurrents de rémunération. Ensuite, le simulateur de rupture conventionnelle peut aider à estimer une première base d'indemnité."
+        ]
+      }
+    ],
+    links: [
+      commonLinks.difference,
+      commonLinks.calculateNet,
+      commonLinks.tax,
+      commonLinks.taxAfter,
+      commonLinks.termination,
+      commonLinks.simulator
+    ]
+  }),
+  makeRichGuidePage({
+    slug: "difference-brut-net",
+    title: "Différence brut net : comprendre l'écart sur votre salaire",
+    seoTitle: "Différence brut net : explication simple et exemple",
+    description:
+      "Comprenez la différence entre salaire brut et salaire net, avec exemple chiffré, tableau, schéma, impôt à la source et erreurs fréquentes.",
+    excerpt:
+      "La différence brut/net correspond principalement aux cotisations salariales, puis au prélèvement à la source si l'on parle du net versé.",
+    eyebrow: "Comprendre le salaire",
+    summary:
+      "La page pour ne plus confondre le montant annoncé dans une offre et le montant réellement disponible.",
+    immediateAnswer:
+      "Le salaire brut est le montant avant cotisations salariales. Le salaire net avant impôt est le montant après cotisations. Le net après impôt est le montant versé une fois le prélèvement à la source retiré. Exemple : 2 000 € brut non-cadre donnent environ 1 560 € net avant impôt.",
+    exampleAmount: 2000,
+    schemaKind: "tax",
+    sections: [
+      {
+        title: "La différence en une idée simple",
+        paragraphs: [
+          "Le brut est le montant de départ. Le net est ce qu'il reste après les cotisations salariales. C'est pour cela qu'une offre à 2 000 € brut ne signifie pas 2 000 € sur le compte.",
+          "Cette différence n'est pas une pénalité cachée. Elle correspond à des retenues sociales qui financent une partie des droits sociaux et des régimes de protection."
+        ]
+      },
+      {
+        title: "Pourquoi l'écart varie",
+        paragraphs: [
+          "L'écart brut/net varie selon le statut, le secteur, certaines cotisations et les lignes propres à la fiche de paie. Un cadre et un non-cadre peuvent donc avoir un net différent à brut égal.",
+          "La mutuelle, la prévoyance, les titres-restaurant ou certaines absences peuvent ensuite modifier le montant réellement versé."
+        ]
+      },
+      {
+        title: "Ne pas mélanger impôt et cotisations",
+        paragraphs: [
+          "Les cotisations transforment le brut en net avant impôt. Le prélèvement à la source intervient ensuite, à partir d'un taux fiscal transmis par l'administration.",
+          "Deux salariés au même brut peuvent donc avoir un net avant impôt proche, mais un net après impôt différent."
+        ]
+      },
+      {
+        title: "Le bon montant pour comparer",
+        paragraphs: [
+          "Pour comparer deux offres, utilisez le brut annuel et le net avant impôt. Ces repères évitent de mélanger une rémunération avec une situation fiscale personnelle.",
+          "Pour votre budget, regardez ensuite le net après impôt, car c'est le montant qui arrivera réellement sur le compte bancaire."
+        ]
+      },
+      {
+        title: "Cas concret dans une négociation",
+        paragraphs: [
+          "Si un recruteur propose 30 000 € brut annuel, commencez par le ramener à 2 500 € brut mensuel, puis estimez le net selon votre statut.",
+          "Vous pouvez alors poser des questions utiles : 13e mois, variable, prime garantie, mutuelle, forfait jours ou titres-restaurant."
+        ]
+      }
+    ],
+    links: [commonLinks.calculateNet, commonLinks.tax, commonLinks.taxAfter, commonLinks.annual, commonLinks.termination]
+  }),
+  makeRichGuidePage({
+    slug: "calcul-salaire-net",
+    title: "Calcul salaire net : méthode fiable pour partir du brut",
+    seoTitle: "Calcul salaire net : formule, exemple et simulateur",
+    description:
+      "Calculez un salaire net à partir du brut avec une méthode claire, des exemples, un tableau récapitulatif et les erreurs à éviter.",
+    excerpt:
+      "Le calcul du salaire net consiste à retirer les cotisations salariales du brut, puis éventuellement le prélèvement à la source.",
+    eyebrow: "Méthode de calcul",
+    summary:
+      "Une méthode pratique pour transformer un brut mensuel ou annuel en net exploitable dans votre budget.",
+    immediateAnswer:
+      "Pour calculer un salaire net, partez du brut, appliquez un taux indicatif de cotisations selon le statut, puis retirez le prélèvement à la source uniquement si vous voulez le net après impôt. Exemple : 2 500 € brut non-cadre donnent environ 1 950 € net avant impôt avec un taux indicatif de 22 %.",
+    exampleAmount: 2500,
+    sections: [
+      {
+        title: "La formule simple",
+        paragraphs: [
+          "La formule d'estimation est volontairement lisible : salaire brut - cotisations salariales estimées = salaire net avant impôt. Pour un salarié non-cadre du privé, un ordre de grandeur de 22 % permet d'obtenir une première réponse rapide. Pour un cadre, on retient souvent un taux plus élevé dans une estimation simplifiée.",
+          "Cette formule n'a pas vocation à refaire toute la paie. Elle sert à répondre vite à une question concrète : le montant annoncé dans une offre correspond-il à mon budget réel ?"
+        ]
+      },
+      {
+        title: "Calculer depuis un brut mensuel",
+        paragraphs: [
+          "Lorsque le salaire est exprimé en brut mensuel, le calcul est direct. On applique le taux de cotisations au montant du mois, puis on obtient le net avant impôt. C'est le cas le plus fréquent pour vérifier une augmentation ou une promesse d'embauche.",
+          "Si l'offre mentionne aussi des primes, ne les mélangez pas trop vite avec le fixe. Une prime exceptionnelle ne doit pas être traitée comme un salaire garanti tous les mois."
+        ]
+      },
+      {
+        title: "Calculer depuis un brut annuel",
+        paragraphs: [
+          "Quand le salaire est annoncé en brut annuel, divisez d'abord par 12 pour obtenir une base mensuelle comparable. Ensuite seulement, appliquez le taux de conversion brut/net. Cette étape évite de se laisser impressionner par un montant annuel qui semble élevé mais reste abstrait.",
+          "Le cas du 13e mois mérite une vérification : le total annuel peut être identique, mais le montant habituel versé chaque mois peut être inférieur hors mois de prime."
+        ]
+      },
+      {
+        title: "Ajouter l'impôt à la source",
+        paragraphs: [
+          "Le prélèvement à la source ne transforme pas le brut en net. Il intervient après le net avant impôt. Si votre taux est de 5 %, il faut d'abord estimer le net avant impôt, puis appliquer ce taux pour obtenir le net après impôt.",
+          "Pour comparer deux offres, gardez le net avant impôt. Pour savoir combien restera sur votre compte, regardez le net après impôt."
+        ]
+      },
+      {
+        title: "Utiliser le résultat intelligemment",
+        paragraphs: [
+          "Une estimation est utile si elle déclenche les bonnes questions : le salaire est-il sur 12 ou 13 mois ? La mutuelle est-elle chère ? Les primes sont-elles garanties ? Le statut cadre change-t-il la conversion ?",
+          "C'est cette lecture qui rend le calcul réellement utile, notamment avant une négociation salariale ou une rupture conventionnelle."
+        ]
+      }
+    ],
+    links: [commonLinks.difference, commonLinks.tax, commonLinks.taxAfter, commonLinks.annual, commonLinks.termination]
+  }),
+  makeRichGuidePage({
+    slug: "salaire-net-avant-impot",
+    title: "Salaire net avant impôt : définition, calcul et bon usage",
+    seoTitle: "Salaire net avant impôt : définition et calcul simple",
+    description:
+      "Comprenez le salaire net avant impôt, son calcul à partir du brut, sa différence avec le net après impôt et son rôle pour comparer un salaire.",
+    excerpt:
+      "Le net avant impôt est le salaire après cotisations salariales, avant retenue du prélèvement à la source.",
+    eyebrow: "Fiche de paie",
+    summary:
+      "Le repère le plus propre pour comparer deux rémunérations sans intégrer votre fiscalité personnelle.",
+    immediateAnswer:
+      "Le salaire net avant impôt correspond au salaire brut après déduction des cotisations salariales, mais avant prélèvement à la source. C'est souvent le meilleur montant pour comparer une offre, car il ne dépend pas de votre taux d'impôt personnel.",
+    exampleAmount: 2600,
+    sections: [
+      {
+        title: "Définition du net avant impôt",
+        paragraphs: [
+          "Le net avant impôt apparaît sur la fiche de paie après les cotisations salariales. Il montre ce que produit le salaire avant intervention de l'impôt sur le revenu.",
+          "Il ne faut pas le confondre avec le net payé, qui est le montant après prélèvement à la source."
+        ]
+      },
+      {
+        title: "Pourquoi c'est un bon repère",
+        paragraphs: [
+          "Le net avant impôt dépend du salaire et des cotisations, pas directement de la composition de votre foyer fiscal. Il permet donc de comparer deux offres plus proprement.",
+          "C'est particulièrement utile lorsqu'un salarié hésite entre deux postes ou veut mesurer l'effet réel d'une augmentation."
+        ]
+      },
+      {
+        title: "Comment il est calculé",
+        paragraphs: [
+          "On part du brut, puis on retire les cotisations salariales. Dans une estimation rapide, on utilise un taux indicatif selon le statut : non-cadre, cadre ou fonction publique.",
+          "Le taux exact dépend de la fiche de paie. Le simulateur donne un ordre de grandeur lisible avant vérification."
+        ]
+      },
+      {
+        title: "Différence avec le net imposable",
+        paragraphs: [
+          "Le net imposable sert à l'impôt. Il peut être différent du net avant impôt, notamment parce que certaines contributions ont un traitement fiscal particulier.",
+          "Sur un bulletin, ces lignes proches ne doivent pas être mélangées : elles n'ont pas le même usage."
+        ]
+      },
+      {
+        title: "Quand l'utiliser",
+        paragraphs: [
+          "Utilisez le net avant impôt pour comparer un salaire, préparer une négociation ou comprendre une proposition RH.",
+          "Utilisez ensuite le net après impôt pour votre budget personnel, car il tient compte de votre taux de prélèvement à la source."
+        ]
+      }
+    ],
+    links: [commonLinks.taxAfter, commonLinks.difference, commonLinks.calculateNet, commonLinks.taxable, commonLinks.termination]
+  }),
+  makeRichGuidePage({
+    slug: "salaire-net-apres-impot",
+    title: "Salaire net après impôt : calculer le montant vraiment versé",
+    seoTitle: "Salaire net après impôt : calcul et exemple",
+    description:
+      "Comprenez le salaire net après impôt, le rôle du prélèvement à la source, les différences avec le net avant impôt et les erreurs à éviter.",
+    excerpt:
+      "Le net après impôt est le montant versé sur votre compte après cotisations salariales et prélèvement à la source.",
+    eyebrow: "Prélèvement à la source",
+    summary:
+      "Le montant le plus concret pour votre budget mensuel, mais pas toujours le meilleur pour comparer deux offres.",
+    immediateAnswer:
+      "Le salaire net après impôt correspond au net avant impôt diminué du prélèvement à la source. Exemple : si votre net avant impôt est de 1 950 € et votre taux de prélèvement de 5 %, le net après impôt est d'environ 1 852,50 €.",
+    exampleAmount: 2500,
+    schemaKind: "tax",
+    sections: [
+      {
+        title: "Définition du net après impôt",
+        paragraphs: [
+          "Le net après impôt est le montant réellement versé sur votre compte bancaire. Il arrive après deux étapes : les cotisations salariales puis le prélèvement à la source.",
+          "C'est le chiffre le plus parlant pour payer un loyer, prévoir une mensualité ou organiser son budget."
+        ]
+      },
+      {
+        title: "Le rôle du taux de prélèvement",
+        paragraphs: [
+          "Le taux de prélèvement à la source est transmis par l'administration fiscale. Il peut être personnalisé, individualisé ou neutre selon votre choix et votre situation.",
+          "Ce taux explique pourquoi deux salariés au même brut peuvent recevoir un montant différent après impôt."
+        ]
+      },
+      {
+        title: "Pourquoi ne pas comparer uniquement ce montant",
+        paragraphs: [
+          "Le net après impôt dépend du foyer fiscal. Il peut donc donner une image faussée si vous comparez deux offres ou deux collègues.",
+          "Pour comparer la rémunération proposée par l'employeur, regardez d'abord le brut et le net avant impôt."
+        ]
+      },
+      {
+        title: "Exemple avec un taux de 5 %",
+        paragraphs: [
+          "Avec 2 500 € brut mensuel en non-cadre, l'estimation donne environ 1 950 € net avant impôt. Un taux de 5 % retire ensuite environ 97,50 €.",
+          "Le net après impôt estimé serait donc d'environ 1 852,50 € dans ce cas simplifié."
+        ]
+      },
+      {
+        title: "Que faire si le taux change",
+        paragraphs: [
+          "Un changement de taux peut modifier le montant versé sans changement de salaire brut. Cela arrive après une déclaration, une actualisation ou un changement de situation.",
+          "Si votre net après impôt varie, vérifiez d'abord la ligne de prélèvement à la source avant de conclure à une erreur de salaire."
+        ]
+      }
+    ],
+    links: [commonLinks.tax, commonLinks.difference, commonLinks.calculateNet, commonLinks.taxable, commonLinks.annual]
+  }),
+  makeRichGuidePage({
+    slug: "salaire-annuel-brut-net",
+    title: "Salaire annuel brut en net : convertir une offre en montant mensuel",
+    seoTitle: "Salaire annuel brut en net : calcul mensuel et exemple",
+    description:
+      "Convertissez un salaire annuel brut en net mensuel, avec méthode sur 12 mois, exemples cadre/non-cadre et erreurs fréquentes.",
+    excerpt:
+      "Un salaire annuel brut devient utile quand on le transforme en brut mensuel puis en net avant impôt.",
+    eyebrow: "Salaire annuel",
+    summary:
+      "La page pour lire correctement une offre d'emploi exprimée en brut annuel.",
+    immediateAnswer:
+      "Pour convertir un salaire annuel brut en net, divisez le brut annuel par 12, puis retirez les cotisations salariales estimées selon le statut. Exemple : 36 000 € brut annuel correspondent à 3 000 € brut mensuel, soit environ 2 340 € net mensuel avant impôt en non-cadre.",
+    exampleAmount: 36000,
+    period: "annual",
+    sections: [
+      {
+        title: "Pourquoi les offres parlent en brut annuel",
+        paragraphs: [
+          "Le brut annuel permet aux entreprises de présenter une rémunération globale : fixe, parfois 13e mois, et comparaison plus simple entre candidats. C'est le langage naturel du recrutement et de la négociation.",
+          "Pour le salarié, le besoin est différent. Le loyer, les charges et l'épargne se pilotent au mois. Il faut donc traduire l'annuel en mensuel, puis le brut en net."
+        ]
+      },
+      {
+        title: "La méthode sur 12 mois",
+        paragraphs: [
+          "La méthode la plus lisible consiste à diviser le brut annuel par 12. Un salaire de 36 000 € brut annuel donne 3 000 € brut mensuel. On applique ensuite le taux de cotisations du statut choisi.",
+          "Cette méthode donne une base comparable, mais elle doit être ajustée si le contrat prévoit un 13e mois, une prime semestrielle ou une part variable importante."
+        ]
+      },
+      {
+        title: "Cadre ou non-cadre",
+        paragraphs: [
+          "À salaire annuel identique, l'estimation cadre peut donner un net légèrement inférieur à l'estimation non-cadre. Cette différence vient de cotisations indicatives différentes.",
+          "L'écart n'est pas le seul critère de décision. Un statut cadre peut aussi s'accompagner d'un forfait jours, d'une prévoyance différente, d'une autonomie plus forte ou d'une part variable."
+        ]
+      },
+      {
+        title: "Le piège du 13e mois",
+        paragraphs: [
+          "Un salaire annuel de 39 000 € sur 13 mois ne produit pas le même versement habituel qu'un salaire de 39 000 € sur 12 mois. Le total annuel est comparable, mais la trésorerie mensuelle change.",
+          "Avant d'accepter une offre, demandez comment le salaire est versé : 12 mensualités égales, 13e mois, prime de vacances, variable garanti ou variable conditionnel."
+        ]
+      },
+      {
+        title: "Lien avec chômage et rupture conventionnelle",
+        paragraphs: [
+          "Le salaire annuel aide aussi à reconstituer une rémunération de référence. C'est utile lorsque l'on prépare une rupture conventionnelle, une négociation ou une projection de revenus après la fin du contrat.",
+          "Conservez les bulletins de paie et les informations sur les primes : ils seront plus fiables qu'une simple moyenne mentale."
+        ]
+      }
+    ],
+    links: [commonLinks.calculateNet, commonLinks.tax, commonLinks.termination, commonLinks.simulator, commonLinks.unemployment]
+  }),
+  makeRichGuidePage({
+    slug: "salaire-annuel-net-brut",
+    title: "Salaire annuel net en brut : estimer le brut à partir du net",
+    seoTitle: "Salaire annuel net en brut : calcul inverse et exemple",
+    description:
+      "Estimez un salaire annuel brut à partir d'un objectif net, avec méthode de calcul inverse, tableau et limites à connaître.",
+    excerpt:
+      "Le calcul net vers brut permet de traduire un objectif de revenu en montant brut à négocier.",
+    eyebrow: "Calcul inverse",
+    summary:
+      "Utile quand vous savez ce que vous voulez toucher et devez formuler une demande en brut.",
+    immediateAnswer:
+      "Pour estimer un brut à partir d'un net, divisez le net souhaité par le pourcentage restant après cotisations. Avec un taux indicatif non-cadre de 22 %, 30 000 € net annuel avant impôt correspondent à environ 38 462 € brut annuel.",
+    exampleAmount: 38462,
+    period: "annual",
+    schemaKind: "reverse",
+    sections: [
+      {
+        title: "Pourquoi raisonner du net vers le brut",
+        paragraphs: [
+          "En entretien, l'employeur parle presque toujours en brut annuel. Le salarié, lui, pense souvent en net mensuel ou annuel, parce que c'est le montant qui finance la vie quotidienne.",
+          "Le calcul inverse sert à faire le pont entre ces deux langages. Il permet de transformer un objectif de revenu en demande salariale compréhensible par un recruteur ou un service RH."
+        ]
+      },
+      {
+        title: "La formule inverse",
+        paragraphs: [
+          "Si le taux de cotisations estimé est de 22 %, le net avant impôt représente environ 78 % du brut. Pour retrouver le brut, on divise donc le net par 0,78. Cette méthode reste indicative, mais elle évite une demande formulée au hasard.",
+          "Pour un cadre, le diviseur peut être plus proche de 0,75 dans une estimation rapide. Le brut nécessaire sera donc plus élevé pour atteindre le même net avant impôt."
+        ]
+      },
+      {
+        title: "Ne pas confondre objectif net et net après impôt",
+        paragraphs: [
+          "Si votre objectif est un montant réellement versé après impôt, il faut intégrer le prélèvement à la source en plus des cotisations. C'est plus personnel, car votre taux dépend du foyer fiscal.",
+          "Dans une négociation, il est généralement plus clair de viser un net avant impôt puis de traduire en brut annuel."
+        ]
+      },
+      {
+        title: "Exemple de demande salariale",
+        paragraphs: [
+          "Une personne qui souhaite environ 2 500 € net avant impôt par mois vise 30 000 € net annuel. En non-cadre, l'ordre de grandeur brut est d'environ 38 500 € brut annuel.",
+          "Cette demande peut ensuite être ajustée selon le marché, le niveau d'expérience, les primes et les avantages."
+        ]
+      },
+      {
+        title: "Les limites à garder en tête",
+        paragraphs: [
+          "Le calcul inverse amplifie les imprécisions. Une mutuelle coûteuse, un statut différent ou une prime non garantie peuvent modifier le résultat final.",
+          "Utilisez-le comme base de discussion, puis vérifiez avec une simulation plus détaillée lorsque l'offre devient concrète."
+        ]
+      }
+    ],
+    links: [commonLinks.annual, commonLinks.calculateNet, commonLinks.difference, commonLinks.tax, commonLinks.termination]
+  }),
+  makeRichGuidePage({
+    slug: "comment-calculer-son-salaire-net",
+    title: "Comment calculer son salaire net sans se tromper ?",
+    seoTitle: "Comment calculer son salaire net : étapes et exemple",
+    description:
+      "Découvrez comment calculer votre salaire net étape par étape, du brut au net après impôt, avec exemples et erreurs fréquentes.",
+    excerpt:
+      "Calculer son salaire net demande surtout de partir du bon brut, de choisir le bon statut et de distinguer avant et après impôt.",
+    eyebrow: "Mode d'emploi",
+    summary:
+      "Une approche pas à pas pour les salariés qui veulent vérifier une offre ou une fiche de paie.",
+    immediateAnswer:
+      "Pour calculer votre salaire net, identifiez d'abord si le montant est horaire, mensuel ou annuel. Convertissez-le en base mensuelle, retirez les cotisations salariales estimées, puis appliquez votre taux de prélèvement à la source seulement si vous cherchez le net après impôt.",
+    exampleAmount: 2800,
+    sections: [
+      {
+        title: "Étape 1 : identifier le bon brut",
+        paragraphs: [
+          "Le calcul échoue souvent dès le départ parce que le montant utilisé n'est pas le bon. Une offre peut parler en brut annuel, un contrat en brut mensuel, et une annonce en taux horaire.",
+          "Avant toute conversion, notez la période exacte et le volume de travail. Un salaire à temps partiel ou un forfait jours ne se lit pas comme un temps plein classique."
+        ]
+      },
+      {
+        title: "Étape 2 : choisir le statut",
+        paragraphs: [
+          "Le statut influence le taux de conversion. Non-cadre, cadre et fonction publique n'ont pas les mêmes ordres de grandeur de cotisations.",
+          "Si vous hésitez, faites deux simulations. Cela vous donnera une fourchette prudente et vous évitera de retenir un net trop optimiste."
+        ]
+      },
+      {
+        title: "Étape 3 : convertir en net avant impôt",
+        paragraphs: [
+          "Le net avant impôt est obtenu après déduction des cotisations salariales. C'est le chiffre le plus propre pour comparer deux propositions, car il ne dépend pas de votre foyer fiscal.",
+          "Sur un brut de 2 800 € en non-cadre, le net avant impôt estimé tourne autour de 2 184 € avec un taux indicatif de 22 %."
+        ]
+      },
+      {
+        title: "Étape 4 : estimer le net après impôt",
+        paragraphs: [
+          "Si vous connaissez votre taux de prélèvement à la source, appliquez-le au net avant impôt pour estimer le montant versé. Un taux de 5 % retire environ 5 % du net avant impôt.",
+          "Si vous ne connaissez pas votre taux, gardez le net avant impôt comme repère de comparaison et vérifiez ensuite votre espace fiscal."
+        ]
+      },
+      {
+        title: "Étape 5 : confronter avec la fiche de paie",
+        paragraphs: [
+          "Quand le premier bulletin arrive, comparez l'estimation avec les lignes réelles : mutuelle, titres-restaurant, impôt, primes et absences.",
+          "Un écart n'est pas forcément une erreur. Il signale souvent une ligne de paie que le calcul simplifié ne pouvait pas anticiper."
+        ]
+      }
+    ],
+    links: [commonLinks.calculateNet, commonLinks.difference, commonLinks.tax, commonLinks.payslip, commonLinks.simulator]
+  }),
+  makeRichGuidePage({
+    slug: "que-signifie-salaire-brut",
+    title: "Que signifie salaire brut ? Définition claire et exemples",
+    seoTitle: "Que signifie salaire brut : définition et différence avec net",
+    description:
+      "Comprenez ce que signifie le salaire brut, pourquoi il figure dans les contrats et comment le convertir en salaire net.",
+    excerpt:
+      "Le salaire brut est le montant avant cotisations salariales. Il sert de base au contrat, aux droits sociaux et aux comparaisons.",
+    eyebrow: "Définition",
+    summary:
+      "La définition simple du salaire brut, avec les pièges à éviter quand on lit une offre.",
+    immediateAnswer:
+      "Le salaire brut signifie le montant de rémunération avant déduction des cotisations salariales. Ce n'est pas le montant versé sur votre compte. Il sert de base au contrat de travail, aux cotisations, à certaines indemnités et à la comparaison des offres.",
+    exampleAmount: 2200,
+    sections: [
+      {
+        title: "Le brut est le montant de départ",
+        paragraphs: [
+          "Quand une entreprise annonce un salaire, elle parle généralement en brut. Ce montant inclut la part qui sera ensuite retenue au titre des cotisations salariales.",
+          "Le brut est donc plus élevé que le net. Il n'est pas moins réel : il sert à financer des droits et à construire la paie."
+        ]
+      },
+      {
+        title: "Pourquoi le contrat parle en brut",
+        paragraphs: [
+          "Le brut est une base commune. Il ne dépend pas de votre taux d'impôt personnel et il permet à l'employeur de formuler une rémunération contractuelle stable.",
+          "C'est aussi une base utilisée pour de nombreux calculs : primes, maintien de salaire, indemnités ou comparaisons de rémunération."
+        ]
+      },
+      {
+        title: "Ce qui est retiré du brut",
+        paragraphs: [
+          "Les cotisations salariales expliquent l'essentiel de l'écart entre brut et net. Selon le statut, elles peuvent représenter un ordre de grandeur différent.",
+          "Certaines retenues comme la mutuelle ou les titres-restaurant peuvent aussi influencer le montant final visible sur la fiche de paie."
+        ]
+      },
+      {
+        title: "Exemple concret",
+        paragraphs: [
+          "Si une offre indique 2 200 € brut mensuel, cela ne signifie pas 2 200 € versés. En non-cadre, l'estimation du net avant impôt tourne autour de 1 716 € avec un taux indicatif de 22 %.",
+          "Le montant après impôt dépendra ensuite de votre taux de prélèvement à la source."
+        ]
+      },
+      {
+        title: "Quand le brut devient essentiel",
+        paragraphs: [
+          "Le brut est indispensable pour comparer deux offres, demander une augmentation ou préparer une rupture conventionnelle.",
+          "Même si le net parle davantage au quotidien, le brut reste la langue commune de la paie et du droit du travail."
+        ]
+      }
+    ],
+    links: [commonLinks.difference, commonLinks.calculateNet, commonLinks.tax, commonLinks.termination, commonLinks.simulator]
+  }),
+  makeRichGuidePage({
+    slug: "que-signifie-salaire-net",
+    title: "Que signifie salaire net ? Définition, impôt et fiche de paie",
+    seoTitle: "Que signifie salaire net : avant impôt, après impôt",
+    description:
+      "Comprenez ce que signifie le salaire net, la différence entre net avant impôt et net après impôt, avec exemples simples.",
+    excerpt:
+      "Le salaire net est le montant après cotisations salariales. Il peut être présenté avant ou après prélèvement à la source.",
+    eyebrow: "Définition",
+    summary:
+      "Le salaire net paraît simple, mais il existe plusieurs lignes nettes sur une fiche de paie.",
+    immediateAnswer:
+      "Le salaire net signifie le montant restant après déduction des cotisations salariales. Le net avant impôt sert à comparer les salaires. Le net après impôt correspond au montant versé après prélèvement à la source.",
+    exampleAmount: 2400,
+    schemaKind: "tax",
+    sections: [
+      {
+        title: "Le net n'est pas toujours le montant versé",
+        paragraphs: [
+          "Avant le prélèvement à la source, beaucoup de salariés associaient le net au montant reçu. Aujourd'hui, il faut distinguer le net avant impôt et le net après impôt.",
+          "Le net avant impôt est calculé après les cotisations salariales. Le net après impôt retire en plus la retenue fiscale."
+        ]
+      },
+      {
+        title: "Pourquoi le net avant impôt est utile",
+        paragraphs: [
+          "Le net avant impôt permet de comparer deux salaires sans mélanger votre situation fiscale personnelle. C'est le repère le plus juste pour lire une offre ou une augmentation.",
+          "Deux salariés au même brut peuvent avoir le même net avant impôt, mais pas le même net versé si leurs taux fiscaux diffèrent."
+        ]
+      },
+      {
+        title: "Le net après impôt pour le budget",
+        paragraphs: [
+          "Le net après impôt est le montant le plus concret pour organiser ses dépenses. C'est celui qui arrive sur le compte bancaire après prélèvement à la source.",
+          "Il peut varier si votre taux change en cours d'année, par exemple après une déclaration de revenus ou une mise à jour de votre situation."
+        ]
+      },
+      {
+        title: "Net imposable : une autre ligne à ne pas confondre",
+        paragraphs: [
+          "Le net imposable sert de base fiscale. Il peut être différent du net avant impôt, notamment à cause du traitement de certaines contributions.",
+          "Sur une fiche de paie, prenez le temps de repérer ces trois lignes : net avant impôt, net imposable, net payé."
+        ]
+      },
+      {
+        title: "Exemple simple",
+        paragraphs: [
+          "Avec 2 400 € brut mensuel en non-cadre, l'estimation donne environ 1 872 € net avant impôt. Avec un taux de prélèvement de 5 %, le net après impôt serait inférieur.",
+          "Ce type de calcul suffit souvent pour comprendre rapidement une offre, avant de vérifier le bulletin réel."
+        ]
+      }
+    ],
+    links: [commonLinks.tax, commonLinks.taxAfter, commonLinks.taxable, commonLinks.difference, commonLinks.calculateNet]
+  })
+];
+
+function createRequestedAmountPage(amount: number): SalarySeoPage {
+  const nonExecutive = getSalarySeoExample(
+    amount,
+    "monthly",
+    "privateNonExecutive",
+    5,
+    `${formatEuro(amount, true)} brut en non-cadre`,
+    "Estimation avant impôt pour un salarié du privé non-cadre."
+  );
+  const executive = getSalarySeoExample(
+    amount,
+    "monthly",
+    "privateExecutive",
+    5,
+    `${formatEuro(amount, true)} brut en cadre`,
+    "Estimation avant impôt pour un salarié du privé cadre."
+  );
+  const context =
+    amount < 2200
+      ? "un salaire proche du bas de grille ou d'une première expérience"
+      : amount < 3500
+        ? "une rémunération courante lors d'une progression ou d'un changement de poste"
+        : "un salaire souvent associé à un profil confirmé, cadre ou spécialisé";
+
+  return makePage({
+    slug: `salaire-brut-net-${amount}`,
+    title: `${formatEuro(amount, true)} brut en net : calcul mensuel, annuel, cadre et non-cadre`,
+    seoTitle: `${formatEuro(amount, true)} brut en net : salaire net estimé`,
+    description: `Calculez ${formatEuro(amount, true)} brut en net mensuel et annuel, avec estimation cadre, non-cadre, prélèvement à la source et tableau détaillé.`,
+    excerpt: `${formatEuro(amount, true)} brut par mois représente environ ${nonExecutive.netMonthly} net avant impôt en non-cadre et ${executive.netMonthly} en cadre, selon les taux indicatifs utilisés.`,
+    category: "Montant mensuel",
+    readingTime: "6 min",
+    hero: {
+      eyebrow: "Conversion brut/net",
+      summary: `Un repère chiffré pour situer ${formatEuro(amount, true)} brut dans votre budget mensuel et annuel.`
+    },
+    immediateAnswer: `Avec ${formatEuro(amount, true)} brut mensuel, le net avant impôt est estimé à ${nonExecutive.netMonthly} pour un salarié non-cadre et à ${executive.netMonthly} pour un cadre. Après un prélèvement à la source indicatif de 5 %, le non-cadre recevrait environ ${nonExecutive.netAfterTaxMonthly} par mois.`,
+    sections: [
+      {
+        title: `${formatEuro(amount, true)} brut en net : le calcul rapide`,
+        paragraphs: [
+          `Pour convertir ${formatEuro(amount, true)} brut en net, on retire les cotisations salariales estimées. En non-cadre, le taux indicatif utilisé est de 22 %, ce qui donne ${nonExecutive.netMonthly} net avant impôt.`,
+          `En cadre, l'estimation retient un taux de 25 %, soit environ ${executive.netMonthly} net avant impôt. L'écart vient du statut et des cotisations associées dans cette méthode simplifiée.`
+        ]
+      },
+      {
+        title: "Ce que cela représente sur l'année",
+        paragraphs: [
+          `${formatEuro(amount, true)} brut mensuel correspond à ${nonExecutive.grossAnnual} brut annuel sur 12 mois. En non-cadre, cela donne environ ${nonExecutive.netAnnual} net annuel avant impôt.`,
+          "Si votre entreprise verse un 13e mois, le total annuel peut rester proche, mais le montant habituel reçu chaque mois sera réparti différemment."
+        ]
+      },
+      {
+        title: "Net avant impôt et net après impôt",
+        paragraphs: [
+          `Le net avant impôt de référence est ${nonExecutive.netMonthly} en non-cadre. Avec un taux de prélèvement à la source de 5 %, le net après impôt estimé est ${nonExecutive.netAfterTaxMonthly}.`,
+          "Votre taux réel peut être plus bas ou plus haut. Il dépend de votre foyer fiscal, pas uniquement de ce salaire."
+        ]
+      },
+      {
+        title: "Comment interpréter ce niveau de salaire",
+        paragraphs: [
+          `À ${formatEuro(amount, true)} brut, on se situe généralement dans ${context}. Le montant net aide à juger le budget, mais il ne dit pas tout du poste.`,
+          "Regardez aussi les horaires, les primes, le télétravail, la mutuelle, les tickets restaurant, le variable et les perspectives d'évolution."
+        ]
+      },
+      {
+        title: "Avant une négociation ou une rupture conventionnelle",
+        paragraphs: [
+          "Ce montant peut servir de repère pour discuter d'une augmentation, comparer une offre ou préparer une fin de contrat.",
+          "En rupture conventionnelle, gardez le brut et les primes récurrentes sous la main : ils peuvent aider à mieux comprendre la rémunération de référence."
+        ]
+      }
+    ],
+    examples: [nonExecutive, executive],
+    tableRows: salaryTableRows(nonExecutive),
+    schemaSteps: salarySchemaSteps("tax"),
+    mistakes: [
+      `Penser que ${formatEuro(amount, true)} brut correspond au montant versé sur le compte.`,
+      "Oublier que le statut cadre peut modifier le net à brut égal.",
+      "Comparer ce montant avec une offre annuelle sans vérifier le rythme de versement.",
+      "Négliger le prélèvement à la source dans le budget mensuel.",
+      "Ignorer les primes et avantages qui peuvent changer l'intérêt réel du package."
+    ],
+    faq: [
+      {
+        question: `${formatEuro(amount, true)} brut correspond à combien en net ?`,
+        answer: `${formatEuro(amount, true)} brut mensuel correspond à environ ${nonExecutive.netMonthly} net avant impôt pour un salarié non-cadre du privé. Pour un cadre, l'estimation est d'environ ${executive.netMonthly}.`
+      },
+      {
+        question: `${formatEuro(amount, true)} brut fait combien par an ?`,
+        answer: `Sur 12 mois, ${formatEuro(amount, true)} brut mensuel représente ${nonExecutive.grossAnnual} brut annuel. Le net annuel avant impôt est estimé à ${nonExecutive.netAnnual} en non-cadre.`
+      },
+      {
+        question: "Quel est le net après impôt avec 5 % de prélèvement ?",
+        answer: `Avec un taux indicatif de prélèvement à la source de 5 %, le net après impôt serait d'environ ${nonExecutive.netAfterTaxMonthly} par mois en non-cadre. Votre montant réel dépend de votre taux personnel.`
+      },
+      {
+        question: "Pourquoi le cadre touche-t-il moins en net dans l'estimation ?",
+        answer:
+          "Le profil cadre applique un taux indicatif de cotisations plus élevé. Cela reflète certaines différences possibles de retraite complémentaire et de prévoyance, même si la fiche de paie réelle peut varier."
+      },
+      {
+        question: "Ce calcul tient-il compte des primes ?",
+        answer:
+          "Non, le calcul part du salaire brut mensuel indiqué. Les primes régulières, le 13e mois ou le variable doivent être ajoutés séparément pour comparer le package annuel complet."
+      },
+      {
+        question: "Puis-je utiliser ce montant pour préparer une rupture conventionnelle ?",
+        answer:
+          "Oui comme repère de rémunération, mais l'indemnité de rupture dépend d'une méthode spécifique, de l'ancienneté et parfois des primes. Utilisez ensuite le simulateur dédié pour estimer l'indemnité."
+      }
+    ],
+    internalLinks: [
+      commonLinks.hub,
+      commonLinks.tool,
+      commonLinks.difference,
+      commonLinks.calculateNet,
+      commonLinks.tax,
+      amount >= 3000 ? commonLinks.termination : commonLinks.annual,
+      commonLinks.simulator
+    ],
+    cta: baseCta(`${formatEuro(amount, true)} brut en net`),
+    warning: warning(`${formatEuro(amount, true)} brut en net`)
+  });
+}
+
+const requestedAmountPages = [1800, 2000, 2200, 2500, 3000, 3500, 4000, 4500, 5000].map(
+  createRequestedAmountPage
+);
+
+function uniqueSalaryPages(pages: SalarySeoPage[]): SalarySeoPage[] {
+  return Array.from(new Map(pages.map((page) => [page.slug, page])).values());
+}
+
 export const salarySeoPages: SalarySeoPage[] = [
-  ...guidePages,
-  ...monthlyAmountPages,
-  ...annualPages,
-  ...smicPages,
-  ...conceptPages
+  ...uniqueSalaryPages([
+    ...guidePages,
+    ...monthlyAmountPages,
+    ...annualPages,
+    ...smicPages,
+    ...conceptPages,
+    ...requestedSalaryClusterPages,
+    ...requestedAmountPages
+  ])
 ];
 
 export const salarySeoPageBySlug: Record<string, SalarySeoPage> =

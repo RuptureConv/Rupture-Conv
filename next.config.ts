@@ -3,6 +3,20 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
+  async redirects() {
+    return [
+      {
+        source: "/simulateur",
+        destination: "/simulateur-rupture-conventionnelle",
+        permanent: true
+      },
+      {
+        source: "/simulateur-chomage",
+        destination: "/simulateur-chomage-rupture-conventionnelle",
+        permanent: true
+      }
+    ];
+  },
   async headers() {
     return [
       {

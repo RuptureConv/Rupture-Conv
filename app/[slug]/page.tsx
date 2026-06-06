@@ -4,6 +4,7 @@ import { ComparisonPageLayout } from "@/components/seo/ComparisonPageLayout";
 import { ProgrammaticSeoTemplate } from "@/components/seo/ProgrammaticSeoTemplate";
 import { SalarySeoPageLayout } from "@/components/seo/SalarySeoPageLayout";
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
+import { UnemploymentSeoPageLayout } from "@/components/seo/UnemploymentSeoPageLayout";
 import {
   comparisonPageBySlug,
   comparisonPages
@@ -20,6 +21,12 @@ import {
   salarySeoPages
 } from "@/lib/salary-seo-pages";
 import { siteName } from "@/lib/site";
+import {
+  unemploymentSeoPageBySlug,
+  unemploymentSeoPages
+} from "@/lib/unemployment-seo-pages";
+
+const unemploymentSeoSlugs = new Set(unemploymentSeoPages.map((page) => page.slug));
 
 type PillarPageProps = {
   params: Promise<{
@@ -31,9 +38,12 @@ export const dynamicParams = false;
 
 export function generateStaticParams() {
   return [
-    ...pillarPages.map((page) => ({ slug: page.slug })),
+    ...pillarPages
+      .filter((page) => !unemploymentSeoSlugs.has(page.slug))
+      .map((page) => ({ slug: page.slug })),
     ...comparisonPages.map((page) => ({ slug: page.slug })),
-    ...salarySeoPages.map((page) => ({ slug: page.slug }))
+    ...salarySeoPages.map((page) => ({ slug: page.slug })),
+    ...unemploymentSeoPages.map((page) => ({ slug: page.slug }))
   ];
 }
 
@@ -43,7 +53,40 @@ export async function generateMetadata({
   const { slug } = await params;
   const comparisonPage = comparisonPageBySlug[slug];
   const salaryPage = salarySeoPageBySlug[slug];
+  const unemploymentPage = unemploymentSeoPageBySlug[slug];
   const page = pillarPageBySlug[slug];
+
+  if (unemploymentPage) {
+    const canonicalPath = `/${unemploymentPage.slug}`;
+    const canonicalUrl = absoluteUrl(canonicalPath);
+
+    return {
+      title: {
+        absolute: unemploymentPage.seoTitle
+      },
+      description: unemploymentPage.description,
+      alternates: {
+        canonical: canonicalUrl
+      },
+      robots: {
+        index: true,
+        follow: true
+      },
+      openGraph: {
+        title: unemploymentPage.seoTitle,
+        description: unemploymentPage.description,
+        url: canonicalUrl,
+        siteName,
+        type: "article",
+        locale: "fr_FR"
+      },
+      twitter: {
+        card: "summary",
+        title: unemploymentPage.seoTitle,
+        description: unemploymentPage.description
+      }
+    };
+  }
 
   if (salaryPage) {
     const canonicalPath = `/${salaryPage.slug}`;
@@ -150,7 +193,12 @@ export default async function PillarPage({ params }: PillarPageProps) {
   const { slug } = await params;
   const comparisonPage = comparisonPageBySlug[slug];
   const salaryPage = salarySeoPageBySlug[slug];
+  const unemploymentPage = unemploymentSeoPageBySlug[slug];
   const page = pillarPageBySlug[slug];
+
+  if (unemploymentPage) {
+    return <UnemploymentSeoPageLayout page={unemploymentPage} />;
+  }
 
   if (salaryPage) {
     return <SalarySeoPageLayout page={salaryPage} />;

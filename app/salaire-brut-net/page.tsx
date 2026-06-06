@@ -43,6 +43,35 @@ const faqItems = [
   }
 ];
 
+const recapRows = [
+  {
+    gross: "1 800 €",
+    nonExecutive: "1 404 €",
+    executive: "1 350 €",
+    annual: "21 600 € brut/an"
+  },
+  {
+    gross: "2 500 €",
+    nonExecutive: "1 950 €",
+    executive: "1 875 €",
+    annual: "30 000 € brut/an"
+  },
+  {
+    gross: "3 000 €",
+    nonExecutive: "2 340 €",
+    executive: "2 250 €",
+    annual: "36 000 € brut/an"
+  }
+];
+
+const mistakes = [
+  "Confondre le net avant impôt avec le montant réellement versé après prélèvement à la source.",
+  "Comparer un salaire brut annuel avec un salaire net mensuel sans les remettre sur la même période.",
+  "Oublier que le statut cadre peut modifier le net à brut égal.",
+  "Ne pas vérifier le 13e mois, les primes, la mutuelle et les titres-restaurant.",
+  "Utiliser un taux unique pour tous les salariés alors que la fiche de paie dépend du contrat."
+];
+
 export const metadata: Metadata = {
   title: {
     absolute: title
@@ -97,6 +126,43 @@ export default function SalaryGrossNetPage() {
     },
     description
   };
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: "Salaire brut en net : guide complet et calculateur",
+    description,
+    url: canonicalUrl,
+    dateModified: "2026-06-06",
+    inLanguage: "fr-FR",
+    publisher: {
+      "@type": "Organization",
+      name: siteName
+    }
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Accueil",
+        item: siteUrl
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Salaire",
+        item: `${siteUrl}/salaire`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Salaire brut en net",
+        item: canonicalUrl
+      }
+    ]
+  };
 
   return (
     <main className="min-h-screen bg-[#F7FBFA]">
@@ -107,6 +173,14 @@ export default function SalaryGrossNetPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(webApplicationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
       />
 
       <article className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -144,9 +218,82 @@ export default function SalaryGrossNetPage() {
           </aside>
         </header>
 
+        <section className="mt-10 rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-6 shadow-sm lg:p-8">
+          <p className="text-sm font-black uppercase tracking-[0.14em] text-[#168F86]">
+            Réponse immédiate
+          </p>
+          <p className="mt-3 text-lg font-bold leading-8 text-[#061B3A]">
+            Pour convertir un salaire brut en net, retirez les cotisations
+            salariales estimées : environ 22 % pour un salarié non-cadre du
+            privé et 25 % pour un cadre dans une estimation rapide. Exemple :
+            2 500 € brut donnent environ 1 950 € net avant impôt en non-cadre,
+            puis environ 1 852,50 € après un prélèvement à la source de 5 %.
+          </p>
+        </section>
+
         <div className="mt-10">
           <SalaryNetCalculatorTool />
         </div>
+
+        <section className="mt-10 grid gap-6 lg:grid-cols-2">
+          <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+              Tableau récapitulatif brut/net
+            </h2>
+            <div className="mt-5 overflow-hidden rounded-xl border border-[#E5EFF0]">
+              <table className="w-full border-collapse text-left text-sm">
+                <thead className="bg-[#F7FBFA] text-[#102A4C]">
+                  <tr>
+                    <th className="px-4 py-3 font-black">Brut mensuel</th>
+                    <th className="px-4 py-3 font-black">Net non-cadre</th>
+                    <th className="px-4 py-3 font-black">Net cadre</th>
+                    <th className="px-4 py-3 font-black">Brut annuel</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#E5EFF0] text-[#5B6B7C]">
+                  {recapRows.map((row) => (
+                    <tr key={row.gross}>
+                      <td className="px-4 py-3 font-black text-[#061B3A]">
+                        {row.gross}
+                      </td>
+                      <td className="px-4 py-3">{row.nonExecutive}</td>
+                      <td className="px-4 py-3">{row.executive}</td>
+                      <td className="px-4 py-3">{row.annual}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 text-xs font-semibold leading-5 text-[#5B6B7C]">
+              Montants indicatifs avant impôt, hors primes, mutuelle et lignes
+              spécifiques de paie.
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+              Schéma explicatif
+            </h2>
+            <ol className="mt-5 space-y-3">
+              {[
+                "Salaire brut",
+                "Cotisations salariales",
+                "Salaire net avant impôt",
+                "Prélèvement à la source",
+                "Net réellement versé"
+              ].map((step, index) => (
+                <li key={step} className="flex gap-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#EAF8F6] text-sm font-black text-[#168F86]">
+                    {index + 1}
+                  </span>
+                  <span className="rounded-xl bg-[#F7FBFA] px-4 py-2 text-sm font-bold leading-6 text-[#102A4C]">
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
 
         <section className="mt-10 rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
@@ -238,6 +385,16 @@ export default function SalaryGrossNetPage() {
                 importante, comparez ensuite avec votre bulletin de salaire ou
                 une simulation paie plus détaillée.
               </p>
+            </SeoSection>
+
+            <SeoSection title="Erreurs fréquentes sur le calcul brut/net">
+              <ul className="space-y-3 text-sm font-bold leading-7 text-[#102A4C]">
+                {mistakes.map((mistake) => (
+                  <li key={mistake} className="rounded-xl bg-[#FFF8ED] px-4 py-3">
+                    {mistake}
+                  </li>
+                ))}
+              </ul>
             </SeoSection>
           </div>
 

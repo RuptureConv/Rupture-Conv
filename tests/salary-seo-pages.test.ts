@@ -8,9 +8,16 @@ import {
 
 describe("salary SEO pages", () => {
   it("creates the expected salary SEO cluster", () => {
-    expect(salarySeoPages).toHaveLength(40);
+    expect(salarySeoPages.length).toBeGreaterThanOrEqual(56);
     expect(salarySeoPageBySlug["salaire-brut-net-cadre"]?.title).toContain(
       "Salaire brut en net cadre"
+    );
+    expect(salarySeoPageBySlug["salaire"]?.title).toContain("comprendre le brut");
+    expect(salarySeoPageBySlug["calcul-salaire-net"]?.title).toContain(
+      "Calcul salaire net"
+    );
+    expect(salarySeoPageBySlug["salaire-brut-net-5000"]?.category).toBe(
+      "Montant mensuel"
     );
     expect(salarySeoPageBySlug["4000-brut-en-net"]?.category).toBe(
       "Montant mensuel"

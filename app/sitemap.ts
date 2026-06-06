@@ -5,6 +5,7 @@ import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
 import { blogPosts, pillarPageBySlug, pillarPages } from "@/lib/seo-content";
 import { salarySeoPages } from "@/lib/salary-seo-pages";
 import { siteUrl } from "@/lib/site";
+import { unemploymentSeoPages } from "@/lib/unemployment-seo-pages";
 
 type SitemapRoute = {
   path: string;
@@ -30,6 +31,9 @@ const REFORM_2026_SLUGS = new Set([
 ]);
 
 const REFORM_2026_LAST_MODIFIED = new Date("2026-06-03T08:00:00.000Z");
+const UNEMPLOYMENT_SEO_SLUGS = new Set(
+  unemploymentSeoPages.map((page) => page.slug)
+);
 
 function daysAgo(days: number): Date {
   const date = new Date();
@@ -80,6 +84,7 @@ function getSeoPages(): SitemapRoute[] {
   return [
     ...pillarPages
       .filter((page) => page.slug !== "simulateur-rupture-conventionnelle")
+      .filter((page) => !UNEMPLOYMENT_SEO_SLUGS.has(page.slug))
       .filter((page) => !parseProgrammaticSeoSlug(page.slug))
       .filter((page) => !["a-propos", "sources-juridiques"].includes(page.slug))
       .map((page) => {
@@ -101,6 +106,12 @@ function getSeoPages(): SitemapRoute[] {
 function getSalarySeoPages(): SitemapRoute[] {
   return salarySeoPages.map((page) =>
     createRoute(`/${page.slug}`, page.category === "Smic" ? 0.85 : 0.8, "monthly", 21)
+  );
+}
+
+function getUnemploymentSeoPages(): SitemapRoute[] {
+  return unemploymentSeoPages.map((page) =>
+    createRoute(`/${page.slug}`, page.slug === "chomage" ? 1 : 0.9, "weekly", 14)
   );
 }
 
@@ -161,6 +172,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...getMainPages(),
     ...getSeoPages(),
     ...getSalarySeoPages(),
+    ...getUnemploymentSeoPages(),
     ...getProgrammaticPages(),
     ...getBlogPages(),
     ...getToolPages(),

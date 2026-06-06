@@ -35,11 +35,36 @@ export function SalarySeoPageLayout({ page }: SalarySeoPageLayoutProps) {
       name: siteName
     }
   };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Accueil",
+        item: siteUrl
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Salaire",
+        item: `${siteUrl}/salaire`
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: page.title,
+        item: canonicalUrl
+      }
+    ]
+  };
 
   return (
     <main className="min-h-screen bg-[#F7FBFA]">
       <SeoJsonLd data={faqJsonLd} />
       <SeoJsonLd data={articleJsonLd} />
+      <SeoJsonLd data={breadcrumbJsonLd} />
 
       <article className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <Link
@@ -74,6 +99,17 @@ export function SalarySeoPageLayout({ page }: SalarySeoPageLayoutProps) {
             </p>
           </aside>
         </header>
+
+        {page.immediateAnswer ? (
+          <section className="mt-10 rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-6 shadow-sm lg:p-8">
+            <p className="text-sm font-black uppercase tracking-[0.14em] text-[#168F86]">
+              Réponse immédiate
+            </p>
+            <p className="mt-3 text-lg font-bold leading-8 text-[#061B3A]">
+              {page.immediateAnswer}
+            </p>
+          </section>
+        ) : null}
 
         <section className="mt-10 rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm lg:p-8">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(280px,0.45fr)] lg:items-center">
@@ -128,6 +164,59 @@ export function SalarySeoPageLayout({ page }: SalarySeoPageLayoutProps) {
           ))}
         </section>
 
+        {page.tableRows || page.schemaSteps ? (
+          <section className="mt-8 grid gap-6 lg:grid-cols-2">
+            {page.tableRows ? (
+              <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+                <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+                  Tableau récapitulatif
+                </h2>
+                <div className="mt-5 overflow-hidden rounded-xl border border-[#E5EFF0]">
+                  <table className="w-full border-collapse text-left text-sm">
+                    <tbody className="divide-y divide-[#E5EFF0]">
+                      {page.tableRows.map((row) => (
+                        <tr key={`${page.slug}-${row.label}`} className="bg-white">
+                          <th className="w-1/3 align-top bg-[#F7FBFA] px-4 py-3 font-black text-[#102A4C]">
+                            {row.label}
+                          </th>
+                          <td className="px-4 py-3">
+                            <span className="block font-black text-[#061B3A]">
+                              {row.value}
+                            </span>
+                            <span className="mt-1 block leading-6 text-[#5B6B7C]">
+                              {row.note}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ) : null}
+
+            {page.schemaSteps ? (
+              <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+                <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+                  Schéma explicatif
+                </h2>
+                <ol className="mt-5 space-y-3">
+                  {page.schemaSteps.map((step, index) => (
+                    <li key={`${page.slug}-${step}`} className="flex gap-3">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#EAF8F6] text-sm font-black text-[#168F86]">
+                        {index + 1}
+                      </span>
+                      <span className="rounded-xl bg-[#F7FBFA] px-4 py-2 text-sm font-bold leading-6 text-[#102A4C]">
+                        {step}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ) : null}
+          </section>
+        ) : null}
+
         <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.38fr)]">
           <div className="space-y-6">
             {page.sections.map((section) => (
@@ -154,6 +243,21 @@ export function SalarySeoPageLayout({ page }: SalarySeoPageLayoutProps) {
                 ) : null}
               </section>
             ))}
+
+            {page.mistakes ? (
+              <section className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+                <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+                  Erreurs fréquentes
+                </h2>
+                <ul className="mt-5 space-y-3 text-sm font-bold leading-7 text-[#102A4C]">
+                  {page.mistakes.map((mistake) => (
+                    <li key={`${page.slug}-${mistake}`} className="rounded-xl bg-[#FFF8ED] px-4 py-3">
+                      {mistake}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
             <section className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
               <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
