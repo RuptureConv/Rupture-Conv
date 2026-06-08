@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export function StickyMobileCTA() {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const [isSimulatorVisible, setIsSimulatorVisible] = useState(false);
 
@@ -29,7 +31,7 @@ export function StickyMobileCTA() {
     };
   }, []);
 
-  if (!isVisible || isSimulatorVisible) {
+  if (pathname === "/salaire-brut-net" || !isVisible || isSimulatorVisible) {
     return null;
   }
 

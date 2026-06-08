@@ -31,6 +31,7 @@ Copier `.env.example` vers `.env.local` en local si nécessaire.
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommandé en production | `https://rupture-conv.fr` | URL canonique utilisée par les métadonnées, `robots.txt` et `sitemap.xml`. |
 | `NEXT_PUBLIC_GTM_ID` | Non | `GTM-P9XX929G` | Conteneur Google Tag Manager chargé globalement. Le conteneur fourni est utilisé par défaut. |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Non | `G-HDDQ9CV6YQ` | Balise Google Analytics 4 chargée globalement sur toutes les pages. |
 | `NEXT_PUBLIC_ENABLE_ADSENSE` | Non | `false` | Active le chargement réel du script AdSense uniquement quand le compte est validé. |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | Non | `ca-pub-xxxxxxxxxxxxxxxx` | Client AdSense réel. Laisser vide tant que le compte n'est pas validé. |
 | `NEXT_PUBLIC_ADSENSE_SLOT_TOP` | Non | `1234567890` | Slot AdSense pour le leaderboard haut. |
@@ -70,9 +71,10 @@ npm run build
 6. Install command : `npm install`.
 7. Output directory : laisser vide, Vercel gère `.next`.
 8. Ajouter la variable `NEXT_PUBLIC_SITE_URL=https://rupture-conv.fr`.
-9. Mettre `NEXT_PUBLIC_ENABLE_ADSENSE=false` tant que Google AdSense n'est pas validé.
-10. Déployer.
-11. Vérifier après déploiement :
+9. Vérifier `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-HDDQ9CV6YQ`.
+10. Mettre `NEXT_PUBLIC_ENABLE_ADSENSE=false` tant que Google AdSense n'est pas validé.
+11. Déployer.
+12. Vérifier après déploiement :
 
 ```bash
 curl -I https://rupture-conv.fr

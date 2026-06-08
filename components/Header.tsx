@@ -18,7 +18,7 @@ const simulatorLinks = [
   },
   {
     href: "/simulateur-chomage-rupture-conventionnelle",
-    title: "Chômage après rupture",
+    title: "Simulateur chômage ARE",
     description: "Projetez ARE, différés et premier versement."
   }
 ] as const;
@@ -120,6 +120,9 @@ export function Header() {
           <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/rupture-conventionnelle">
             Guide complet
           </Link>
+          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/chomage-are">
+            Chômage ARE
+          </Link>
           <a className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="#comprendre">
             Comprendre
           </a>
@@ -181,6 +184,13 @@ export function Header() {
                 onClick={closeMenus}
               >
                 Guide complet
+              </Link>
+              <Link
+                className="rounded-xl px-4 py-3 transition hover:bg-[#EAF8F6]"
+                href="/chomage-are"
+                onClick={closeMenus}
+              >
+                Chômage ARE
               </Link>
               <Link
                 className="rounded-xl px-4 py-3 transition hover:bg-[#EAF8F6]"

@@ -45,8 +45,8 @@ export const hrTools: HrToolDefinition[] = [
   {
     id: "brut-net",
     title: "Brut / net",
-    description: "Convertir une rémunération mensuelle rapidement.",
-    href: "/outils/brut-net",
-    status: "planned"
+    description: "Convertir un salaire brut en net horaire, mensuel ou annuel.",
+    href: "/salaire-brut-net",
+    status: "live"
   }
 ];

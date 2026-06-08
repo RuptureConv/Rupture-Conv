@@ -8,7 +8,7 @@ import { siteName, siteUrl } from "@/lib/site";
 
 const canonicalPath = "/simulateur-chomage-rupture-conventionnelle";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
-const title = "Simulateur chômage après rupture conventionnelle";
+const title = "Simulateur chômage ARE après rupture conventionnelle";
 const description =
   "Comprenez ce que vous pourriez toucher après une rupture conventionnelle, un licenciement, une démission ou une fin de contrat : indemnité, ARE, délais et calendrier.";
 
@@ -158,7 +158,7 @@ export default function UnemploymentSimulatorPage() {
               Projection chômage gratuite
             </p>
             <h1 className="mt-5 max-w-5xl text-4xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-5xl lg:text-6xl">
-              Simulateur chômage après rupture conventionnelle
+              Simulateur chômage ARE après rupture conventionnelle
             </h1>
             <p className="mt-5 max-w-3xl text-lg font-semibold leading-8 text-[#5B6B7C]">
               Visualisez ce que vous pourriez percevoir au départ, ce que France
@@ -404,11 +404,13 @@ export default function UnemploymentSimulatorPage() {
               <ul className="mt-4 space-y-3 text-sm font-bold leading-6 text-[#102A4C]">
                 {[
                   ["/simulateur-rupture-conventionnelle", "Simuler l'indemnité de rupture"],
-                  ["/rupture-conventionnelle-chomage", "Rupture conventionnelle et chômage"],
-                  ["/rupture-conventionnelle-chomage-2026", "Chômage et réforme 2026"],
-                  ["/blog/calcul-indemnite-brut-ou-net", "Brut ou net en rupture conventionnelle"],
+                  ["/chomage-are", "Guide chômage ARE"],
+                  ["/calcul-allocation-chomage", "Calcul allocation chômage"],
+                  ["/combien-vais-je-toucher-au-chomage", "Combien vais-je toucher ?"],
+                  ["/delai-de-carence-chomage", "Délai de carence chômage"],
+                  ["/premier-paiement-france-travail", "Premier paiement France Travail"],
                   ["/chomage-apres-demission", "Chômage après démission"],
-                  ["/delai-chomage-apres-rupture-conventionnelle", "Délai avant indemnisation"]
+                  ["/rupture-conventionnelle-et-allocation-chomage", "Rupture conventionnelle et allocation"]
                 ].map(([href, label]) => (
                   <li key={href}>
                     <Link className="transition hover:text-[#22AFA3]" href={href as Route}>

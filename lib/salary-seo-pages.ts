@@ -151,8 +151,8 @@ const commonLinks = {
     description: "Voir la méthode pour estimer son salaire net à partir du brut."
   },
   unemployment: {
-    href: "/calcul-chomage",
-    label: "Calcul chômage",
+    href: "/calcul-allocation-chomage",
+    label: "Calcul allocation chômage",
     description: "Préparer la suite si votre salaire sert à estimer une allocation."
   },
   termination: {

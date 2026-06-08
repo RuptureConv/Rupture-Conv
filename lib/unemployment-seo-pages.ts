@@ -93,19 +93,19 @@ function formatDate(value: string): string {
 
 const links = {
   chomage: {
-    href: "/chomage",
-    label: "Guide chômage",
-    description: "Revenir à la page pilier sur France Travail, l'ARE et les règles 2026."
+    href: "/chomage-are",
+    label: "Guide chômage ARE",
+    description: "Revenir à la page pilier sur France Travail, l'ARE, le calcul et les délais."
   },
   calcul: {
-    href: "/calcul-chomage",
-    label: "Calcul chômage",
+    href: "/calcul-allocation-chomage",
+    label: "Calcul allocation chômage",
     description: "Comprendre le calcul du SJR, de l'ARE et des différés."
   },
   simulator: {
-    href: "/simulateur-chomage",
-    label: "Simulateur chômage",
-    description: "Préparer la future simulation personnalisée de l'ARE et du calendrier."
+    href: "/simulateur-allocation-chomage",
+    label: "Simulateur allocation chômage",
+    description: "Comprendre l'outil avant de lancer la projection ARE détaillée."
   },
   currentSimulator: {
     href: "/simulateur-chomage-rupture-conventionnelle",
@@ -164,7 +164,7 @@ function scenarioFor(salary: number): UnemploymentSeoScenario {
   };
 }
 
-const commonScenarios = [1800, 2500, 3000, 4000].map(scenarioFor);
+const commonScenarios = [2000, 2500, 3000, 3500, 4000].map(scenarioFor);
 
 function standardTableRows(primary = commonScenarios[1]): UnemploymentSeoTableRow[] {
   return [
@@ -270,6 +270,19 @@ function makePage(config: {
   links?: UnemploymentSeoLink[];
   premium?: boolean;
 }): UnemploymentSeoPage {
+  const internalLinks = [
+    links.chomage,
+    links.calcul,
+    links.simulator,
+    links.currentSimulator,
+    ...(config.links ?? []),
+    links.salaire,
+    links.brutNet
+  ].filter(
+    (link, index, allLinks) =>
+      allLinks.findIndex((candidate) => candidate.href === link.href) === index
+  );
+
   return {
     slug: config.slug,
     title: config.title,
@@ -291,20 +304,12 @@ function makePage(config: {
     premiumFlow: config.premium ? premiumFlow : undefined,
     mistakes: commonMistakes,
     faq: faqFor(config.title.toLocaleLowerCase("fr-FR")),
-    internalLinks: [
-      links.chomage,
-      links.calcul,
-      links.simulator,
-      links.currentSimulator,
-      ...(config.links ?? []),
-      links.salaire,
-      links.brutNet
-    ].slice(0, 8),
+    internalLinks: internalLinks.slice(0, 8),
     cta: {
-      title: "Préparer votre estimation chômage",
+      title: "Simuler votre ARE maintenant",
       body:
-        "Le simulateur chômage dédié arrive dans le cocon. En attendant, la projection chômage actuelle permet déjà d'estimer l'ARE, les différés et le premier versement probable.",
-      label: "Tester la projection chômage",
+        "La projection chômage existante estime l'ARE, les différés, la date probable du premier paiement et la durée selon votre situation.",
+      label: "Lancer le simulateur ARE",
       href: "/simulateur-chomage-rupture-conventionnelle"
     }
   };
@@ -350,9 +355,9 @@ const detailedSections = {
 
 export const unemploymentSeoPages: UnemploymentSeoPage[] = [
   makePage({
-    slug: "chomage",
-    title: "Chômage : guide complet France Travail, ARE, durée et réforme 2026",
-    seoTitle: "Chômage 2026 : ARE, conditions, durée et France Travail",
+    slug: "chomage-are",
+    title: "Chômage ARE : guide complet France Travail, calcul et délais",
+    seoTitle: "Chômage ARE 2026 : conditions, calcul et délais",
     description:
       "Guide complet du chômage en 2026 : conditions France Travail, calcul ARE, SJR, durée d'indemnisation, carence, cumul emploi chômage et réforme.",
     excerpt:
@@ -372,9 +377,9 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.rupture, links.simulateur, links.salaireBrutNet]
   }),
   makePage({
-    slug: "calcul-chomage",
-    title: "Calcul chômage : SJR, ARE, différés et exemples 2026",
-    seoTitle: "Calcul chômage 2026 : méthode ARE, SJR et exemples",
+    slug: "calcul-allocation-chomage",
+    title: "Calcul allocation chômage : SJR, ARE, différés et exemples",
+    seoTitle: "Calcul allocation chômage 2026 : méthode ARE",
     description:
       "Calculez le chômage en 2026 : SJR, formule ARE, différés, délai d'attente, exemples à 1 800 €, 2 500 €, 3 000 € et 4 000 €.",
     excerpt:
@@ -398,6 +403,41 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
       }
     ],
     links: [links.salaire, links.salaireBrutNet, links.rupture],
+    premium: true
+  }),
+  makePage({
+    slug: "simulateur-allocation-chomage",
+    title: "Simulateur allocation chômage : estimer ARE, durée et premier paiement",
+    seoTitle: "Simulateur allocation chômage ARE 2026",
+    description:
+      "Utilisez le simulateur allocation chômage pour estimer ARE nette, délai de carence, durée d'indemnisation et premier paiement France Travail.",
+    excerpt:
+      "Un bon simulateur allocation chômage ne doit pas seulement donner un montant : il doit aussi expliquer le calendrier et les différés.",
+    category: "ARE",
+    eyebrow: "Page outil",
+    summary: "La page passerelle qui pousse naturellement vers le simulateur ARE existant.",
+    immediateAnswer:
+      `Le simulateur allocation chômage de RuptureConv permet de projeter l'ARE à partir du salaire brut moyen, du mode de fin de contrat, de l'âge, des congés payés et d'une éventuelle indemnité supra-légale. Avec ${commonScenarios[1].salary} brut, l'exemple donne environ ${commonScenarios[1].monthlyNetAre} nets par mois, hors cas particulier.`,
+    sections: [
+      {
+        title: "Ce que le simulateur doit afficher",
+        paragraphs: [
+          "L'utilisateur ne cherche pas seulement une formule. Il veut savoir combien il peut toucher, quand le premier paiement peut arriver, pendant combien de temps l'indemnisation peut durer et ce qui change dans son cas.",
+          "C'est pourquoi la projection doit combiner ARE brute, ARE nette indicative, SJR, différés, date probable de paiement, durée et avertissements sur les situations à confirmer."
+        ]
+      },
+      detailedSections.calculation,
+      detailedSections.waiting,
+      detailedSections.examples,
+      {
+        title: "Pourquoi utiliser le simulateur avant une rupture",
+        paragraphs: [
+          "Avant une rupture conventionnelle, le montant négocié peut influencer le différé spécifique. Une indemnité plus élevée peut donc sécuriser le départ tout en repoussant le début de l'ARE.",
+          "L'intérêt de simuler avant de signer est de comparer l'indemnité de départ, le délai sans allocation et le revenu total potentiel sur la période."
+        ]
+      }
+    ],
+    links: [links.currentSimulator, links.calcul, links.rupture],
     premium: true
   }),
   makePage({
@@ -493,7 +533,7 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.chomage, links.calcul, links.salaire]
   }),
   makePage({
-    slug: "delai-carence-chomage",
+    slug: "delai-de-carence-chomage",
     title: "Délai de carence chômage : congés payés, différé spécifique et 7 jours",
     seoTitle: "Délai de carence chômage 2026 : calcul et exemples",
     description:
@@ -531,6 +571,76 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
       }
     ],
     links: [links.rupture, links.simulateur, links.calcul],
+    premium: true
+  }),
+  makePage({
+    slug: "quand-touche-t-on-le-chomage",
+    title: "Quand touche-t-on le chômage ? Délais, actualisation et paiement",
+    seoTitle: "Quand touche-t-on le chômage : premier paiement ARE",
+    description:
+      "Quand touche-t-on le chômage après une fin de contrat ? Comprenez inscription France Travail, actualisation, délai de carence et date de paiement.",
+    excerpt:
+      "Le premier paiement chômage dépend de la fin du contrat, de l'inscription, des différés, de l'actualisation et du calendrier de paiement France Travail.",
+    category: "France Travail",
+    eyebrow: "Question urgente",
+    summary: "Une réponse claire pour anticiper la trésorerie des premières semaines.",
+    immediateAnswer:
+      `On ne touche pas forcément le chômage dès la fin du contrat. Il faut d'abord s'inscrire, faire examiner les droits, attendre le délai de ${RULES_2026.waitingPeriods.legalWaitingDays} jours et les éventuels différés congés payés ou indemnités supra-légales, puis actualiser sa situation pour déclencher le paiement mensuel.`,
+    sections: [
+      {
+        title: "Les étapes avant le premier versement",
+        paragraphs: [
+          "La chronologie habituelle commence par la fin effective du contrat, puis l'inscription France Travail, l'étude du dossier, l'application des différés et enfin le paiement selon le calendrier mensuel.",
+          "Un dossier complet peut aller vite, mais des congés payés non pris, une indemnité supra-légale ou une attestation employeur erronée peuvent repousser le versement."
+        ]
+      },
+      detailedSections.waiting,
+      {
+        title: "Actualisation et paiement mensuel",
+        paragraphs: [
+          "L'actualisation mensuelle confirme la situation du demandeur d'emploi. Sans actualisation, le paiement peut être bloqué même si les droits sont ouverts.",
+          "Le paiement porte en pratique sur une période passée. Il faut donc distinguer date de fin de contrat, date d'ouverture des droits et date de virement."
+        ]
+      },
+      detailedSections.examples,
+      detailedSections.practical
+    ],
+    links: [links.currentSimulator, links.calcul, links.rupture],
+    premium: true
+  }),
+  makePage({
+    slug: "premier-paiement-france-travail",
+    title: "Premier paiement France Travail : calculer la date probable",
+    seoTitle: "Premier paiement France Travail : délai chômage 2026",
+    description:
+      "Estimez la date du premier paiement France Travail : inscription, délai d'attente, différé congés payés, différé spécifique et actualisation.",
+    excerpt:
+      "Le premier paiement France Travail arrive après l'examen des droits, les différés éventuels et l'actualisation mensuelle.",
+    category: "France Travail",
+    eyebrow: "Calendrier ARE",
+    summary: "La page dédiée au moment où l'argent arrive réellement.",
+    immediateAnswer:
+      `La date du premier paiement France Travail dépend de trois blocs : ${RULES_2026.waitingPeriods.legalWaitingDays} jours d'attente, le différé congés payés plafonné à ${RULES_2026.waitingPeriods.paidLeaveMaxDays} jours et le différé spécifique lié aux indemnités supra-légales, plafonné en général à ${RULES_2026.waitingPeriods.specificMaxDays} jours.`,
+    sections: [
+      detailedSections.waiting,
+      {
+        title: "Ce qui peut bloquer ou retarder le paiement",
+        paragraphs: [
+          "Les retards les plus fréquents viennent d'une inscription tardive, d'une attestation employeur manquante ou erronée, d'un solde de tout compte complexe ou d'une actualisation non réalisée.",
+          "Le paiement dépend aussi des informations déclarées : reprise d'activité, maladie, formation, absence ou changement de situation."
+        ]
+      },
+      {
+        title: "Rupture conventionnelle : vigilance sur l'indemnité négociée",
+        paragraphs: [
+          "Une rupture conventionnelle avec une part supra-légale peut déclencher un différé spécifique. Ce différé ne supprime pas les droits, mais décale le premier versement.",
+          "Avant de signer, il est donc utile de comparer le montant de l'indemnité et le nombre de jours sans allocation."
+        ]
+      },
+      detailedSections.examples,
+      detailedSections.practical
+    ],
+    links: [links.currentSimulator, links.calcul, links.rupture],
     premium: true
   }),
   makePage({
@@ -602,9 +712,9 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.calcul, links.chomage, links.rupture]
   }),
   makePage({
-    slug: "cumul-salaire-et-chomage",
-    title: "Cumul salaire et chômage : comprendre le cumul emploi ARE",
-    seoTitle: "Cumul emploi chômage 2026 : salaire et ARE",
+    slug: "cumul-are-salaire",
+    title: "Cumul ARE salaire : reprendre un emploi sans perdre ses repères",
+    seoTitle: "Cumul ARE salaire 2026 : emploi et chômage",
     description:
       "Guide du cumul salaire et chômage : reprise d'activité, déclaration mensuelle, calcul de l'ARE restante et erreurs à éviter.",
     excerpt:
@@ -642,6 +752,74 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.salaire, links.salaireBrutNet, links.calcul]
   }),
   makePage({
+    slug: "comment-est-calculee-l-are",
+    title: "Comment est calculée l'ARE ? Formule, SJR et exemples",
+    seoTitle: "Comment est calculée l'ARE : formule 2026",
+    description:
+      "Comprenez comment est calculée l'ARE : salaire journalier de référence, formules France Travail, plafond, net indicatif et exemples.",
+    excerpt:
+      "L'ARE est calculée à partir du SJR, puis France Travail compare deux formules avant d'appliquer les règles de montant et de durée.",
+    category: "ARE",
+    eyebrow: "Formule ARE",
+    summary: "La page pédagogique pour viser les featured snippets sur la méthode de calcul.",
+    immediateAnswer:
+      `L'ARE est calculée à partir du salaire journalier de référence. France Travail compare notamment ${Math.round(RULES_2026.areFormula.variableSjrRate * 1000) / 10} % du SJR plus ${formatEuro(RULES_2026.areFormula.fixedDailyPart)} et ${Math.round(RULES_2026.areFormula.alternativeSjrRate * 100)} % du SJR, puis retient le résultat applicable dans la limite de ${Math.round(RULES_2026.areFormula.maxSjrRate * 100)} % du SJR.`,
+    sections: [
+      detailedSections.calculation,
+      {
+        title: "Étape 1 : déterminer le SJR",
+        paragraphs: [
+          "Le SJR résume les rémunérations de référence sous forme journalière. Il dépend des salaires bruts retenus et de la période prise en compte.",
+          "Une estimation par salaire mensuel moyen donne un ordre de grandeur utile, mais le calcul France Travail peut intégrer des périodes et justificatifs plus précis."
+        ]
+      },
+      {
+        title: "Étape 2 : comparer les formules ARE",
+        paragraphs: [
+          "La première formule combine une part proportionnelle au SJR et une partie fixe. La seconde applique un pourcentage du SJR. Le montant retenu est ensuite encadré.",
+          "Cette mécanique explique pourquoi deux salaires proches peuvent produire des allocations dont l'écart n'est pas parfaitement linéaire."
+        ]
+      },
+      detailedSections.examples,
+      detailedSections.waiting
+    ],
+    links: [links.calcul, links.currentSimulator, links.salaireBrutNet],
+    premium: true
+  }),
+  makePage({
+    slug: "chomage-apres-demission",
+    title: "Chômage après démission : cas possibles, ARE et réexamen",
+    seoTitle: "Chômage après démission : droits ARE 2026",
+    description:
+      "Comprenez le chômage après démission : absence de droit automatique, démission légitime, reconversion, reliquat et réexamen après 121 jours.",
+    excerpt:
+      "Une démission classique n'ouvre pas automatiquement droit au chômage, mais certains cas peuvent permettre un examen ou un réexamen.",
+    eyebrow: "Cas sensible",
+    summary: "Une page prudente pour éviter les mauvaises décisions avant de quitter un CDI.",
+    immediateAnswer:
+      "Après une démission classique, le chômage n'est pas automatique. Il faut vérifier les cas reconnus : démission légitime, projet de reconversion validé avant le départ, reliquat de droits, reprise d'emploi suffisante ou réexamen possible après 121 jours de chômage.",
+    sections: [
+      {
+        title: "La règle de base",
+        paragraphs: [
+          "La démission est une rupture volontaire du contrat. Elle ne doit donc pas être présentée comme équivalente à une rupture conventionnelle, un licenciement ou une fin de CDD.",
+          "Avant de démissionner, il faut vérifier si un dispositif spécifique s'applique réellement à votre situation. Une erreur peut créer plusieurs mois sans revenu de remplacement."
+        ]
+      },
+      {
+        title: "Les cas à examiner",
+        paragraphs: [
+          "Certaines démissions légitimes peuvent ouvrir droit à l'ARE selon les justificatifs. Un projet de reconversion peut aussi être pris en compte s'il a été validé dans le bon ordre.",
+          "Un reliquat de droits ou une reprise d'emploi après démission peut modifier l'analyse, mais ces situations doivent être confirmées par France Travail."
+        ]
+      },
+      detailedSections.rules2026,
+      detailedSections.examples,
+      detailedSections.practical
+    ],
+    links: [links.currentSimulator, links.calcul, links.rupture]
+  }),
+  makePage({
     slug: "chomage-apres-cdi",
     title: "Chômage après CDI : rupture, licenciement, démission et ARE",
     seoTitle: "Chômage après CDI : droits ARE selon la rupture",
@@ -663,9 +841,9 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.rupture, links.simulateur, links.calcul]
   }),
   makePage({
-    slug: "chomage-apres-cdd",
-    title: "Chômage après CDD : conditions, ARE et démarches France Travail",
-    seoTitle: "Chômage après CDD : droit ARE et calcul 2026",
+    slug: "chomage-fin-cdd",
+    title: "Chômage fin CDD : conditions, ARE et démarches France Travail",
+    seoTitle: "Chômage fin CDD : droit ARE et calcul 2026",
     description:
       "Comprenez le chômage après CDD : fin de contrat, activité minimale, inscription France Travail, montant ARE, différés et exemples.",
     excerpt:
@@ -688,6 +866,76 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
       detailedSections.examples
     ],
     links: [links.calcul, links.currentSimulator, links.salaire]
+  }),
+  makePage({
+    slug: "chomage-cadre",
+    title: "Chômage cadre : ARE, dégressivité, délai et rupture conventionnelle",
+    seoTitle: "Chômage cadre 2026 : calcul ARE et dégressivité",
+    description:
+      "Guide chômage cadre : calcul ARE avec salaire élevé, dégressivité, rupture conventionnelle, différés, indemnité supra-légale et exemples.",
+    excerpt:
+      "Pour un cadre, le sujet chômage porte souvent autant sur la dégressivité et les différés que sur le montant mensuel.",
+    category: "ARE",
+    eyebrow: "Cadres",
+    summary: "Une page à fort potentiel pour les salaires élevés et les négociations de départ.",
+    immediateAnswer:
+      `Un cadre peut percevoir l'ARE si les conditions sont remplies, mais les allocations élevées peuvent être concernées par la dégressivité après ${RULES_2026.degressivity.startsAfterDays} jours, sauf à partir de ${RULES_2026.degressivity.excludedFromAge} ans. Les indemnités supra-légales peuvent aussi repousser le premier paiement.`,
+    sections: [
+      {
+        title: "Pourquoi le chômage cadre est particulier",
+        paragraphs: [
+          "Les cadres ont souvent une rémunération variable, des bonus, une ancienneté plus forte ou une indemnité négociée. Ces éléments peuvent compliquer le calcul du SJR et le calendrier de paiement.",
+          "Le montant mensuel ne suffit pas : il faut aussi regarder le différé spécifique, la dégressivité éventuelle et la durée des droits."
+        ]
+      },
+      detailedSections.calculation,
+      detailedSections.waiting,
+      {
+        title: "Dégressivité et salaires élevés",
+        paragraphs: [
+          "La dégressivité concerne certaines allocations journalières élevées. Elle ne s'applique pas immédiatement et ne concerne pas les allocataires âgés de 55 ans ou plus à la fin du contrat.",
+          "Un cadre en rupture conventionnelle doit donc simuler le premier mois, mais aussi la projection après plusieurs mois d'indemnisation."
+        ]
+      },
+      detailedSections.examples
+    ],
+    links: [links.currentSimulator, links.salaireBrutNet, links.rupture],
+    premium: true
+  }),
+  makePage({
+    slug: "chomage-senior",
+    title: "Chômage senior : durée ARE, 55 ans, 57 ans et retraite",
+    seoTitle: "Chômage senior 2026 : durée ARE après 55 ans",
+    description:
+      "Comprenez le chômage senior : durée d'indemnisation à 55 ans, 57 ans et plus, période de référence, dégressivité et retraite.",
+    excerpt:
+      "À partir de 55 ans, l'âge modifie la période de référence, la durée maximale et plusieurs points de vigilance.",
+    category: "ARE",
+    eyebrow: "Seniors",
+    summary: "Une page essentielle pour les fins de carrière et ruptures conventionnelles seniors.",
+    immediateAnswer:
+      `À partir de ${RULES_2026.affiliation.seniorLookbackAge} ans, la période de recherche d'activité passe à ${RULES_2026.affiliation.seniorLookbackMonths} mois. La durée maximale peut atteindre ${RULES_2026.duration.standardMaxDays.age55To56} jours à 55-56 ans et ${RULES_2026.duration.standardMaxDays.age57Plus} jours à partir de 57 ans, sous réserve du dossier.`,
+    sections: [
+      {
+        title: "Ce que l'âge change",
+        paragraphs: [
+          "L'âge ne change pas seulement la durée. Il modifie aussi la période de recherche d'activité et peut rendre certains sujets plus sensibles : retraite, formation, maintien éventuel des droits et retour à l'emploi.",
+          "Un salarié senior doit donc lire ensemble montant mensuel, durée, date de premier paiement et situation retraite."
+        ]
+      },
+      detailedSections.rules2026,
+      detailedSections.calculation,
+      detailedSections.waiting,
+      {
+        title: "Rupture conventionnelle senior",
+        paragraphs: [
+          "La rupture conventionnelle d'un senior demande une prudence particulière. L'indemnité négociée, les congés payés et la proximité de la retraite peuvent changer la trésorerie réelle.",
+          "Le simulateur donne une projection utile, mais il faut compléter par une vérification retraite et France Travail lorsque la situation est proche du taux plein."
+        ]
+      }
+    ],
+    links: [links.currentSimulator, links.rupture, links.calcul],
+    premium: true
   }),
   makePage({
     slug: "chomage-apres-licenciement",
@@ -715,40 +963,6 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
       detailedSections.examples
     ],
     links: [links.calcul, links.rupture, links.salaire]
-  }),
-  makePage({
-    slug: "comment-est-calcule-le-sjr",
-    title: "Comment est calculé le SJR ? Salaire journalier de référence",
-    seoTitle: "SJR : calcul du salaire journalier de référence",
-    description:
-      "Comprenez le calcul du SJR, base de l'ARE : salaire de référence, période retenue, impact sur l'allocation chômage et exemples 2026.",
-    excerpt:
-      "Le SJR est le socle du calcul de l'ARE : une petite variation peut changer l'allocation journalière et mensuelle.",
-    category: "ARE",
-    eyebrow: "SJR",
-    summary: "La page pédagogique pour comprendre la base du calcul chômage.",
-    immediateAnswer:
-      `Le SJR est le salaire journalier de référence. Dans une estimation simple, ${commonScenarios[1].salary} brut mensuel donnent un SJR proche de ${commonScenarios[1].sjr}. France Travail applique ensuite les formules ARE à partir de ce montant journalier.`,
-    sections: [
-      {
-        title: "À quoi sert le SJR",
-        paragraphs: [
-          "Le SJR transforme une rémunération passée en base journalière. C'est sur ce montant que les formules ARE sont appliquées.",
-          "Il ne correspond pas à votre salaire net journalier. Il sert de référence réglementaire pour calculer une allocation, pas pour reconstituer exactement une fiche de paie."
-        ]
-      },
-      detailedSections.calculation,
-      detailedSections.examples,
-      {
-        title: "Pourquoi le SJR réel peut différer d'une estimation",
-        paragraphs: [
-          "Le calcul officiel peut intégrer des périodes sans contrat, des variations de rémunération, des temps partiels ou plusieurs employeurs. Une estimation par salaire mensuel moyen reste utile, mais elle simplifie la réalité.",
-          "Si votre rémunération varie beaucoup, réunissez les bulletins de paie de la période de référence avant de tirer une conclusion."
-        ]
-      },
-      detailedSections.practical
-    ],
-    links: [links.calcul, links.salaire, links.salaireBrutNet]
   }),
   makePage({
     slug: "france-travail-inscription",
@@ -791,6 +1005,40 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.calcul, links.currentSimulator, links.rupture]
   }),
   makePage({
+    slug: "france-travail-actualisation",
+    title: "France Travail actualisation : calendrier, paiement et erreurs",
+    seoTitle: "France Travail actualisation : paiement chômage",
+    description:
+      "Comprenez l'actualisation France Travail : quand la faire, quoi déclarer, impact sur le paiement ARE et erreurs à éviter.",
+    excerpt:
+      "L'actualisation mensuelle est indispensable pour recevoir l'ARE et éviter les blocages ou trop-perçus.",
+    category: "France Travail",
+    eyebrow: "Paiement mensuel",
+    summary: "La page opérationnelle pour relier droits ouverts et versement réel.",
+    immediateAnswer:
+      "L'actualisation France Travail sert à déclarer votre situation du mois : emploi repris, salaire, formation, maladie, absence ou changement personnel. Sans actualisation, le paiement de l'ARE peut être suspendu même si vos droits sont ouverts.",
+    sections: [
+      {
+        title: "Pourquoi l'actualisation est décisive",
+        paragraphs: [
+          "L'ouverture des droits ne suffit pas à déclencher chaque paiement. France Travail a besoin d'une déclaration mensuelle pour calculer ce qui doit être versé.",
+          "Une activité reprise, même courte, doit être déclarée avec prudence afin d'éviter un blocage, une régularisation ou un trop-perçu."
+        ]
+      },
+      {
+        title: "Que déclarer",
+        paragraphs: [
+          "Il faut déclarer les heures travaillées, les revenus, les formations, les arrêts maladie, les absences et tout changement pouvant influencer l'indemnisation.",
+          "Conservez les justificatifs, notamment bulletins de salaire et attestations, car France Travail peut demander une vérification."
+        ]
+      },
+      detailedSections.waiting,
+      detailedSections.examples,
+      detailedSections.practical
+    ],
+    links: [links.currentSimulator, links.calcul, links.salaire]
+  }),
+  makePage({
     slug: "chomage-et-conges-payes",
     title: "Chômage et congés payés : impact sur le délai avant ARE",
     seoTitle: "Chômage congés payés : différé ARE 2026",
@@ -825,11 +1073,46 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     links: [links.calcul, links.rupture, links.currentSimulator]
   }),
   makePage({
-    slug: "rupture-conventionnelle-et-are",
-    title: "Rupture conventionnelle et ARE : droits, calcul et différés",
-    seoTitle: "Rupture conventionnelle ARE : droits chômage 2026",
+    slug: "indemnite-rupture-et-chomage",
+    title: "Indemnité de rupture et chômage : impact sur l'ARE et le délai",
+    seoTitle: "Indemnité rupture et chômage : différé ARE",
     description:
-      "Page passerelle entre rupture conventionnelle et ARE : droit au chômage, calcul, différés, indemnité supra-légale et exemples 2026.",
+      "Comprenez l'impact d'une indemnité de rupture sur le chômage : indemnité légale, supra-légale, différé spécifique et premier paiement ARE.",
+    excerpt:
+      "L'indemnité de rupture ne supprime pas le chômage, mais une part supra-légale peut repousser le premier versement ARE.",
+    category: "Rupture conventionnelle",
+    eyebrow: "Indemnité et délai",
+    summary: "La page clé pour expliquer le lien entre montant négocié et carence chômage.",
+    immediateAnswer:
+      `L'indemnité minimale de rupture n'empêche pas l'examen des droits au chômage. En revanche, la part supérieure au minimum légal ou conventionnel peut créer un différé spécifique, calculé en divisant les sommes supra-légales par ${RULES_2026.waitingPeriods.specificDivisor}, avec un plafond général de ${RULES_2026.waitingPeriods.specificMaxDays} jours.`,
+    sections: [
+      {
+        title: "Indemnité légale et indemnité supra-légale",
+        paragraphs: [
+          "L'indemnité légale ou conventionnelle correspond au minimum applicable. Elle doit être distinguée de la part supra-légale, qui résulte d'une négociation ou d'un versement supérieur au minimum.",
+          "C'est principalement cette part supra-légale qui peut modifier le calendrier du premier paiement chômage."
+        ]
+      },
+      detailedSections.waiting,
+      detailedSections.calculation,
+      detailedSections.examples,
+      {
+        title: "Arbitrer entre montant de départ et trésorerie",
+        paragraphs: [
+          "Une indemnité plus élevée peut rester intéressante même si elle repousse l'ARE. La bonne lecture consiste à comparer le cash disponible au départ, le nombre de jours sans allocation et le revenu total potentiel.",
+          "Avant de signer une rupture conventionnelle, simulez les deux scénarios : indemnité au minimum et indemnité négociée."
+        ]
+      }
+    ],
+    links: [links.currentSimulator, links.rupture, links.simulateur],
+    premium: true
+  }),
+  makePage({
+    slug: "rupture-conventionnelle-et-allocation-chomage",
+    title: "Rupture conventionnelle et allocation chômage : droits, calcul et délai",
+    seoTitle: "Rupture conventionnelle et allocation chômage 2026",
+    description:
+      "Page passerelle entre rupture conventionnelle et allocation chômage : droit ARE, calcul, différés, indemnité supra-légale et exemples 2026.",
     excerpt:
       "La rupture conventionnelle peut ouvrir droit à l'ARE, mais il faut relier indemnité, SJR, différés et inscription France Travail.",
     category: "Rupture conventionnelle",

@@ -35,8 +35,8 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
       {
         "@type": "ListItem",
         position: 2,
-        name: "Chômage",
-        item: `${siteUrl}/chomage`
+        name: "Chômage ARE",
+        item: `${siteUrl}/chomage-are`
       },
       {
         "@type": "ListItem",
@@ -72,10 +72,10 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
 
       <article className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <Link
-          href="/chomage"
+          href="/chomage-are"
           className="inline-flex text-sm font-bold text-[#061B3A] transition hover:text-[#22AFA3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22AFA3]"
         >
-          Retour au guide chômage
+          Retour au guide chômage ARE
         </Link>
 
         <header className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.45fr)] lg:items-end">

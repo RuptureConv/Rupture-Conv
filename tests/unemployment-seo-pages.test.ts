@@ -5,22 +5,30 @@ import {
 } from "@/lib/unemployment-seo-pages";
 
 const requestedSlugs = [
-  "chomage",
-  "calcul-chomage",
+  "chomage-are",
+  "calcul-allocation-chomage",
+  "simulateur-allocation-chomage",
   "chomage-apres-rupture-conventionnelle",
   "combien-vais-je-toucher-au-chomage",
-  "are-2026",
-  "delai-carence-chomage",
+  "delai-de-carence-chomage",
+  "quand-touche-t-on-le-chomage",
+  "premier-paiement-france-travail",
   "conditions-pour-toucher-le-chomage",
   "duree-indemnisation-chomage",
-  "cumul-salaire-et-chomage",
-  "chomage-apres-cdi",
-  "chomage-apres-cdd",
+  "cumul-are-salaire",
+  "comment-est-calculee-l-are",
+  "chomage-apres-demission",
   "chomage-apres-licenciement",
-  "comment-est-calcule-le-sjr",
+  "chomage-fin-cdd",
+  "chomage-cadre",
+  "chomage-senior",
   "france-travail-inscription",
-  "chomage-et-conges-payes",
-  "rupture-conventionnelle-et-are"
+  "france-travail-actualisation",
+  "indemnite-rupture-et-chomage",
+  "rupture-conventionnelle-et-allocation-chomage",
+  "are-2026",
+  "chomage-apres-cdi",
+  "chomage-et-conges-payes"
 ];
 
 describe("unemployment SEO pages", () => {
@@ -47,9 +55,10 @@ describe("unemployment SEO pages", () => {
       expect(page.immediateAnswer.length).toBeGreaterThan(120);
       expect(page.sections.length).toBeGreaterThanOrEqual(5);
       expect(page.scenarios.map((scenario) => scenario.salary)).toEqual([
-        "1 800 €",
+        "2 000 €",
         "2 500 €",
         "3 000 €",
+        "3 500 €",
         "4 000 €"
       ]);
       expect(page.tableRows.length).toBeGreaterThanOrEqual(5);
@@ -62,11 +71,16 @@ describe("unemployment SEO pages", () => {
 
   it("adds premium visual flows on the priority pages", () => {
     for (const slug of [
-      "calcul-chomage",
+      "calcul-allocation-chomage",
+      "simulateur-allocation-chomage",
       "chomage-apres-rupture-conventionnelle",
       "combien-vais-je-toucher-au-chomage",
-      "delai-carence-chomage",
-      "rupture-conventionnelle-et-are"
+      "delai-de-carence-chomage",
+      "quand-touche-t-on-le-chomage",
+      "premier-paiement-france-travail",
+      "comment-est-calculee-l-are",
+      "indemnite-rupture-et-chomage",
+      "rupture-conventionnelle-et-allocation-chomage"
     ]) {
       expect(unemploymentSeoPageBySlug[slug]?.premiumFlow).toEqual([
         "Salaire brut moyen",

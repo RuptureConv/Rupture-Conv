@@ -14,6 +14,41 @@ const nextConfig: NextConfig = {
         source: "/simulateur-chomage",
         destination: "/simulateur-chomage-rupture-conventionnelle",
         permanent: true
+      },
+      {
+        source: "/chomage",
+        destination: "/chomage-are",
+        permanent: true
+      },
+      {
+        source: "/calcul-chomage",
+        destination: "/calcul-allocation-chomage",
+        permanent: true
+      },
+      {
+        source: "/delai-carence-chomage",
+        destination: "/delai-de-carence-chomage",
+        permanent: true
+      },
+      {
+        source: "/cumul-salaire-et-chomage",
+        destination: "/cumul-are-salaire",
+        permanent: true
+      },
+      {
+        source: "/chomage-apres-cdd",
+        destination: "/chomage-fin-cdd",
+        permanent: true
+      },
+      {
+        source: "/rupture-conventionnelle-et-are",
+        destination: "/rupture-conventionnelle-et-allocation-chomage",
+        permanent: true
+      },
+      {
+        source: "/comment-est-calcule-le-sjr",
+        destination: "/comment-est-calculee-l-are",
+        permanent: true
       }
     ];
   },

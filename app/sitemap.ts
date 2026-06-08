@@ -34,6 +34,15 @@ const REFORM_2026_LAST_MODIFIED = new Date("2026-06-03T08:00:00.000Z");
 const UNEMPLOYMENT_SEO_SLUGS = new Set(
   unemploymentSeoPages.map((page) => page.slug)
 );
+const NON_CANONICAL_SEO_SLUGS = new Set([
+  "chomage",
+  "calcul-chomage",
+  "delai-carence-chomage",
+  "cumul-salaire-et-chomage",
+  "chomage-apres-cdd",
+  "rupture-conventionnelle-et-are",
+  "comment-est-calcule-le-sjr"
+]);
 
 function daysAgo(days: number): Date {
   const date = new Date();
@@ -85,6 +94,7 @@ function getSeoPages(): SitemapRoute[] {
     ...pillarPages
       .filter((page) => page.slug !== "simulateur-rupture-conventionnelle")
       .filter((page) => !UNEMPLOYMENT_SEO_SLUGS.has(page.slug))
+      .filter((page) => !NON_CANONICAL_SEO_SLUGS.has(page.slug))
       .filter((page) => !parseProgrammaticSeoSlug(page.slug))
       .filter((page) => !["a-propos", "sources-juridiques"].includes(page.slug))
       .map((page) => {
@@ -111,7 +121,7 @@ function getSalarySeoPages(): SitemapRoute[] {
 
 function getUnemploymentSeoPages(): SitemapRoute[] {
   return unemploymentSeoPages.map((page) =>
-    createRoute(`/${page.slug}`, page.slug === "chomage" ? 1 : 0.9, "weekly", 14)
+    createRoute(`/${page.slug}`, page.slug === "chomage-are" ? 1 : 0.9, "weekly", 14)
   );
 }
 
