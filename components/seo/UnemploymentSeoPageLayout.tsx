@@ -104,91 +104,68 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
           </aside>
         </header>
 
-        <section className="mt-10 rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-6 shadow-sm lg:p-8">
-          <p className="text-sm font-black uppercase tracking-[0.14em] text-[#168F86]">
-            Réponse immédiate
-          </p>
-          <p className="mt-3 text-lg font-bold leading-8 text-[#061B3A]">
-            {page.immediateAnswer}
-          </p>
+        <section className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(280px,0.38fr)]">
+          <div className="rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-6 shadow-sm lg:p-8">
+            <p className="text-sm font-black uppercase tracking-[0.14em] text-[#168F86]">
+              Réponse immédiate
+            </p>
+            <p className="mt-3 text-lg font-bold leading-8 text-[#061B3A]">
+              {page.immediateAnswer}
+            </p>
+          </div>
+          <aside className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-black text-[#061B3A]">À retenir</h2>
+            <ul className="mt-4 space-y-3 text-sm font-bold leading-6 text-[#102A4C]">
+              {page.takeaways.map((item) => (
+                <li className="rounded-xl bg-[#F7FBFA] px-4 py-3" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </aside>
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(320px,0.38fr)]">
-          <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
-              Cas pratiques et exemples chiffrés
-            </h2>
-            <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
-              Simulations indicatives pour un salarié de 38 ans, à temps plein,
-              avec activité suffisante et sans différé autre que les 7 jours
-              d&apos;attente.
-            </p>
-            <div className="mt-5 overflow-hidden rounded-xl border border-[#E5EFF0]">
-              <table className="w-full border-collapse text-left text-sm">
-                <thead className="bg-[#F7FBFA] text-[#102A4C]">
-                  <tr>
-                    <th className="px-4 py-3 font-black">Salaire brut</th>
-                    <th className="px-4 py-3 font-black">SJR estimé</th>
-                    <th className="px-4 py-3 font-black">ARE brute</th>
-                    <th className="px-4 py-3 font-black">ARE nette/mois</th>
-                    <th className="px-4 py-3 font-black">Durée</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#E5EFF0] text-[#5B6B7C]">
-                  {page.scenarios.map((scenario) => (
-                    <tr key={`${page.slug}-${scenario.salary}`}>
-                      <td className="px-4 py-3 font-black text-[#061B3A]">
-                        {scenario.salary}
-                      </td>
-                      <td className="px-4 py-3">{scenario.sjr}</td>
-                      <td className="px-4 py-3">{scenario.monthlyGrossAre}</td>
-                      <td className="px-4 py-3 font-bold text-[#102A4C]">
-                        {scenario.monthlyNetAre}
-                      </td>
-                      <td className="px-4 py-3">{scenario.duration}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {page.showSalaryExamples ? (
+            <SalaryExamplesTable page={page} />
+          ) : (
+            <ContextTable page={page} />
+          )}
 
           {page.premiumFlow ? (
-            <PremiumFlow steps={page.premiumFlow} />
+            <PremiumFlow
+              intro={page.flowIntro}
+              steps={page.premiumFlow}
+              title={page.flowTitle}
+            />
           ) : (
-            <SchemaSteps steps={page.schemaSteps} />
+            <SchemaSteps
+              intro={page.flowIntro}
+              steps={page.schemaSteps}
+              title={page.flowTitle}
+            />
           )}
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-2">
-          <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
-              Tableau récapitulatif
-            </h2>
-            <div className="mt-5 overflow-hidden rounded-xl border border-[#E5EFF0]">
-              <table className="w-full border-collapse text-left text-sm">
-                <tbody className="divide-y divide-[#E5EFF0]">
-                  {page.tableRows.map((row) => (
-                    <tr key={`${page.slug}-${row.label}`}>
-                      <th className="w-1/3 align-top bg-[#F7FBFA] px-4 py-3 font-black text-[#102A4C]">
-                        {row.label}
-                      </th>
-                      <td className="px-4 py-3">
-                        <span className="block font-black text-[#061B3A]">
-                          {row.value}
-                        </span>
-                        <span className="mt-1 block leading-6 text-[#5B6B7C]">
-                          {row.note}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          {page.showSalaryExamples ? <ContextTable page={page} /> : null}
 
-          <SchemaSteps steps={page.schemaSteps} />
+          <section className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+            <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+              Étape suivante
+            </h2>
+            <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+              Ne vous arrêtez pas au montant isolé. Relisez le droit possible,
+              le délai avant paiement et les documents qui peuvent modifier le
+              résultat.
+            </p>
+            <Link
+              href={page.cta.href as Route}
+              className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-black text-white transition hover:bg-[#168F86] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22AFA3]"
+            >
+              {page.cta.label}
+            </Link>
+          </section>
         </section>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.38fr)]">
@@ -293,12 +270,104 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
   );
 }
 
-function SchemaSteps({ steps }: { steps: string[] }) {
+function SalaryExamplesTable({ page }: { page: UnemploymentSeoPage }) {
   return (
     <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
       <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
-        Schéma explicatif
+        {page.examplesTitle}
       </h2>
+      <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+        {page.examplesIntro}
+      </p>
+      <div className="mt-5 overflow-x-auto rounded-xl border border-[#E5EFF0]">
+        <table className="w-full min-w-[680px] border-collapse text-left text-sm">
+          <thead className="bg-[#F7FBFA] text-[#102A4C]">
+            <tr>
+              <th className="px-4 py-3 font-black">Salaire brut</th>
+              <th className="px-4 py-3 font-black">SJR estimé</th>
+              <th className="px-4 py-3 font-black">ARE brute</th>
+              <th className="px-4 py-3 font-black">ARE nette/mois</th>
+              <th className="px-4 py-3 font-black">Durée</th>
+              <th className="px-4 py-3 font-black">Premier paiement</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#E5EFF0] text-[#5B6B7C]">
+            {page.scenarios.map((scenario) => (
+              <tr key={`${page.slug}-${scenario.salary}`}>
+                <td className="px-4 py-3 font-black text-[#061B3A]">
+                  {scenario.salary}
+                </td>
+                <td className="px-4 py-3">{scenario.sjr}</td>
+                <td className="px-4 py-3">{scenario.monthlyGrossAre}</td>
+                <td className="px-4 py-3 font-bold text-[#102A4C]">
+                  {scenario.monthlyNetAre}
+                </td>
+                <td className="px-4 py-3">{scenario.duration}</td>
+                <td className="px-4 py-3">{scenario.firstPayment}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="mt-3 text-xs font-semibold leading-5 text-[#5B6B7C]">
+        Estimations pédagogiques : France Travail confirme le montant, la durée
+        et la date de paiement à partir du dossier réel.
+      </p>
+    </div>
+  );
+}
+
+function ContextTable({ page }: { page: UnemploymentSeoPage }) {
+  return (
+    <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+      <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+        {page.tableTitle}
+      </h2>
+      <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+        {page.tableIntro}
+      </p>
+      <div className="mt-5 overflow-hidden rounded-xl border border-[#E5EFF0]">
+        <table className="w-full border-collapse text-left text-sm">
+          <tbody className="divide-y divide-[#E5EFF0]">
+            {page.tableRows.map((row) => (
+              <tr key={`${page.slug}-${row.label}`}>
+                <th className="w-1/3 align-top bg-[#F7FBFA] px-4 py-3 font-black text-[#102A4C]">
+                  {row.label}
+                </th>
+                <td className="px-4 py-3">
+                  <span className="block font-black text-[#061B3A]">
+                    {row.value}
+                  </span>
+                  <span className="mt-1 block leading-6 text-[#5B6B7C]">
+                    {row.note}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function SchemaSteps({
+  intro,
+  steps,
+  title
+}: {
+  intro: string;
+  steps: string[];
+  title: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+      <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+        {title}
+      </h2>
+      <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+        {intro}
+      </p>
       <ol className="mt-5 space-y-3">
         {steps.map((step, index) => (
           <li key={step} className="flex gap-3">
@@ -315,12 +384,23 @@ function SchemaSteps({ steps }: { steps: string[] }) {
   );
 }
 
-function PremiumFlow({ steps }: { steps: string[] }) {
+function PremiumFlow({
+  intro,
+  steps,
+  title
+}: {
+  intro: string;
+  steps: string[];
+  title: string;
+}) {
   return (
     <div className="rounded-2xl border border-[#BFE5E1] bg-[#061B3A] p-6 text-white shadow-sm">
       <h2 className="text-2xl font-black tracking-[-0.01em]">
-        Lecture visuelle du calcul
+        {title}
       </h2>
+      <p className="mt-3 text-sm font-semibold leading-7 text-[#D8F5F2]">
+        {intro}
+      </p>
       <div className="mt-5 space-y-3">
         {steps.map((step, index) => (
           <div key={step}>

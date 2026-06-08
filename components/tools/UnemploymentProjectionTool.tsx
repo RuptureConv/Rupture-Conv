@@ -2,6 +2,7 @@
 
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
+import Link from "next/link";
 import {
   calculateUnemploymentProjection,
   type EmploymentExitMode,
@@ -239,6 +240,17 @@ export function UnemploymentProjectionTool() {
 
   return (
     <section className="rounded-3xl border border-[#D7E7E8] bg-white p-4 shadow-sm sm:p-6 lg:p-8">
+      <div className="mb-6 rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-5">
+        <p className="text-sm font-black uppercase tracking-[0.14em] text-[#168F86]">
+          Estimation prudente
+        </p>
+        <p className="mt-2 text-sm font-bold leading-7 text-[#102A4C]">
+          Le simulateur aide à comprendre un scénario : montant ARE estimé,
+          délai avant paiement, indemnité de départ et durée probable. Il ne
+          remplace pas la décision de France Travail ni une analyse juridique
+          personnalisée.
+        </p>
+      </div>
       <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {steps.map((item, index) => (
           <button
@@ -297,15 +309,21 @@ export function UnemploymentProjectionTool() {
             <div className="space-y-6">
               <h2 className="text-2xl font-black text-[#061B3A]">Votre emploi</h2>
               <Field
-                help="Repère France Travail : 130 jours travaillés ou 910 heures sur la période de recherche."
-                label="Jours travaillés dans la période de référence"
+                help="Repère général France Travail : 130 jours travaillés ou 910 heures. La période retenue dépend notamment de votre âge."
+                label="Jours travaillés retenus ou estimés"
               >
                 <NumberInput onChange={(value) => update("workedDays", value)} suffix="jours" value={form.workedDays} />
               </Field>
-              <Field label="Heures travaillées">
+              <Field
+                help="Utile si vous ne connaissez pas le nombre de jours travaillés ou si votre parcours est discontinu."
+                label="Heures travaillées retenues ou estimées"
+              >
                 <NumberInput onChange={(value) => update("workedHours", value)} suffix="heures" value={form.workedHours} />
               </Field>
-              <Field label="Date de fin de contrat">
+              <Field
+                help="Cette date sert à estimer le début possible des versements après les différés."
+                label="Date réelle ou prévue de fin de contrat"
+              >
                 <input
                   className="min-h-12 w-full rounded-xl border border-[#D7E7E8] bg-white px-4 text-base font-bold text-[#061B3A] outline-none focus:ring-2 focus:ring-[#22AFA3]"
                   onChange={(event) => update("contractEndDate", event.target.value)}
@@ -321,7 +339,7 @@ export function UnemploymentProjectionTool() {
                   type="checkbox"
                 />
                 <span className="text-sm font-semibold leading-6 text-[#102A4C]">
-                  Primo-entrant ou absence de droit ouvert dans les 20 dernières années
+                  Première ouverture de droits ou absence de droit ouvert depuis 20 ans
                 </span>
               </label>
             </div>
@@ -330,7 +348,10 @@ export function UnemploymentProjectionTool() {
           {step === 2 ? (
             <div className="space-y-6">
               <h2 className="text-2xl font-black text-[#061B3A]">Vos revenus</h2>
-              <Field help="Utilisez le brut moyen habituel. Le SJR réel peut différer." label="Salaire brut mensuel moyen">
+              <Field
+                help="Indiquez le brut mensuel moyen habituel, primes récurrentes comprises si elles reflètent votre rémunération. Le SJR officiel peut différer."
+                label="Salaire brut mensuel moyen"
+              >
                 <NumberInput onChange={(value) => update("averageMonthlyGrossSalary", value)} suffix="€" value={form.averageMonthlyGrossSalary} />
               </Field>
               <Field label="Temps de travail">
@@ -365,16 +386,28 @@ export function UnemploymentProjectionTool() {
           {step === 3 ? (
             <div className="space-y-6">
               <h2 className="text-2xl font-black text-[#061B3A]">Vos indemnités</h2>
-              <Field label="Ancienneté dans l'entreprise">
+              <Field
+                help="Pour une rupture conventionnelle, elle sert à estimer l'indemnité minimale de départ."
+                label="Ancienneté dans l'entreprise"
+              >
                 <NumberInput onChange={(value) => update("seniorityYears", value)} suffix="ans" value={form.seniorityYears} />
               </Field>
-              <Field help="La part supra-légale augmente souvent le différé spécifique." label="Indemnité supra-légale éventuelle">
+              <Field
+                help="Saisissez uniquement la part au-dessus du minimum légal ou conventionnel. Cette somme peut repousser le premier paiement ARE."
+                label="Part supra-légale éventuelle"
+              >
                 <NumberInput onChange={(value) => update("supraLegalIndemnity", value)} suffix="€" value={form.supraLegalIndemnity} />
               </Field>
-              <Field label="Congés payés restants">
+              <Field
+                help="Les congés payés non pris peuvent créer un différé avant le premier paiement."
+                label="Congés payés non pris"
+              >
                 <NumberInput onChange={(value) => update("paidLeaveDays", value)} suffix="jours" value={form.paidLeaveDays} />
               </Field>
-              <Field help="Optionnel : utile pour licenciement, CDD ou montant déjà proposé." label="Indemnité légale ou proposée">
+              <Field
+                help="Optionnel : utile si vous avez déjà un montant employeur ou un cas autre que rupture conventionnelle."
+                label="Indemnité légale, conventionnelle ou proposée"
+              >
                 <NumberInput onChange={(value) => update("legalTerminationIndemnity", value)} suffix="€" value={form.legalTerminationIndemnity} />
               </Field>
             </div>
@@ -401,6 +434,13 @@ export function UnemploymentProjectionTool() {
                   Le total chômage et la projection globale sont des cumuls sur toute
                   la période. Ce ne sont pas des sommes versées en une seule fois.
                 </p>
+                {form.exitMode === "demission" ? (
+                  <p className="mt-3 rounded-xl bg-white px-4 py-3 text-sm font-black leading-6 text-[#7A4A00]">
+                    Vous avez sélectionné une démission classique : le droit à
+                    l'ARE n'est pas automatique. Vérifiez votre situation avant
+                    de quitter votre poste.
+                  </p>
+                ) : null}
               </section>
 
               {step === 4 ? (
@@ -546,6 +586,31 @@ export function UnemploymentProjectionTool() {
                     </li>
                   ))}
                 </ul>
+              </section>
+
+              <section className="rounded-2xl bg-[#061B3A] p-5 text-white shadow-sm">
+                <h3 className="text-lg font-black">
+                  Prochaine vérification utile
+                </h3>
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#D8F5F2]">
+                  Relisez le résultat avec les pages qui correspondent à votre
+                  décision : montant ARE, délai de carence ou impact d'une
+                  rupture conventionnelle.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link
+                    className="inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-black text-white transition hover:bg-[#168F86]"
+                    href="/delai-de-carence-chomage"
+                  >
+                    Comprendre mon délai
+                  </Link>
+                  <Link
+                    className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-5 text-sm font-black text-white transition hover:bg-white/10"
+                    href="/rupture-conventionnelle-et-allocation-chomage"
+                  >
+                    Relier rupture et ARE
+                  </Link>
+                </div>
               </section>
             </div>
           ) : null}

@@ -24,6 +24,13 @@ export type UnemploymentSeoLink = {
   description: string;
 };
 
+export type UnemploymentSeoCta = {
+  title: string;
+  body: string;
+  label: string;
+  href: string;
+};
+
 export type UnemploymentSeoScenario = {
   salary: string;
   sjr: string;
@@ -48,20 +55,23 @@ export type UnemploymentSeoPage = {
     summary: string;
   };
   immediateAnswer: string;
+  takeaways: string[];
   sections: UnemploymentSeoSection[];
   scenarios: UnemploymentSeoScenario[];
+  examplesTitle: string;
+  examplesIntro: string;
+  showSalaryExamples: boolean;
+  tableTitle: string;
+  tableIntro: string;
   tableRows: UnemploymentSeoTableRow[];
+  flowTitle: string;
+  flowIntro: string;
   schemaSteps: string[];
   premiumFlow?: string[];
   mistakes: string[];
   faq: UnemploymentSeoFaq[];
   internalLinks: UnemploymentSeoLink[];
-  cta: {
-    title: string;
-    body: string;
-    label: string;
-    href: string;
-  };
+  cta: UnemploymentSeoCta;
 };
 
 const updatedAt = "6 juin 2026";
@@ -196,6 +206,286 @@ function standardTableRows(primary = commonScenarios[1]): UnemploymentSeoTableRo
   ];
 }
 
+function tableRowsFor(slug: string): UnemploymentSeoTableRow[] {
+  const primary = commonScenarios[1];
+
+  switch (slug) {
+    case "calcul-allocation-chomage":
+    case "comment-est-calculee-l-are":
+      return [
+        {
+          label: "Point de départ",
+          value: "Salaire brut de référence",
+          note: "France Travail part des rémunérations retenues dans la période de référence, pas du salaire net versé sur le compte."
+        },
+        {
+          label: "Base du calcul",
+          value: `SJR estimé : ${primary.sjr}`,
+          note: `Repère simplifié avec ${primary.salary} brut mensuel moyen. Le SJR officiel peut différer si le parcours n'est pas linéaire.`
+        },
+        {
+          label: "Formules comparées",
+          value: "40,4 % du SJR + 13,18 € ou 57 % du SJR",
+          note: "Le simulateur compare les deux repères intégrés au calcul et garde un résultat encadré."
+        },
+        {
+          label: "Montant mensuel",
+          value: `${primary.monthlyNetAre} net estimé`,
+          note: "Le montant mensuel reste indicatif, car l'allocation est d'abord une allocation journalière."
+        },
+        {
+          label: "Ce qui peut changer",
+          value: "Temps partiel, primes, interruptions, reliquat",
+          note: "Ces situations justifient de relire l'estimation avec les justificatifs France Travail."
+        }
+      ];
+
+    case "delai-de-carence-chomage":
+    case "premier-paiement-france-travail":
+    case "quand-touche-t-on-le-chomage":
+    case "chomage-et-conges-payes":
+      return [
+        {
+          label: "Délai d'attente",
+          value: `${RULES_2026.waitingPeriods.legalWaitingDays} jours`,
+          note: "Repère fixe appliqué avant le début possible de l'indemnisation, selon la situation."
+        },
+        {
+          label: "Congés payés",
+          value: `Plafond ${RULES_2026.waitingPeriods.paidLeaveMaxDays} jours`,
+          note: "Le différé dépend des indemnités compensatrices de congés payés et du SJR."
+        },
+        {
+          label: "Indemnités de rupture",
+          value: `Sommes supra-légales / ${RULES_2026.waitingPeriods.specificDivisor}`,
+          note: `Le différé spécifique est plafonné à ${RULES_2026.waitingPeriods.specificMaxDays} jours dans le cas général.`
+        },
+        {
+          label: "Paiement mensuel",
+          value: "Au début du mois suivant",
+          note: "France Travail verse l'allocation à terme échu, après actualisation mensuelle."
+        },
+        {
+          label: "Point à vérifier",
+          value: "Attestation employeur",
+          note: "Une erreur sur les dates, salaires ou indemnités peut retarder l'examen du dossier."
+        }
+      ];
+
+    case "chomage-apres-rupture-conventionnelle":
+    case "rupture-conventionnelle-et-allocation-chomage":
+    case "indemnite-rupture-et-chomage":
+      return [
+        {
+          label: "Droit possible",
+          value: "Rupture homologuée + conditions ARE",
+          note: "La rupture conventionnelle permet un examen des droits, mais France Travail confirme le dossier."
+        },
+        {
+          label: "Indemnité minimale",
+          value: "À séparer de l'ARE",
+          note: "L'indemnité de rupture est versée par l'employeur ; l'ARE est versée par France Travail."
+        },
+        {
+          label: "Part supra-légale",
+          value: "Peut créer un différé",
+          note: "Plus la part négociée au-delà du minimum est élevée, plus le premier paiement peut être décalé."
+        },
+        {
+          label: "À simuler avant signature",
+          value: "Indemnité + ARE + délai",
+          note: "La bonne décision dépend souvent du calendrier, pas seulement du montant négocié."
+        },
+        {
+          label: "Document sensible",
+          value: "Attestation employeur",
+          note: "Elle sert à qualifier la fin de contrat, les salaires et les indemnités."
+        }
+      ];
+
+    case "chomage-apres-demission":
+      return [
+        {
+          label: "Démission classique",
+          value: "Pas de droit automatique",
+          note: "Il faut éviter de l'assimiler à une rupture conventionnelle ou à un licenciement."
+        },
+        {
+          label: "Exceptions possibles",
+          value: "Légitime, reconversion, reliquat",
+          note: "Chaque cas dépend des justificatifs et de la chronologie des démarches."
+        },
+        {
+          label: "Réexamen",
+          value: "Après 121 jours",
+          note: "Le réexamen n'est pas un versement automatique ; France Travail apprécie le dossier."
+        },
+        {
+          label: "Avant de partir",
+          value: "Valider le scénario",
+          note: "Une vérification préalable évite plusieurs mois sans revenu de remplacement."
+        },
+        {
+          label: "Alternative à comparer",
+          value: "Rupture conventionnelle",
+          note: "Si elle est possible, elle change fortement la lecture chômage."
+        }
+      ];
+
+    case "chomage-fin-cdd":
+    case "chomage-apres-licenciement":
+    case "chomage-apres-cdi":
+      return [
+        {
+          label: "Nature de la fin",
+          value: "Perte d'emploi ou situation assimilée",
+          note: "Fin de CDD, licenciement et rupture conventionnelle peuvent permettre un examen des droits."
+        },
+        {
+          label: "Activité minimale",
+          value: `${RULES_2026.affiliation.minimumWorkedDays} jours ou ${RULES_2026.affiliation.minimumWorkedHours} heures`,
+          note: "Repère général à vérifier sur la période de référence applicable."
+        },
+        {
+          label: "Documents",
+          value: "Attestation, solde, certificat",
+          note: "Sans documents cohérents, le paiement peut être retardé."
+        },
+        {
+          label: "Premier paiement",
+          value: "Après différés éventuels",
+          note: "Congés payés et indemnités peuvent décaler le départ de l'indemnisation."
+        },
+        {
+          label: "Cas particulier",
+          value: "CSP en licenciement économique",
+          note: "Le licenciement économique peut ouvrir un parcours spécifique à étudier séparément."
+        }
+      ];
+
+    case "chomage-cadre":
+      return [
+        {
+          label: "Salaire variable",
+          value: "Bonus, primes, avantages",
+          note: "Les rémunérations variables rendent l'estimation plus sensible."
+        },
+        {
+          label: "Allocation élevée",
+          value: "Dégressivité possible",
+          note: `Elle peut concerner certains dossiers après ${RULES_2026.degressivity.startsAfterDays} jours, hors exclusion liée à l'âge.`
+        },
+        {
+          label: "Indemnité négociée",
+          value: "Différé spécifique possible",
+          note: "Une indemnité supra-légale améliore le départ mais peut repousser l'ARE."
+        },
+        {
+          label: "Lecture utile",
+          value: "Mois 1 puis projection longue",
+          note: "Pour un cadre, la baisse éventuelle dans le temps compte autant que le montant initial."
+        },
+        {
+          label: "À préparer",
+          value: "Bulletins + variable",
+          note: "Les justificatifs évitent une estimation trop lisse."
+        }
+      ];
+
+    case "chomage-senior":
+    case "duree-indemnisation-chomage":
+      return [
+        {
+          label: "Moins de 55 ans",
+          value: `${RULES_2026.duration.standardMaxDays.under55} jours max`,
+          note: "Repère général, sous réserve de l'activité réellement retenue."
+        },
+        {
+          label: "55 à 56 ans",
+          value: `${RULES_2026.duration.standardMaxDays.age55To56} jours max`,
+          note: "La période de recherche d'affiliation est aussi plus longue à partir de 55 ans."
+        },
+        {
+          label: "57 ans et plus",
+          value: `${RULES_2026.duration.standardMaxDays.age57Plus} jours max`,
+          note: "La proximité de la retraite doit être vérifiée avec le dossier personnel."
+        },
+        {
+          label: "Dégressivité",
+          value: `Exclusion à partir de ${RULES_2026.degressivity.excludedFromAge} ans`,
+          note: "Selon les repères intégrés au calcul, les allocataires de 55 ans et plus ne sont pas concernés."
+        },
+        {
+          label: "Point sensible",
+          value: "Retraite et maintien des droits",
+          note: "Le simulateur ne remplace pas une vérification retraite."
+        }
+      ];
+
+    case "france-travail-inscription":
+    case "france-travail-actualisation":
+      return [
+        {
+          label: "Inscription",
+          value: "Déclenche l'étude du dossier",
+          note: "Elle ne supprime pas les différés et ne garantit pas le paiement immédiat."
+        },
+        {
+          label: "Actualisation",
+          value: "Chaque mois",
+          note: "Elle conditionne le paiement et doit déclarer les changements de situation."
+        },
+        {
+          label: "Paiement",
+          value: "À terme échu",
+          note: "L'allocation d'un mois est versée au début du mois suivant."
+        },
+        {
+          label: "Risque",
+          value: "Blocage ou trop-perçu",
+          note: "Une déclaration incomplète peut retarder le paiement ou provoquer une régularisation."
+        },
+        {
+          label: "À garder",
+          value: "Justificatifs",
+          note: "Bulletins, attestations et preuves d'activité peuvent être demandés."
+        }
+      ];
+
+    case "cumul-are-salaire":
+      return [
+        {
+          label: "Principe",
+          value: "Salaire déclaré + ARE ajustée",
+          note: "France Travail recalcule le mois selon l'activité reprise."
+        },
+        {
+          label: "Actualisation",
+          value: "Indispensable",
+          note: "Heures, revenus et justificatifs doivent être déclarés avec précision."
+        },
+        {
+          label: "Effet possible",
+          value: "Droits consommés moins vite",
+          note: "Les jours non indemnisés peuvent prolonger la durée potentielle des droits."
+        },
+        {
+          label: "Limite",
+          value: "Pas un double revenu garanti",
+          note: "Le cumul dépend du salaire repris et des règles appliquées au dossier."
+        },
+        {
+          label: "À comparer",
+          value: "Salaire net + ARE restante",
+          note: "Le bon repère est le revenu total du mois, pas seulement l'allocation."
+        }
+      ];
+
+    default:
+      return standardTableRows();
+  }
+}
+
 const commonSchemaSteps = [
   "Fin du contrat",
   "Inscription France Travail",
@@ -213,6 +503,306 @@ const premiumFlow = [
   "Montant versé"
 ];
 
+function flowFor(slug: string, premium?: boolean): string[] | undefined {
+  switch (slug) {
+    case "delai-de-carence-chomage":
+    case "quand-touche-t-on-le-chomage":
+    case "premier-paiement-france-travail":
+      return [
+        "Fin du contrat",
+        "Inscription",
+        "Différés",
+        "Actualisation",
+        "Paiement"
+      ];
+
+    case "chomage-apres-demission":
+      return [
+        "Démission",
+        "Motif à vérifier",
+        "Dossier France Travail",
+        "Décision",
+        "Réexamen éventuel"
+      ];
+
+    case "chomage-cadre":
+      return [
+        "Salaire variable",
+        "SJR",
+        "ARE élevée",
+        "Dégressivité éventuelle",
+        "Projection"
+      ];
+
+    case "chomage-senior":
+    case "duree-indemnisation-chomage":
+      return [
+        "Âge",
+        "Période de référence",
+        "Durée maximale",
+        "Retraite",
+        "Retour à l'emploi"
+      ];
+
+    case "france-travail-inscription":
+    case "france-travail-actualisation":
+      return [
+        "Inscription",
+        "Documents",
+        "Actualisation",
+        "Calcul du mois",
+        "Paiement"
+      ];
+
+    case "cumul-are-salaire":
+      return [
+        "Reprise d'emploi",
+        "Salaire déclaré",
+        "ARE ajustée",
+        "Jours non payés",
+        "Droits prolongés"
+      ];
+
+    default:
+      return premium ? premiumFlow : undefined;
+  }
+}
+
+function pageProfile(slug: string): {
+  takeaways: string[];
+  examplesTitle: string;
+  examplesIntro: string;
+  showSalaryExamples: boolean;
+  tableTitle: string;
+  tableIntro: string;
+  flowTitle: string;
+  flowIntro: string;
+} {
+  const defaultProfile = {
+    takeaways: [
+      "Le résultat reste une estimation : France Travail confirme seul les droits.",
+      "Le montant de l'ARE dépend du salaire de référence, de l'activité passée et de la situation personnelle.",
+      "Le premier paiement peut être décalé par les congés payés ou une indemnité supra-légale."
+    ],
+    examplesTitle: "Exemples de montants ARE selon le salaire brut",
+    examplesIntro:
+      "Repères indicatifs pour un salarié de 38 ans à temps plein, avec activité suffisante et sans différé autre que le délai d'attente.",
+    showSalaryExamples: true,
+    tableTitle: "Repères utiles",
+    tableIntro: "Les points à relire avant de tirer une conclusion à partir d'une estimation.",
+    flowTitle: "Parcours à suivre",
+    flowIntro: "La lecture la plus simple consiste à séparer droit, montant, délai et paiement."
+  };
+
+  const profiles: Record<string, Partial<typeof defaultProfile>> = {
+    "calcul-allocation-chomage": {
+      takeaways: [
+        "Le calcul commence par le salaire brut retenu, pas par le net bancaire.",
+        "Le SJR sert de base à l'allocation journalière.",
+        "Un résultat fiable doit aussi regarder les différés, pas seulement le montant mensuel."
+      ],
+      tableTitle: "Ce qui influence vraiment le calcul",
+      tableIntro: "Ce tableau aide à distinguer les variables de calcul des simples repères pédagogiques.",
+      flowTitle: "Lecture du calcul ARE",
+      flowIntro: "L'objectif est de comprendre comment France Travail passe des anciens salaires à une allocation."
+    },
+    "simulateur-allocation-chomage": {
+      takeaways: [
+        "Le simulateur doit vous aider à décider, pas seulement afficher un chiffre.",
+        "Les montants sont estimatifs et doivent être lus avec le calendrier.",
+        "Après une rupture conventionnelle, l'indemnité négociée peut modifier le délai."
+      ],
+      tableTitle: "Ce que le simulateur vérifie",
+      tableIntro: "Chaque champ sert à expliquer une partie du résultat : montant, durée ou date de paiement.",
+      flowTitle: "Ce que l'outil transforme",
+      flowIntro: "Le parcours part de votre situation réelle pour produire une projection lisible."
+    },
+    "chomage-apres-rupture-conventionnelle": {
+      takeaways: [
+        "La rupture conventionnelle peut ouvrir un examen des droits ARE, sous réserve du dossier.",
+        "L'indemnité de rupture et l'allocation chômage sont deux calculs séparés.",
+        "Une part supra-légale peut repousser le premier paiement."
+      ],
+      tableTitle: "Rupture conventionnelle : points à vérifier",
+      tableIntro: "Ce tableau relie la procédure, l'indemnité versée et le calendrier France Travail.",
+      flowTitle: "Après signature",
+      flowIntro: "La bonne lecture suit le calendrier réel : homologation, fin de contrat, inscription, différés."
+    },
+    "combien-vais-je-toucher-au-chomage": {
+      takeaways: [
+        "Le montant mensuel dépend du SJR et des formules ARE.",
+        "L'ARE n'est pas un pourcentage simple du salaire net.",
+        "La date de paiement peut compter autant que le montant."
+      ],
+      tableTitle: "Ce qui fait varier le montant",
+      tableIntro: "Les exemples donnent un ordre de grandeur ; ce tableau explique pourquoi le résultat peut bouger.",
+      flowTitle: "Du salaire au montant perçu",
+      flowIntro: "La question du montant se traite avec le salaire, le SJR, la formule ARE et les différés."
+    },
+    "delai-de-carence-chomage": {
+      takeaways: [
+        "Le chômage ne commence pas toujours dès le lendemain de la fin du contrat.",
+        "Trois mécanismes peuvent se cumuler : attente, congés payés, indemnités de rupture.",
+        "Le différé décale le paiement ; il ne signifie pas forcément perte du droit."
+      ],
+      examplesTitle: "Exemple de délai selon les sommes de fin de contrat",
+      examplesIntro:
+        "Ces repères montrent pourquoi deux salariés avec la même ARE peuvent ne pas être payés à la même date.",
+      showSalaryExamples: false,
+      tableTitle: "Les trois délais à distinguer",
+      tableIntro: "C'est le tableau le plus utile avant de prévoir sa trésorerie.",
+      flowTitle: "Du départ au premier paiement",
+      flowIntro: "Le calendrier se lit dans l'ordre : fin de contrat, différés, actualisation, paiement."
+    },
+    "quand-touche-t-on-le-chomage": {
+      takeaways: [
+        "L'allocation d'un mois est versée au début du mois suivant.",
+        "L'actualisation mensuelle reste indispensable.",
+        "La première date de paiement dépend du dossier, des différés et des documents transmis."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Ce qui décale ou déclenche le paiement",
+      tableIntro: "Cette page se concentre sur le moment où l'argent arrive réellement.",
+      flowTitle: "Calendrier de paiement",
+      flowIntro: "Le paiement dépend d'une chaîne complète, pas d'une seule date."
+    },
+    "premier-paiement-france-travail": {
+      takeaways: [
+        "Le premier paiement arrive après examen du dossier et différés éventuels.",
+        "Une attestation employeur erronée peut ralentir le traitement.",
+        "Le simulateur donne une date probable, pas une promesse de virement."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Points qui influencent le premier paiement",
+      tableIntro: "À vérifier avant d'organiser les premières semaines après la fin du contrat.",
+      flowTitle: "Date probable de versement",
+      flowIntro: "Le premier paiement dépend à la fois des règles et de la qualité du dossier."
+    },
+    "chomage-apres-demission": {
+      takeaways: [
+        "Une démission classique n'ouvre pas automatiquement droit à l'ARE.",
+        "Les exceptions doivent être vérifiées avant de quitter son poste.",
+        "Le réexamen après 121 jours n'est pas une garantie de paiement."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Démission : les cas à ne pas mélanger",
+      tableIntro: "Le risque principal est de croire qu'une démission se traite comme une rupture conventionnelle.",
+      flowTitle: "Lecture prudente d'une démission",
+      flowIntro: "Avant toute décision, il faut qualifier le motif et la chronologie des démarches."
+    },
+    "conditions-pour-toucher-le-chomage": {
+      takeaways: [
+        "L'activité minimale ne suffit pas seule : la nature de la fin de contrat compte aussi.",
+        "L'inscription et la recherche d'emploi font partie du dossier.",
+        "Une démission classique doit être traitée à part."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Conditions à relire avant l'estimation",
+      tableIntro: "Ces repères évitent de confondre activité suffisante, ouverture des droits et paiement.",
+      flowTitle: "Ouverture des droits",
+      flowIntro: "Avant le calcul du montant, il faut vérifier si le dossier peut être étudié."
+    },
+    "chomage-cadre": {
+      takeaways: [
+        "Les bonus, variables et indemnités négociées rendent l'estimation plus sensible.",
+        "La dégressivité peut concerner certains dossiers avec allocation élevée.",
+        "Le bon repère est la projection dans le temps, pas seulement le premier montant."
+      ],
+      tableTitle: "Cadres : points de vigilance",
+      tableIntro: "Les situations cadres demandent souvent une lecture plus fine que les salaires linéaires.",
+      flowTitle: "Projection cadre",
+      flowIntro: "La lecture doit intégrer montant, différé spécifique et évolution éventuelle de l'allocation."
+    },
+    "chomage-senior": {
+      takeaways: [
+        "À partir de 55 ans, la période de référence et la durée maximale changent.",
+        "La retraite peut devenir le vrai sujet de décision.",
+        "Le simulateur aide à se situer mais ne remplace pas une vérification retraite."
+      ],
+      tableTitle: "Seniors : âge, durée et retraite",
+      tableIntro: "Ces repères aident à comprendre ce qui change à 55 ans et à 57 ans.",
+      flowTitle: "Parcours senior",
+      flowIntro: "Le chômage senior se lit avec l'âge exact, l'activité passée et la retraite."
+    },
+    "duree-indemnisation-chomage": {
+      takeaways: [
+        "La durée dépend de l'activité retenue et de l'âge à la fin du contrat.",
+        "Les plafonds ne garantissent pas une durée maximale pour chaque dossier.",
+        "À partir de 55 ans, la lecture change nettement."
+      ],
+      tableTitle: "Durée : plafonds et âge",
+      tableIntro: "Ce tableau donne les repères d'âge sans promettre une durée automatique.",
+      flowTitle: "Calcul de la durée",
+      flowIntro: "La durée se lit à partir de l'activité passée, puis des bornes liées à l'âge."
+    },
+    "chomage-fin-cdd": {
+      takeaways: [
+        "Une fin de CDD peut permettre un examen des droits si l'activité est suffisante.",
+        "Les documents de fin de contrat conditionnent la qualité du dossier.",
+        "Les congés payés peuvent décaler le premier paiement."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Fin de CDD : repères pratiques",
+      tableIntro: "Le sujet n'est pas seulement le montant : documents, activité et calendrier comptent aussi.",
+      flowTitle: "Après la fin du CDD",
+      flowIntro: "Récupérer les documents puis vérifier les droits et le paiement probable."
+    },
+    "chomage-apres-licenciement": {
+      takeaways: [
+        "Un licenciement permet en principe un examen des droits si les conditions sont remplies.",
+        "Le licenciement économique peut ouvrir un parcours spécifique comme le CSP.",
+        "Les indemnités et congés payés peuvent repousser le paiement."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Licenciement : ARE, documents et calendrier",
+      tableIntro: "Ces repères distinguent le cas général des situations économiques ou documentaires plus sensibles.",
+      flowTitle: "Après notification",
+      flowIntro: "Le parcours dépend du motif, des documents et des éventuels différés."
+    },
+    "france-travail-inscription": {
+      takeaways: [
+        "L'inscription lance l'étude du dossier, pas forcément le paiement immédiat.",
+        "L'attestation employeur est le document le plus sensible.",
+        "Les différés continuent de s'appliquer même avec une inscription rapide."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Inscription : documents et effets",
+      tableIntro: "Ce tableau aide à savoir ce qui déclenche l'étude du dossier et ce qui peut retarder la suite.",
+      flowTitle: "De l'inscription au paiement",
+      flowIntro: "Le parcours administratif doit rester simple à vérifier."
+    },
+    "france-travail-actualisation": {
+      takeaways: [
+        "Sans actualisation, le paiement peut être bloqué.",
+        "Les activités reprises doivent être déclarées avec les revenus correspondants.",
+        "Une erreur peut créer un trop-perçu ou une régularisation."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Actualisation : ce qui compte",
+      tableIntro: "Cette page est centrée sur le paiement mensuel et les déclarations.",
+      flowTitle: "Du mois travaillé au versement",
+      flowIntro: "Chaque mois, la déclaration permet de recalculer ce qui doit être versé."
+    },
+    "cumul-are-salaire": {
+      takeaways: [
+        "Le cumul dépend du salaire repris et de la déclaration mensuelle.",
+        "L'ARE peut être ajustée, pas simplement ajoutée au salaire.",
+        "Le revenu total du mois est le repère le plus utile."
+      ],
+      showSalaryExamples: false,
+      tableTitle: "Cumul emploi et ARE",
+      tableIntro: "Ce tableau distingue le revenu repris, l'allocation ajustée et l'effet sur la durée des droits.",
+      flowTitle: "Reprise d'emploi",
+      flowIntro: "La reprise d'activité modifie le mois payé et peut ralentir la consommation des droits."
+    }
+  };
+
+  return {
+    ...defaultProfile,
+    ...(profiles[slug] ?? {})
+  };
+}
+
 const commonMistakes = [
   "Confondre indemnité de rupture et allocation chômage : ce sont deux calculs séparés.",
   "Penser que l'ARE est versée dès le lendemain de la fin du contrat, sans différé ni délai d'attente.",
@@ -220,6 +810,43 @@ const commonMistakes = [
   "Oublier les congés payés et les indemnités supra-légales dans le calendrier du premier paiement.",
   "Assimiler une démission classique à une rupture conventionnelle ou à une fin de CDD."
 ];
+
+function mistakesFor(slug: string): string[] {
+  const specific: Record<string, string[]> = {
+    "delai-de-carence-chomage": [
+      "Croire que le différé spécifique supprime les droits au lieu de décaler le paiement.",
+      "Oublier d'ajouter les congés payés au délai d'attente de 7 jours.",
+      "Confondre indemnité minimale et part supra-légale dans le calcul du différé."
+    ],
+    "chomage-apres-demission": [
+      "Quitter son poste avant d'avoir vérifié si la démission est reconnue.",
+      "Penser que le réexamen après 121 jours déclenche automatiquement l'ARE.",
+      "Présenter une démission classique comme une rupture involontaire."
+    ],
+    "france-travail-actualisation": [
+      "Oublier l'actualisation mensuelle alors que les droits sont ouverts.",
+      "Ne pas déclarer une mission courte ou un revenu repris.",
+      "Valider trop vite sans conserver les justificatifs."
+    ],
+    "chomage-cadre": [
+      "Simuler un salaire fixe alors que la rémunération contient une part variable importante.",
+      "Oublier la dégressivité possible sur certaines allocations élevées.",
+      "Ne regarder que le premier mois alors que la projection dans le temps est décisive."
+    ],
+    "chomage-senior": [
+      "Lire les règles seniors sans vérifier l'âge exact à la fin du contrat.",
+      "Oublier la retraite dans la décision de départ.",
+      "Confondre durée maximale possible et durée automatiquement acquise."
+    ],
+    "cumul-are-salaire": [
+      "Additionner salaire et ARE comme deux revenus fixes.",
+      "Oublier que l'actualisation recalcule le paiement du mois.",
+      "Comparer uniquement l'ARE sans regarder le revenu total."
+    ]
+  };
+
+  return [...(specific[slug] ?? []), ...commonMistakes].slice(0, 6);
+}
 
 function faqFor(topic: string): UnemploymentSeoFaq[] {
   return [
@@ -256,6 +883,182 @@ function faqFor(topic: string): UnemploymentSeoFaq[] {
   ];
 }
 
+function specificFaqFor(slug: string): UnemploymentSeoFaq[] {
+  const items: Record<string, UnemploymentSeoFaq[]> = {
+    "delai-de-carence-chomage": [
+      {
+        question: "Le délai de carence réduit-il mes droits au chômage ?",
+        answer:
+          "En principe, un différé décale le point de départ de l'indemnisation. Il ne signifie pas à lui seul que vos droits sont supprimés. La durée et le montant restent à confirmer par France Travail."
+      },
+      {
+        question: "Une grosse indemnité de rupture repousse-t-elle toujours le chômage ?",
+        answer:
+          `Seule la part supérieure au minimum prévu peut créer un différé spécifique. Le calcul indicatif divise cette part par ${RULES_2026.waitingPeriods.specificDivisor}, avec un plafond général de ${RULES_2026.waitingPeriods.specificMaxDays} jours.`
+      }
+    ],
+    "chomage-apres-demission": [
+      {
+        question: "Puis-je toucher le chômage après une démission classique ?",
+        answer:
+          "Pas automatiquement. Une démission classique est une situation à risque : il faut vérifier les exceptions reconnues, un reliquat éventuel ou la possibilité d'un réexamen après 121 jours."
+      },
+      {
+        question: "Faut-il démissionner avant de faire valider une reconversion ?",
+        answer:
+          "Non, l'ordre des démarches est essentiel. Pour un projet de reconversion, la validation doit être préparée avant le départ afin d'éviter une rupture de revenus."
+      }
+    ],
+    "cumul-are-salaire": [
+      {
+        question: "Le salaire repris s'ajoute-t-il simplement à l'ARE ?",
+        answer:
+          "Non. Le salaire doit être déclaré et France Travail ajuste le nombre de jours indemnisables du mois. Le bon repère est le revenu total du mois après recalcul."
+      },
+      {
+        question: "Le cumul peut-il prolonger mes droits ?",
+        answer:
+          "Dans certains cas, les jours non indemnisés ne sont pas consommés de la même façon. L'effet exact dépend de l'activité déclarée et du dossier."
+      }
+    ],
+    "chomage-cadre": [
+      {
+        question: "Un cadre est-il forcément concerné par la dégressivité ?",
+        answer:
+          "Non. La dégressivité vise certaines allocations élevées et dépend notamment de l'âge à la fin du contrat. Elle ne doit pas être déduite du seul statut cadre."
+      },
+      {
+        question: "Les primes et bonus changent-ils le calcul ?",
+        answer:
+          "Ils peuvent modifier le salaire de référence lorsqu'ils sont retenus dans le dossier. Une estimation simple doit donc être relue avec les bulletins et l'attestation employeur."
+      }
+    ],
+    "chomage-senior": [
+      {
+        question: "Pourquoi 55 ans est-il un seuil important ?",
+        answer:
+          `À partir de ${RULES_2026.affiliation.seniorLookbackAge} ans, la période de recherche d'activité passe à ${RULES_2026.affiliation.seniorLookbackMonths} mois et les durées maximales peuvent être plus longues.`
+      },
+      {
+        question: "Le simulateur remplace-t-il une vérification retraite ?",
+        answer:
+          "Non. Pour un senior, la retraite, le taux plein et le maintien éventuel des droits doivent être vérifiés avec les organismes compétents."
+      }
+    ],
+    "france-travail-actualisation": [
+      {
+        question: "Que se passe-t-il si j'oublie l'actualisation ?",
+        answer:
+          "Le paiement peut être suspendu ou retardé. Il faut régulariser la situation auprès de France Travail et conserver les justificatifs utiles."
+      },
+      {
+        question: "Dois-je déclarer une courte mission ?",
+        answer:
+          "Oui, toute activité reprise doit être déclarée avec les informations demandées. France Travail ajuste ensuite l'allocation du mois."
+      }
+    ],
+    "premier-paiement-france-travail": [
+      {
+        question: "Pourquoi le premier paiement n'arrive-t-il pas tout de suite ?",
+        answer:
+          "Le dossier doit être étudié, les différés éventuels appliqués et l'actualisation réalisée. Une date estimée ne remplace pas le calendrier officiel."
+      },
+      {
+        question: "Un retard signifie-t-il que je n'ai pas droit au chômage ?",
+        answer:
+          "Pas forcément. Un retard peut venir d'un document manquant, d'un différé ou d'une actualisation. Le statut du droit doit être confirmé dans l'espace France Travail."
+      }
+    ]
+  };
+
+  return items[slug] ?? [];
+}
+
+function ctaFor(slug: string): UnemploymentSeoCta {
+  const ctas: Record<string, UnemploymentSeoCta> = {
+    "calcul-allocation-chomage": {
+      title: "Calculer mon allocation ARE",
+      body:
+        "Passez de la méthode au cas concret : salaire brut, âge, activité passée, congés payés et indemnité de départ.",
+      label: "Calculer mon allocation ARE",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "combien-vais-je-toucher-au-chomage": {
+      title: "Estimer mes droits au chômage",
+      body:
+        "Obtenez une estimation mensuelle, puis vérifiez la durée et la date probable du premier paiement.",
+      label: "Estimer mes droits au chômage",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "delai-de-carence-chomage": {
+      title: "Comprendre mon délai de carence",
+      body:
+        "Indiquez vos congés payés et votre indemnité supra-légale pour visualiser le délai avant paiement.",
+      label: "Comprendre mon délai de carence",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "chomage-apres-rupture-conventionnelle": {
+      title: "Simuler indemnité + chômage",
+      body:
+        "Comparez l'indemnité de rupture, l'ARE estimée, les différés et le revenu de transition.",
+      label: "Simuler indemnité + chômage",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "rupture-conventionnelle-et-allocation-chomage": {
+      title: "Vérifier l'impact d'une rupture conventionnelle",
+      body:
+        "Avant de signer, regardez ensemble l'indemnité, la date de premier paiement et la durée probable.",
+      label: "Vérifier l'impact d'une rupture",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "indemnite-rupture-et-chomage": {
+      title: "Comparer indemnité, salaire et ARE",
+      body:
+        "Une indemnité négociée peut sécuriser le départ tout en décalant l'ARE. Simulez les deux effets.",
+      label: "Comparer indemnité, salaire et ARE",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "chomage-apres-demission": {
+      title: "Vérifier avant de quitter son poste",
+      body:
+        "La démission classique est risquée côté ARE. Testez le scénario et comparez-le à une rupture conventionnelle si elle est envisageable.",
+      label: "Vérifier mon scénario",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "france-travail-inscription": {
+      title: "Préparer mon inscription avec des chiffres",
+      body:
+        "Avant le dossier France Travail, estimez le montant, les différés et les documents qui peuvent peser sur le calendrier.",
+      label: "Préparer mon estimation",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    },
+    "france-travail-actualisation": {
+      title: "Anticiper mon paiement mensuel",
+      body:
+        "Si vous reprenez une activité, comparez salaire déclaré, ARE ajustée et revenu total du mois.",
+      label: "Comparer salaire et ARE",
+      href: "/cumul-are-salaire"
+    },
+    "cumul-are-salaire": {
+      title: "Comparer salaire repris et ARE",
+      body:
+        "Relisez votre salaire brut/net puis estimez l'effet d'une reprise d'activité sur le revenu du mois.",
+      label: "Comparer salaire et ARE",
+      href: "/salaire-brut-net"
+    }
+  };
+
+  return (
+    ctas[slug] ?? {
+      title: "Estimer mes droits au chômage",
+      body:
+        "Le simulateur vous aide à lire ensemble montant mensuel, différés, premier paiement et durée probable.",
+      label: "Estimer mes droits au chômage",
+      href: "/simulateur-chomage-rupture-conventionnelle"
+    }
+  );
+}
+
 function makePage(config: {
   slug: string;
   title: string;
@@ -270,6 +1073,7 @@ function makePage(config: {
   links?: UnemploymentSeoLink[];
   premium?: boolean;
 }): UnemploymentSeoPage {
+  const profile = pageProfile(config.slug);
   const internalLinks = [
     links.chomage,
     links.calcul,
@@ -297,21 +1101,26 @@ function makePage(config: {
       summary: config.summary
     },
     immediateAnswer: config.immediateAnswer,
+    takeaways: profile.takeaways,
     sections: config.sections,
     scenarios: commonScenarios,
-    tableRows: standardTableRows(),
+    examplesTitle: profile.examplesTitle,
+    examplesIntro: profile.examplesIntro,
+    showSalaryExamples: profile.showSalaryExamples,
+    tableTitle: profile.tableTitle,
+    tableIntro: profile.tableIntro,
+    tableRows: tableRowsFor(config.slug),
+    flowTitle: profile.flowTitle,
+    flowIntro: profile.flowIntro,
     schemaSteps: commonSchemaSteps,
-    premiumFlow: config.premium ? premiumFlow : undefined,
-    mistakes: commonMistakes,
-    faq: faqFor(config.title.toLocaleLowerCase("fr-FR")),
+    premiumFlow: flowFor(config.slug, config.premium),
+    mistakes: mistakesFor(config.slug),
+    faq: [
+      ...specificFaqFor(config.slug),
+      ...faqFor(config.title.toLocaleLowerCase("fr-FR"))
+    ].slice(0, 7),
     internalLinks: internalLinks.slice(0, 8),
-    cta: {
-      title: "Simuler votre ARE maintenant",
-      body:
-        "La projection chômage existante estime l'ARE, les différés, la date probable du premier paiement et la durée selon votre situation.",
-      label: "Lancer le simulateur ARE",
-      href: "/simulateur-chomage-rupture-conventionnelle"
-    }
+    cta: ctaFor(config.slug)
   };
 }
 
@@ -338,7 +1147,7 @@ const detailedSections = {
     ]
   },
   examples: {
-    title: "Exemples chiffrés avec 1 800 €, 2 500 €, 3 000 € et 4 000 €",
+    title: "Exemples chiffrés avec 2 000 €, 2 500 €, 3 000 €, 3 500 € et 4 000 €",
     paragraphs: [
       "Les exemples ci-dessous partent d'un salarié de 38 ans, à temps plein, avec une fin de contrat au 31 juillet 2026 et une activité suffisante. Ils donnent un repère réaliste, sans remplacer le calcul officiel de France Travail.",
       "On voit que l'ARE ne correspond ni au salaire brut ni au salaire net habituel. Elle dépend du SJR et des formules réglementaires, puis le calendrier de versement dépend des différés."
@@ -381,7 +1190,7 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     title: "Calcul allocation chômage : SJR, ARE, différés et exemples",
     seoTitle: "Calcul allocation chômage 2026 : méthode ARE",
     description:
-      "Calculez le chômage en 2026 : SJR, formule ARE, différés, délai d'attente, exemples à 1 800 €, 2 500 €, 3 000 € et 4 000 €.",
+      "Calculez le chômage en 2026 : SJR, formule ARE, différés, délai d'attente, exemples à 2 000 €, 2 500 €, 3 000 €, 3 500 € et 4 000 €.",
     excerpt:
       "Le calcul chômage part du salaire brut, estime le SJR, applique les formules ARE et ajoute les différés avant le premier versement.",
     category: "ARE",
@@ -480,7 +1289,7 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
     title: "Combien vais-je toucher au chômage ? Méthode et exemples",
     seoTitle: "Combien vais-je toucher au chômage : exemples ARE 2026",
     description:
-      "Estimez combien vous allez toucher au chômage avec la méthode ARE 2026, des exemples à 1 800 €, 2 500 €, 3 000 € et 4 000 € brut.",
+      "Estimez combien vous allez toucher au chômage avec la méthode ARE 2026, des exemples à 2 000 €, 2 500 €, 3 000 €, 3 500 € et 4 000 € brut.",
     excerpt:
       "Le montant touché au chômage dépend du SJR, des formules ARE et du calendrier de versement.",
     category: "ARE",

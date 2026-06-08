@@ -22,6 +22,9 @@ Faiblesses corrigees ou a surveiller :
 - Exemples chiffrés incomplets par rapport aux paliers business 2000, 2500, 3000, 3500 et 4000 euros brut.
 - Liens internes sortants vers d'anciens slugs ou pages moins prioritaires.
 - Risque de cannibalisation entre `/chomage`, `/calcul-chomage`, `/delai-carence-chomage`, `/cumul-salaire-et-chomage` et les nouveaux slugs canoniques.
+- Pages SEO trop proches dans leur structure initiale : meme tableau de salaires, meme recapitulatif, meme schema et FAQ trop standardisee.
+- CTA trop uniformes alors que les intentions "montant", "delai", "demission", "rupture conventionnelle" et "actualisation" demandent des actions differentes.
+- Simulateur clair techniquement, mais certains champs sensibles demandaient plus de micro-explications grand public.
 
 Intentions a couvrir :
 - Combien vais-je toucher au chomage ?
@@ -100,6 +103,36 @@ Ancres prioritaires :
 - Delai de carence chomage
 - Premier paiement France Travail
 - Rupture conventionnelle et allocation chomage
+
+## Corrections UX/UI appliquees
+
+- Ajout d'un bloc "A retenir" propre a chaque intention de page.
+- Remplacement du tableau genericise par des tableaux contextualises :
+  - calcul ARE : salaire brut, SJR, formules, montant mensuel, variables sensibles ;
+  - delai/paiement : attente 7 jours, conges payes, differes, paiement a terme echu ;
+  - demission : absence de droit automatique, exceptions, reexamen ;
+  - cadre : variables, degressivite, indemnite negociee ;
+  - senior : seuils d'age, duree, retraite ;
+  - actualisation : declaration mensuelle, paiement, trop-percu ;
+  - rupture conventionnelle : indemnite minimale, part supra-legale et calendrier.
+- Les exemples de salaire restent presents uniquement lorsque la question du montant est centrale.
+- Les parcours visuels sont differencies selon la page au lieu d'un schema identique partout.
+- Ajout d'un CTA intermediaire "Etape suivante" dans le corps de page pour renforcer le CTR vers l'action utile.
+
+## Corrections simulateur appliquees
+
+- Ajout d'un encart de prudence en haut du simulateur : estimation, France Travail, absence de conseil juridique personnalise.
+- Labels de champs rendus plus explicites : jours/heures retenus ou estimes, date reelle de fin de contrat, part supra-legale, conges payes non pris.
+- Aides de champ renforcees sur les sujets sensibles : SJR, part supra-legale, conges payes, premiere ouverture.
+- Ajout d'un avertissement specifique lorsque l'utilisateur choisit une demission classique.
+- Ajout de CTA post-resultat vers le delai de carence et la page rupture conventionnelle + allocation chomage.
+
+## Corrections wording appliquees
+
+- Suppression des formulations trop generiques dans les blocs structurants.
+- Renforcement du ton RH/juridique : phrases plus directes, prudence explicite, action concrete.
+- FAQ enrichie avec des questions specifiques pour delai, demission, cadre, senior, actualisation et premier paiement.
+- Erreurs frequentes contextualisees pour eviter la repetition artificielle.
 
 ## Cannibalisation
 

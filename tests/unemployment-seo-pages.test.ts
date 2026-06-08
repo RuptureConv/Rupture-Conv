@@ -69,26 +69,28 @@ describe("unemployment SEO pages", () => {
     }
   });
 
-  it("adds premium visual flows on the priority pages", () => {
-    for (const slug of [
-      "calcul-allocation-chomage",
-      "simulateur-allocation-chomage",
-      "chomage-apres-rupture-conventionnelle",
-      "combien-vais-je-toucher-au-chomage",
-      "delai-de-carence-chomage",
-      "quand-touche-t-on-le-chomage",
-      "premier-paiement-france-travail",
-      "comment-est-calculee-l-are",
-      "indemnite-rupture-et-chomage",
-      "rupture-conventionnelle-et-allocation-chomage"
-    ]) {
-      expect(unemploymentSeoPageBySlug[slug]?.premiumFlow).toEqual([
-        "Salaire brut moyen",
-        "Calcul du SJR",
-        "Calcul ARE",
-        "Différés éventuels",
-        "Montant versé"
-      ]);
-    }
+  it("differentiates flows, tables and CTAs by search intent", () => {
+    expect(unemploymentSeoPageBySlug["calcul-allocation-chomage"]?.premiumFlow).toEqual([
+      "Salaire brut moyen",
+      "Calcul du SJR",
+      "Calcul ARE",
+      "Différés éventuels",
+      "Montant versé"
+    ]);
+    expect(unemploymentSeoPageBySlug["premier-paiement-france-travail"]?.premiumFlow).toEqual([
+      "Fin du contrat",
+      "Inscription",
+      "Différés",
+      "Actualisation",
+      "Paiement"
+    ]);
+    expect(unemploymentSeoPageBySlug["chomage-apres-demission"]?.showSalaryExamples).toBe(false);
+    expect(unemploymentSeoPageBySlug["chomage-apres-demission"]?.tableTitle).toContain("Démission");
+    expect(unemploymentSeoPageBySlug["delai-de-carence-chomage"]?.cta.label).toBe(
+      "Comprendre mon délai de carence"
+    );
+    expect(unemploymentSeoPageBySlug["chomage-apres-rupture-conventionnelle"]?.cta.label).toBe(
+      "Simuler indemnité + chômage"
+    );
   });
 });
