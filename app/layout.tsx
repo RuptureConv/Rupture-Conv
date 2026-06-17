@@ -6,6 +6,7 @@ import {
   GoogleTagManagerBody,
   GoogleTagManagerHead
 } from "@/components/GoogleTagManager";
+import { Header } from "@/components/Header";
 import { StickyMobileCTA } from "@/components/seo/StickyMobileCTA";
 import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -134,6 +135,7 @@ export default function RootLayout({
 
       <body>
         <GoogleTagManagerBody />
+        <Header />
         {children}
         <Footer />
         <StickyMobileCTA />

@@ -50,6 +50,25 @@ const HUB_LINK_PATHS = new Set([
   "/blog/delai-rupture-conventionnelle-combien-de-temps"
 ]);
 
+const PREAVIS_PATHS = new Set([
+  "/guide-preavis",
+  "/preavis-demission",
+  "/preavis-rupture-conventionnelle",
+  "/preavis-licenciement",
+  "/dispense-de-preavis",
+  "/calcul-preavis",
+  "/preavis-cadre",
+  "/preavis-non-cadre",
+  "/conges-payes-pendant-preavis",
+  "/arret-maladie-pendant-preavis",
+  "/reduction-preavis",
+  "/duree-preavis-anciennete",
+  "/date-fin-contrat-preavis",
+  "/travailler-ailleurs-pendant-preavis",
+  "/preavis-abandon-de-poste",
+  "/indemnite-compensatrice-preavis"
+]);
+
 const REFORM_NOTICE_PATHS = new Set([
   "/simulateur-rupture-conventionnelle",
   "/calcul-indemnite-rupture-conventionnelle",
@@ -69,8 +88,30 @@ function formatRelatedLinkLabel(href: string) {
   return buildCtrTitle(label);
 }
 
+function parseTableCellLink(cell: string) {
+  const separatorIndex = cell.indexOf("|/");
+
+  if (separatorIndex === -1) {
+    return null;
+  }
+
+  return {
+    label: cell.slice(0, separatorIndex),
+    href: cell.slice(separatorIndex + 1)
+  };
+}
+
 function buildTakeaways(h1: string): string[] {
   const normalized = h1.toLocaleLowerCase("fr-FR");
+
+  if (normalized.includes("préavis")) {
+    return [
+      "Le préavis dépend du motif de rupture, du statut et de la convention collective.",
+      "La rupture conventionnelle ne prévoit pas de préavis classique : on fixe une date de rupture.",
+      "Une dispense employeur ne se traite pas comme une réduction demandée par le salarié.",
+      "La date de fin du contrat doit être cohérente avec les documents de sortie."
+    ];
+  }
 
   if (normalized.includes("réforme") || normalized.includes("2026")) {
     return [
@@ -118,6 +159,16 @@ function buildTakeaways(h1: string): string[] {
 
 function buildExample(h1: string) {
   const normalized = h1.toLocaleLowerCase("fr-FR");
+
+  if (normalized.includes("préavis")) {
+    return {
+      situation: "Avec un salarié non cadre et un mois de préavis",
+      body:
+        "Si la démission est reçue le 4 juin, la fin du contrat se calcule en principe autour du 4 juillet, sous réserve de la convention collective et des congés déjà posés.",
+      result:
+        "La date doit être confirmée par écrit avant de s'engager auprès d'un nouvel employeur."
+    };
+  }
 
   if (normalized.includes("lettre")) {
     return {
@@ -247,12 +298,14 @@ export function SeoContentLayout({
     normalizedH1.includes("calcul") ||
     normalizedH1.includes("indemnité") ||
     normalizedH1.includes("net");
+  const isPreavisPage = PREAVIS_PATHS.has(canonicalPath);
   const shouldShowProcess =
-    normalizedH1.includes("cdi") ||
-    normalizedH1.includes("lettre") ||
-    normalizedH1.includes("préavis") ||
-    normalizedH1.includes("délai") ||
-    normalizedH1.includes("conditions");
+    !isPreavisPage &&
+    (normalizedH1.includes("cdi") ||
+      normalizedH1.includes("lettre") ||
+      normalizedH1.includes("préavis") ||
+      normalizedH1.includes("délai") ||
+      normalizedH1.includes("conditions"));
   const shouldShowDecisionGuide =
     normalizedH1.includes("négocier") ||
     normalizedH1.includes("refus") ||
@@ -264,6 +317,7 @@ export function SeoContentLayout({
   ].join(" ").split(/\s+/).filter(Boolean).length;
   const shouldShowMidAd = estimatedWordCount > 300;
   const shouldShowHubCta = HUB_LINK_PATHS.has(canonicalPath);
+  const isPreavisPillar = canonicalPath === "/guide-preavis";
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -324,15 +378,19 @@ export function SeoContentLayout({
 
       <article className="mx-auto w-full max-w-[900px] px-4 py-12 sm:px-6 lg:py-16">
         <Link
-          href="/"
+          href={isPreavisPillar ? "/guides-complets" : isPreavisPage ? "/guide-preavis" : "/"}
           className="mb-8 inline-flex text-sm font-bold text-[#061B3A] transition hover:text-[#22AFA3]"
         >
-          ← Retour au simulateur
+          {isPreavisPillar
+            ? "← Retour aux guides complets"
+            : isPreavisPage
+              ? "← Retour au guide préavis"
+              : "← Retour au simulateur"}
         </Link>
 
         <header className="rounded-3xl border border-[#E5EEF0] bg-white p-6 shadow-sm sm:p-8">
           <p className="inline-flex rounded-full bg-[#EAF8F6] px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-[#168F86]">
-            Guide rupture conventionnelle
+            {isPreavisPage ? "Guide préavis" : "Guide rupture conventionnelle"}
           </p>
 
           <h1 className="mt-5 text-3xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-5xl">
@@ -351,21 +409,49 @@ export function SeoContentLayout({
             </p>
           ) : null}
 
-          <TrackedSimulatorLink
-            buttonType="hero"
-            className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
-          >
-            Faire une simulation gratuite →
-          </TrackedSimulatorLink>
+          {isPreavisPage ? (
+            <Link
+              className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+              href={isPreavisPillar ? "/date-fin-contrat-preavis" : "/guides-complets"}
+            >
+              {isPreavisPillar
+                ? "Vérifier ma date de fin de contrat →"
+                : "Voir tous les guides →"}
+            </Link>
+          ) : (
+            <TrackedSimulatorLink
+              buttonType="hero"
+              className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+            >
+              Faire une simulation gratuite →
+            </TrackedSimulatorLink>
+          )}
         </header>
 
         <div className="mt-10 space-y-10">
-          <AdSlot format="horizontal" position="top" />
+          {isPreavisPillar ? null : <AdSlot format="horizontal" position="top" />}
           {REFORM_NOTICE_PATHS.has(canonicalPath) ? (
             <RuptureReformNotice compact />
           ) : null}
           <KeyTakeaways items={buildTakeaways(h1)} />
-          <TrustPanel />
+          <TrustPanel
+            items={
+              isPreavisPillar
+                ? [
+                    "Date de notification ou de réception",
+                    "Durée prévue par le contrat ou la convention collective",
+                    "Congés déjà validés",
+                    "Dispense ou réduction écrite",
+                    "Date de fin à confirmer avant un nouveau poste"
+                  ]
+                : undefined
+            }
+            title={
+              isPreavisPillar
+                ? "Un repère simple pour éviter les erreurs de date"
+                : undefined
+            }
+          />
           {shouldShowHubCta ? (
             <HubCtaBlock
               ctaLabel="Replacer dans le parcours complet"
@@ -388,32 +474,45 @@ export function SeoContentLayout({
 
           <section className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
-              Combien touche-t-on en rupture conventionnelle ?
+              {isPreavisPage
+                ? "Quelle date retenir pour la fin du contrat ?"
+                : "Combien touche-t-on en rupture conventionnelle ?"}
             </h2>
             <p className="mt-4 text-base leading-8 text-[#5B6B7C]">
-              Le montant dépend principalement du salaire brut de référence et
-              de l&apos;ancienneté. Le minimum légal sert de plancher, puis une
-              indemnité supérieure peut être négociée selon le contexte.
+              {isPreavisPage
+                ? "La date utile n'est pas toujours le dernier jour travaillé. Elle dépend du préavis exécuté ou payé, d'une éventuelle dispense, des congés et des accords écrits entre les parties."
+                : "Le montant dépend principalement du salaire brut de référence et de l'ancienneté. Le minimum légal sert de plancher, puis une indemnité supérieure peut être négociée selon le contexte."}
             </p>
           </section>
 
-          <AdSlot format="horizontal" position="after-content" />
-          <SimulatorCTA
-            buttonText="Calculer mon indemnité nette →"
-            buttonType="after_explanation"
-            description="Le calcul est gratuit, rapide et sans inscription. Il sépare le minimum brut du net indicatif pour mieux préparer votre échange."
-            title="Vous pouvez aussi simuler votre indemnité nette"
-          />
-          <ConcreteExample {...buildExample(h1)} />
-          <SimulatorCTA
-            buttonText="Tester avec mes chiffres →"
-            buttonType="after_example"
-            description="Remplacez l'exemple par vos dates, votre salaire brut de référence et votre ancienneté exacte."
-            title="Passez de l'exemple à votre situation"
-          />
+          {isPreavisPillar ? null : <AdSlot format="horizontal" position="after-content" />}
+          {isPreavisPage ? (
+            <HubCtaBlock
+              ctaLabel="Ouvrir le hub des guides"
+              description="Le préavis se comprend mieux quand il est relié à la rupture conventionnelle, au chômage, au salaire brut/net et aux documents de fin de contrat."
+              href="/guides-complets"
+              title="Besoin de replacer le préavis dans tout le parcours ?"
+            />
+          ) : (
+            <SimulatorCTA
+              buttonText="Calculer mon indemnité nette →"
+              buttonType="after_explanation"
+              description="Le calcul est gratuit, rapide et sans inscription. Il sépare le minimum brut du net indicatif pour mieux préparer votre échange."
+              title="Vous pouvez aussi simuler votre indemnité nette"
+            />
+          )}
+          {isPreavisPillar ? null : <ConcreteExample {...buildExample(h1)} />}
+          {isPreavisPage ? null : (
+            <SimulatorCTA
+              buttonText="Tester avec mes chiffres →"
+              buttonType="after_example"
+              description="Remplacez l'exemple par vos dates, votre salaire brut de référence et votre ancienneté exacte."
+              title="Passez de l'exemple à votre situation"
+            />
+          )}
           <MiniFaq items={faq} />
-          <CommonMistakes />
-          {shouldShowMidAd ? (
+          {isPreavisPage ? null : <CommonMistakes />}
+          {shouldShowMidAd && !isPreavisPillar ? (
             <AdSlot desktopOnly format="rectangle" position="mid" />
           ) : null}
 
@@ -421,7 +520,7 @@ export function SeoContentLayout({
             <section
               id={getSectionAnchor(section.title)}
               key={section.title}
-              className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"
+              className="scroll-mt-28 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm lg:scroll-mt-32"
             >
               <h2 className="text-2xl font-extrabold tracking-[-0.01em] text-[#061B3A]">
                 {section.title}
@@ -433,11 +532,24 @@ export function SeoContentLayout({
                 ))}
 
                 {section.bullets ? (
-                  <ul className="list-disc space-y-2 pl-6">
-                    {section.bullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
+                  section.title === "Les erreurs les plus fréquentes" ? (
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {section.bullets.map((bullet) => (
+                        <div
+                          className="rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] p-4 text-sm font-semibold leading-7 text-[#102A4C]"
+                          key={bullet}
+                        >
+                          {bullet}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ul className="list-disc space-y-2 pl-6">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet}>{bullet}</li>
+                      ))}
+                    </ul>
+                  )
                 ) : null}
 
                 {section.table ? (
@@ -455,11 +567,24 @@ export function SeoContentLayout({
                       <tbody className="divide-y divide-[#E5EEF0] bg-white text-[#5B6B7C]">
                         {section.table.rows.map((row) => (
                           <tr key={row.join("|")}>
-                            {row.map((cell) => (
-                              <td className="px-4 py-3 align-top" key={cell}>
-                                {cell}
-                              </td>
-                            ))}
+                            {row.map((cell) => {
+                              const link = parseTableCellLink(cell);
+
+                              return (
+                                <td className="px-4 py-3 align-top" key={cell}>
+                                  {link ? (
+                                    <Link
+                                      className="font-bold text-[#168F86] transition hover:text-[#061B3A]"
+                                      href={link.href as Route}
+                                    >
+                                      {link.label}
+                                    </Link>
+                                  ) : (
+                                    cell
+                                  )}
+                                </td>
+                              );
+                            })}
                           </tr>
                         ))}
                       </tbody>
@@ -516,7 +641,9 @@ export function SeoContentLayout({
         ) : null}
 
         <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-extrabold text-[#061B3A]">Conclusion</h2>
+          <h2 className="text-2xl font-extrabold text-[#061B3A]">
+            {isPreavisPage ? "Dernier contrôle avant de partir" : "Conclusion"}
+          </h2>
 
           <div className="mt-4 space-y-4 text-base leading-8 text-[#5B6B7C]">
             {conclusion.map((paragraph) => (
@@ -524,19 +651,31 @@ export function SeoContentLayout({
             ))}
 
             <p className="rounded-2xl bg-[#F7FBFA] p-4 text-sm font-semibold leading-7 text-[#102A4C]">
-              {mandatoryDisclaimer}
+              {isPreavisPage
+                ? "Cette page donne un repère pratique. La date finale doit être vérifiée avec le contrat, la convention collective, les accords écrits et les documents remis par l'employeur."
+                : mandatoryDisclaimer}
             </p>
           </div>
 
         </section>
 
         <div className="mt-10">
-          <SimulatorCTA
-            buttonText="Faire le calcul gratuit →"
-            buttonType="bottom"
-            description="Dernière vérification avant de partir : estimez le minimum brut, le net indicatif et la base de négociation en quelques champs."
-            title="Calculez avant de signer"
-          />
+          {isPreavisPage ? (
+            <HubCtaBlock
+              ctaLabel="Voir les guides complets"
+              description="Continuez avec les guides rupture conventionnelle, chômage ARE et salaire brut/net pour vérifier les effets du départ au-delà du préavis."
+              href="/guides-complets"
+              title="Continuez votre vérification"
+              variant="solid"
+            />
+          ) : (
+            <SimulatorCTA
+              buttonText="Faire le calcul gratuit →"
+              buttonType="bottom"
+              description="Dernière vérification avant de partir : estimez le minimum brut, le net indicatif et la base de négociation en quelques champs."
+              title="Calculez avant de signer"
+            />
+          )}
         </div>
 
         <div className="mt-10">

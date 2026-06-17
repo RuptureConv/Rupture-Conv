@@ -1,6 +1,5 @@
 import { Disclaimer } from "@/components/Disclaimer";
 import { Faq, faqItems } from "@/components/Faq";
-import { Header } from "@/components/Header";
 import { CTAButton } from "@/components/marketing/CTAButton";
 import { ExampleBlock } from "@/components/marketing/ExampleBlock";
 import { Hero } from "@/components/marketing/Hero";
@@ -60,7 +59,6 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(webApplicationJsonLd) }}
       />
-      <Header />
       <Hero />
       <TrustBlock />
       <section className="bg-white">

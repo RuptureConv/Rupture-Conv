@@ -8,13 +8,17 @@ const defaultItems = [
 
 type TrustPanelProps = {
   items?: string[];
+  title?: string;
 };
 
-export function TrustPanel({ items = defaultItems }: TrustPanelProps) {
+export function TrustPanel({
+  items = defaultItems,
+  title = "Un cadre clair pour estimer votre montant"
+}: TrustPanelProps) {
   return (
     <aside className="rounded-[28px] border border-[#D7E7E8] bg-[#EAF8F6] p-5 shadow-[0_18px_55px_rgba(6,27,58,0.04)] sm:p-7">
       <h2 className="text-xl font-extrabold text-[#061B3A]">
-        Un cadre clair pour estimer votre montant
+        {title}
       </h2>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {items.map((item) => (

@@ -1,11 +1,12 @@
 import type { PillarPage } from "@/lib/seo-content";
+import { noticeSeoPages } from "@/lib/notice-seo-pages";
 
 const mandatoryDisclaimer =
   "Ce simulateur fournit une estimation indicative et ne remplace pas un conseil juridique personnalisé.";
 
 const reform2026MainPath = "/reforme-rupture-conventionnelle-2026";
 
-export const editorialArticlePages: PillarPage[] = [
+const ruptureEditorialArticlePages: PillarPage[] = [
   {
     slug: "rupture-conventionnelle-droit-chomage",
     title: "Rupture conventionnelle et chômage : droit à l’ARE",
@@ -938,4 +939,9 @@ export const editorialArticlePages: PillarPage[] = [
       "Avant de l’envoyer, estimez votre indemnité et préparez les points à discuter pendant l’entretien."
     ]
   }
+];
+
+export const editorialArticlePages: PillarPage[] = [
+  ...ruptureEditorialArticlePages,
+  ...noticeSeoPages
 ];

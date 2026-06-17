@@ -1,5 +1,3 @@
-import { Header } from "@/components/Header";
-
 type LegalPageProps = {
   title: string;
   intro: string;
@@ -12,7 +10,6 @@ type LegalPageProps = {
 export function LegalPage({ title, intro, sections }: LegalPageProps) {
   return (
     <main>
-      <Header />
       <section className="mx-auto w-full max-w-[900px] px-4 py-10 sm:px-6 lg:py-14">
         <h1 className="text-4xl font-black leading-tight tracking-[-0.02em] text-[#061B3A]">
           {title}

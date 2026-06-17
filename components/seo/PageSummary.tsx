@@ -27,7 +27,7 @@ export function PageSummary({ sections }: PageSummaryProps) {
     >
       <h2 className="text-xl font-extrabold text-[#061B3A]">Sommaire</h2>
       <ul className="mt-4 grid gap-2 text-sm font-semibold leading-6 text-[#102A4C] sm:grid-cols-2">
-        {sections.slice(0, 6).map((section) => (
+        {sections.slice(0, 10).map((section) => (
           <li key={section}>
             <a
               className="block rounded-2xl bg-[#F7FBFA] px-4 py-3 transition hover:bg-[#EAF8F6] hover:text-[#168F86]"

@@ -57,6 +57,22 @@ const internalLinks = [
   {
     href: "/rupture-conventionnelle-ou-abandon-de-poste",
     label: "rupture conventionnelle ou abandon de poste"
+  },
+  {
+    href: "/guide-preavis",
+    label: "guide complet du préavis"
+  },
+  {
+    href: "/preavis-demission",
+    label: "préavis de démission"
+  },
+  {
+    href: "/preavis-licenciement",
+    label: "préavis de licenciement"
+  },
+  {
+    href: "/preavis-rupture-conventionnelle",
+    label: "préavis et rupture conventionnelle"
   }
 ] as const;
 

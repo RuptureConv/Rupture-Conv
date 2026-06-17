@@ -1,8 +1,10 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 type HubCtaBlockProps = {
   ctaLabel?: string;
   description?: string;
+  href?: string;
   title?: string;
   variant?: "soft" | "solid";
 };
@@ -10,6 +12,7 @@ type HubCtaBlockProps = {
 export function HubCtaBlock({
   ctaLabel = "Voir le guide complet",
   description = "Le simulateur donne une estimation. Le guide vous aide à comprendre les étapes, les délais, le chômage et les erreurs à éviter.",
+  href = "/rupture-conventionnelle",
   title = "Besoin d’y voir clair avant de calculer ?",
   variant = "soft"
 }: HubCtaBlockProps) {
@@ -33,7 +36,7 @@ export function HubCtaBlock({
         {description}
       </p>
       <Link
-        href="/rupture-conventionnelle"
+        href={href as Route}
         className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full bg-[#061B3A] px-5 text-sm font-black text-white transition hover:bg-[#102A4C] focus:outline-none focus:ring-2 focus:ring-[#061B3A] focus:ring-offset-2"
       >
         {ctaLabel} →

@@ -23,11 +23,42 @@ const simulatorLinks = [
   }
 ] as const;
 
+const guideLinks = [
+  {
+    href: "/guides-complets",
+    title: "Tous les guides",
+    description: "Le hub des dossiers pratiques RuptureConv."
+  },
+  {
+    href: "/rupture-conventionnelle",
+    title: "Rupture conventionnelle",
+    description: "Procédure, indemnité, délais et chômage."
+  },
+  {
+    href: "/chomage-are",
+    title: "Chômage ARE",
+    description: "Calcul, conditions, différés et paiement."
+  },
+  {
+    href: "/salaire",
+    title: "Salaire brut / net",
+    description: "Comprendre le brut, le net et les statuts."
+  },
+  {
+    href: "/guide-preavis",
+    title: "Préavis",
+    description: "Démission, licenciement, dispense et congés."
+  }
+] as const;
+
 export function Header() {
   const [isSimulatorMenuOpen, setIsSimulatorMenuOpen] = useState(false);
+  const [isGuidesMenuOpen, setIsGuidesMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const simulatorMenuRef = useRef<HTMLDivElement>(null);
+  const guidesMenuRef = useRef<HTMLDivElement>(null);
   const desktopMenuId = "desktop-simulators-menu";
+  const desktopGuidesMenuId = "desktop-guides-menu";
   const mobileMenuId = "mobile-main-menu";
 
   useEffect(() => {
@@ -38,11 +69,18 @@ export function Header() {
       ) {
         setIsSimulatorMenuOpen(false);
       }
+      if (
+        guidesMenuRef.current &&
+        !guidesMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsGuidesMenuOpen(false);
+      }
     }
 
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setIsSimulatorMenuOpen(false);
+        setIsGuidesMenuOpen(false);
         setIsMobileMenuOpen(false);
       }
     }
@@ -58,6 +96,7 @@ export function Header() {
 
   function closeMenus() {
     setIsSimulatorMenuOpen(false);
+    setIsGuidesMenuOpen(false);
     setIsMobileMenuOpen(false);
   }
 
@@ -117,24 +156,68 @@ export function Header() {
               </div>
             ) : null}
           </div>
-          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/rupture-conventionnelle">
-            Guide complet
-          </Link>
-          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/chomage-are">
-            Chômage ARE
-          </Link>
-          <a className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="#comprendre">
+          <div
+            className="relative"
+            onMouseEnter={() => setIsGuidesMenuOpen(true)}
+            ref={guidesMenuRef}
+          >
+            <button
+              aria-controls={desktopGuidesMenuId}
+              aria-expanded={isGuidesMenuOpen}
+              aria-haspopup="menu"
+              className="inline-flex items-center gap-1 rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+              onClick={() => setIsGuidesMenuOpen((current) => !current)}
+              type="button"
+            >
+              Guides complets
+              <span
+                aria-hidden="true"
+                className={`text-xs transition ${isGuidesMenuOpen ? "rotate-180" : ""}`}
+              >
+                ▾
+              </span>
+            </button>
+
+            {isGuidesMenuOpen ? (
+              <div
+                className="absolute left-0 top-[calc(100%+0.65rem)] w-[350px] rounded-2xl border border-[#E5EEF0] bg-white p-2 text-left shadow-[0_22px_70px_rgba(6,27,58,0.14)]"
+                id={desktopGuidesMenuId}
+                onMouseLeave={() => setIsGuidesMenuOpen(false)}
+                role="menu"
+              >
+                {guideLinks.map((item) => (
+                  <Link
+                    className="block rounded-xl px-4 py-3 transition hover:bg-[#EAF8F6] focus:bg-[#EAF8F6] focus:outline-none"
+                    href={item.href}
+                    key={item.href}
+                    onClick={closeMenus}
+                    role="menuitem"
+                  >
+                    <span className="block text-sm font-extrabold text-[#061B3A]">
+                      {item.title}
+                    </span>
+                    <span className="mt-1 block text-xs font-semibold leading-5 text-[#5B6B7C]">
+                      {item.description}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/#comprendre">
             Comprendre
-          </a>
-          <a className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="#etapes">
+          </Link>
+          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/#etapes">
             Les étapes
-          </a>
-          <a className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="#faq">
+          </Link>
+          <Link className="rounded-full px-4 py-2 transition hover:bg-[#EAF8F6] hover:text-[#168F86]" href="/#faq">
             FAQ
-          </a>
+          </Link>
         </nav>
         <div className="flex items-center gap-2">
-          <CTAButton className="hidden sm:inline-flex">Calculer mon indemnité →</CTAButton>
+          <CTAButton className="hidden sm:inline-flex" href="/#simulateur">
+            Calculer mon indemnité →
+          </CTAButton>
           <button
             aria-controls={mobileMenuId}
             aria-expanded={isMobileMenuOpen}
@@ -178,20 +261,28 @@ export function Header() {
             </section>
 
             <div className="mt-3 grid gap-2 text-sm font-bold text-[#102A4C]">
-              <Link
-                className="rounded-xl px-4 py-3 transition hover:bg-[#EAF8F6]"
-                href="/rupture-conventionnelle"
-                onClick={closeMenus}
-              >
-                Guide complet
-              </Link>
-              <Link
-                className="rounded-xl px-4 py-3 transition hover:bg-[#EAF8F6]"
-                href="/chomage-are"
-                onClick={closeMenus}
-              >
-                Chômage ARE
-              </Link>
+              <section className="rounded-2xl bg-[#F7FBFA] p-3">
+                <p className="px-2 pb-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#168F86]">
+                  Guides complets
+                </p>
+                <div className="grid gap-2">
+                  {guideLinks.map((item) => (
+                    <Link
+                      className="rounded-xl border border-[#E5EEF0] bg-white px-4 py-3 text-left transition hover:border-[#22AFA3] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+                      href={item.href}
+                      key={item.href}
+                      onClick={closeMenus}
+                    >
+                      <span className="block text-sm font-extrabold text-[#061B3A]">
+                        {item.title}
+                      </span>
+                      <span className="mt-1 block text-xs font-semibold leading-5 text-[#5B6B7C]">
+                        {item.description}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
               <Link
                 className="rounded-xl px-4 py-3 transition hover:bg-[#EAF8F6]"
                 href="/#comprendre"
