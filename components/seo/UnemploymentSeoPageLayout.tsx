@@ -9,6 +9,20 @@ type UnemploymentSeoPageLayoutProps = {
 };
 
 export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutProps) {
+  const currentPath = `/${page.slug}`;
+  const backLink =
+    page.slug === "chomage-are"
+      ? {
+          href: "/guides-complets",
+          label: "Retour aux guides complets"
+        }
+      : {
+          href: "/chomage-are",
+          label: "Retour au guide chômage ARE"
+        };
+  const internalLinks = page.internalLinks.filter(
+    (link) => link.href !== currentPath
+  );
   const canonicalUrl = `${siteUrl}/${page.slug}`;
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -72,10 +86,10 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
 
       <article className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
         <Link
-          href="/chomage-are"
+          href={backLink.href as Route}
           className="inline-flex text-sm font-bold text-[#061B3A] transition hover:text-[#22AFA3] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22AFA3]"
         >
-          Retour au guide chômage ARE
+          ← {backLink.label}
         </Link>
 
         <header className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.45fr)] lg:items-end">
@@ -246,7 +260,7 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
                 Continuer dans le cocon
               </h2>
               <ul className="mt-4 space-y-3">
-                {page.internalLinks.map((link) => (
+                {internalLinks.map((link) => (
                   <li key={`${page.slug}-${link.href}`}>
                     <Link
                       href={link.href as Route}
