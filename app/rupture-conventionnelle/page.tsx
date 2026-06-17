@@ -42,6 +42,12 @@ export const metadata: Metadata = {
 
 const quickActions = [
   {
+    title: "Choisir le bon guide",
+    text: "Si votre question dépasse la rupture conventionnelle, repartez du hub des guides.",
+    href: "/guides-complets",
+    label: "Voir les guides"
+  },
+  {
     title: "Réforme 2026 chômage",
     text: "Le droit au chômage reste possible, mais la durée maximale annoncée évolue.",
     href: "/reforme-rupture-conventionnelle-2026",
@@ -74,8 +80,14 @@ const quickActions = [
   {
     title: "Vérifier mes droits au chômage",
     text: "La rupture peut ouvrir droit à l'ARE, mais le calendrier dépend de votre dossier.",
-    href: "/rupture-conventionnelle-chomage",
+    href: "/chomage-are",
     label: "Comprendre mes droits"
+  },
+  {
+    title: "Comprendre le préavis",
+    text: "En rupture conventionnelle, on parle plutôt d'une date de rupture convenue.",
+    href: "/guide-preavis",
+    label: "Vérifier les dates"
   },
   {
     title: "Comparer avec une autre sortie du CDI",
@@ -158,7 +170,7 @@ const tools = [
   {
     title: "Brut ou net ?",
     badge: "Montant",
-    href: "/blog/calcul-indemnite-brut-ou-net",
+    href: "/salaire-brut-net",
     text: "Pour savoir quel salaire utiliser : brut, net, salaire de référence, primes et montant perçu."
   },
   {
@@ -297,11 +309,32 @@ const faq = [
     question: "Une rupture conventionnelle peut-elle être refusée par l'administration ?",
     answer:
       "Oui, l'homologation peut être refusée si le dossier ne respecte pas les conditions attendues, par exemple sur le calendrier ou le consentement."
+  },
+  {
+    question: "Y a-t-il un préavis en rupture conventionnelle ?",
+    answer:
+      "Non, pas comme dans une démission ou un licenciement. Les parties fixent une date de rupture, après la procédure et l'homologation."
+  },
+  {
+    question: "Que faire si l'employeur met la pression ?",
+    answer:
+      "Ne signez pas dans la précipitation. Gardez des traces écrites et demandez un délai pour relire le montant, la date et les documents."
+  },
+  {
+    question: "Quels documents reçoit-on à la fin ?",
+    answer:
+      "L'employeur remet notamment le certificat de travail, le solde de tout compte et l'attestation France Travail."
+  },
+  {
+    question: "Peut-on signer pendant un arrêt maladie ?",
+    answer:
+      "C'est possible dans certains cas, mais le consentement doit rester libre. Si le contexte est tendu, vérifiez la situation avant de signer."
   }
 ];
 
 const sidebarLinks = [
   ["Réforme 2026", "#reforme-2026"],
+  ["À retenir", "#a-retenir"],
   ["Comprendre", "#comprendre"],
   ["Parcours", "#parcours"],
   ["Outils", "#outils"],
@@ -372,6 +405,9 @@ export default function RuptureConventionnelleHubPage() {
               qui vous bloque : le montant, la demande, les délais, le chômage
               ou la négociation. Le bon réflexe : calculer, comprendre, puis
               préparer la discussion.
+            </p>
+            <p className="mt-4 rounded-2xl bg-[#F7FBFA] p-4 text-sm font-bold leading-7 text-[#102A4C]">
+              Mis à jour le 17 juin 2026
             </p>
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               <Link
@@ -453,6 +489,35 @@ export default function RuptureConventionnelleHubPage() {
         <div className="space-y-12">
           <section id="reforme-2026" className="scroll-mt-24">
             <RuptureReformNotice />
+          </section>
+
+          <section
+            className="rounded-3xl border border-[#E5EEF0] bg-white p-6 shadow-sm sm:p-8"
+            id="a-retenir"
+          >
+            <p className="text-xs font-black uppercase tracking-[0.14em] text-[#22AFA3]">
+              Réponse rapide
+            </p>
+            <h2 className="mt-2 text-3xl font-black tracking-[-0.02em] text-[#061B3A]">
+              Rupture conventionnelle : ce qu&apos;il faut retenir
+            </h2>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              {[
+                "La rupture conventionnelle repose sur un accord entre le salarié et l'employeur.",
+                "Elle donne droit à une indemnité spécifique, au moins égale au minimum applicable.",
+                "Elle peut ouvrir droit au chômage si les conditions France Travail sont remplies.",
+                "La date de départ est fixée dans la convention, après respect de la procédure.",
+                "Le salarié ne doit pas signer sous pression.",
+                "Avant signature, vérifiez le montant, la date de rupture et les documents de fin de contrat."
+              ].map((item) => (
+                <p
+                  className="rounded-2xl bg-[#F7FBFA] p-4 text-sm font-semibold leading-7 text-[#102A4C]"
+                  key={item}
+                >
+                  {item}
+                </p>
+              ))}
+            </div>
           </section>
 
           <section aria-labelledby="actions-title">

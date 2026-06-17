@@ -79,6 +79,18 @@ const REFORM_NOTICE_PATHS = new Set([
   "/modele-lettre-rupture-conventionnelle"
 ]);
 
+const PREAVIS_INTERNAL_LINKS = [
+  { href: "/guide-preavis", label: "guide complet du préavis" },
+  { href: "/calcul-preavis", label: "calcul du préavis" },
+  { href: "/date-fin-contrat-preavis", label: "date de fin du contrat" },
+  { href: "/preavis-demission", label: "préavis de démission" },
+  { href: "/preavis-licenciement", label: "préavis de licenciement" },
+  { href: "/dispense-de-preavis", label: "dispense de préavis" },
+  { href: "/rupture-conventionnelle", label: "rupture conventionnelle" },
+  { href: "/chomage-are", label: "guide chômage ARE" },
+  { href: "/salaire-brut-net", label: "salaire brut en net" }
+] as const;
+
 function formatRelatedLinkLabel(href: string) {
   const label = href
     .replace(/^\/blog\//, "Article : ")
@@ -609,7 +621,19 @@ export function SeoContentLayout({
             </section>
           ))}
 
-          <InternalLinksBlock />
+          <InternalLinksBlock
+            ariaLabel={
+              isPreavisPage
+                ? "Liens utiles sur le préavis"
+                : undefined
+            }
+            links={
+              isPreavisPage
+                ? PREAVIS_INTERNAL_LINKS.filter((link) => link.href !== canonicalPath)
+                : undefined
+            }
+            title={isPreavisPage ? "Guides utiles sur le préavis" : undefined}
+          />
         </div>
 
         {faq.length > 4 ? (

@@ -885,6 +885,38 @@ function faqFor(topic: string): UnemploymentSeoFaq[] {
 
 function specificFaqFor(slug: string): UnemploymentSeoFaq[] {
   const items: Record<string, UnemploymentSeoFaq[]> = {
+    "chomage-are": [
+      {
+        question: "Qui peut toucher l'ARE ?",
+        answer:
+          "Un salarié privé involontairement d'emploi peut faire examiner ses droits s'il remplit les conditions d'activité, d'inscription et de recherche d'emploi."
+      },
+      {
+        question: "Quel salaire est pris en compte pour le chômage ?",
+        answer:
+          "France Travail part des rémunérations de la période de référence pour calculer le SJR. Le dernier salaire seul ne suffit pas toujours."
+      },
+      {
+        question: "Quand commence le paiement après une rupture conventionnelle ?",
+        answer:
+          "Après la fin du contrat, l'inscription, l'étude du dossier et les différés éventuels. L'attestation employeur doit être correcte."
+      },
+      {
+        question: "Les indemnités de rupture retardent-elles le chômage ?",
+        answer:
+          "La part supérieure au minimum applicable peut créer un différé spécifique. Le minimum obligatoire ne se lit pas de la même façon."
+      },
+      {
+        question: "Peut-on cumuler chômage et salaire ?",
+        answer:
+          "Oui dans certains cas, mais l'activité doit être déclarée. France Travail ajuste ensuite l'allocation du mois."
+      },
+      {
+        question: "Quels documents garder après la fin du contrat ?",
+        answer:
+          "Gardez le certificat de travail, le solde de tout compte, l'attestation France Travail, les bulletins de paie et les échanges sur la date de fin."
+      }
+    ],
     "delai-de-carence-chomage": [
       {
         question: "Le délai de carence réduit-il mes droits au chômage ?",
@@ -1084,6 +1116,7 @@ function makePage(config: {
     links.brutNet
   ].filter(
     (link, index, allLinks) =>
+      link.href !== `/${config.slug}` &&
       allLinks.findIndex((candidate) => candidate.href === link.href) === index
   );
 
@@ -1118,7 +1151,7 @@ function makePage(config: {
     faq: [
       ...specificFaqFor(config.slug),
       ...faqFor(config.title.toLocaleLowerCase("fr-FR"))
-    ].slice(0, 7),
+    ].slice(0, config.slug === "chomage-are" ? 12 : 7),
     internalLinks: internalLinks.slice(0, 8),
     cta: ctaFor(config.slug)
   };

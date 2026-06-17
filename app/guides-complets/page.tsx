@@ -21,7 +21,7 @@ const guides = [
       "Conditions d'ouverture, calcul ARE, différés, premier paiement France Travail et cas de départ."
   },
   {
-    href: "/salaire",
+    href: "/salaire-brut-net",
     title: "Guide complet salaire brut / net",
     description:
       "Salaire brut, net avant impôt, net après impôt, statut cadre, non cadre et exemples chiffrés."
@@ -37,19 +37,46 @@ const guides = [
 const situations = [
   {
     href: "/rupture-conventionnelle",
-    label: "Je prépare une rupture conventionnelle"
+    label: "Je veux quitter mon entreprise à l'amiable"
   },
   {
     href: "/chomage-are",
-    label: "Je veux comprendre mes droits au chômage"
+    label: "Je viens de perdre mon emploi"
   },
   {
     href: "/guide-preavis",
     label: "Je dois calculer une date de préavis"
   },
   {
-    href: "/salaire",
+    href: "/salaire-brut-net",
     label: "Je veux convertir un salaire brut en net"
+  },
+  {
+    href: "/negocier-rupture-conventionnelle",
+    label: "Je prépare une négociation"
+  },
+  {
+    href: "/rupture-conventionnelle-pieges",
+    label: "Je vérifie mes droits avant de signer"
+  }
+] as const;
+
+const simulators = [
+  {
+    href: "/#simulateur",
+    label: "Estimer une indemnité de rupture conventionnelle"
+  },
+  {
+    href: "/simulateur-chomage-rupture-conventionnelle",
+    label: "Projeter chômage, différés et premier paiement"
+  },
+  {
+    href: "/salaire-brut-net",
+    label: "Convertir un salaire brut en net"
+  },
+  {
+    href: "/calcul-preavis",
+    label: "Calculer un préavis"
   }
 ] as const;
 
@@ -119,6 +146,11 @@ export default function CompleteGuidesPage() {
             conventionnelle, chômage ARE, salaire brut/net et préavis. Chaque
             guide renvoie vers ses pages spécialisées pour aller droit au point.
           </p>
+          <p className="mt-4 text-base leading-7 text-[#5B6B7C]">
+            Cette page sert de point de départ quand vous ne savez pas encore
+            quelle règle vérifier : départ négocié, indemnisation chômage,
+            préavis, salaire ou documents de fin de contrat.
+          </p>
           <p className="mt-4 text-base font-semibold leading-7 text-[#102A4C]">
             Vous ne savez pas par où commencer ? Choisissez votre situation :
             départ négocié, chômage, préavis ou salaire.
@@ -164,6 +196,27 @@ export default function CompleteGuidesPage() {
 
         <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-extrabold text-[#061B3A]">
+            Les simulateurs utiles
+          </h2>
+          <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+            Si vous avez déjà des chiffres sous les yeux, commencez par l&apos;outil
+            le plus proche de votre question.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            {simulators.map((simulator) => (
+              <Link
+                className="rounded-xl border border-[#E5EEF0] bg-[#F7FBFA] px-4 py-3 text-sm font-bold leading-6 text-[#102A4C] transition hover:border-[#22AFA3] hover:bg-[#EAF8F6] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+                href={simulator.href}
+                key={simulator.href}
+              >
+                {simulator.label}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-10 rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-extrabold text-[#061B3A]">
             Une architecture prête à évoluer
           </h2>
           <p className="mt-4 text-base leading-8 text-[#5B6B7C]">
@@ -171,6 +224,11 @@ export default function CompleteGuidesPage() {
             prochains guides pourront être ajoutés dans la même grille, avec le
             même niveau de maillage vers les simulateurs, les pages pratiques et
             les clusters spécialisés.
+          </p>
+          <p className="mt-4 rounded-xl bg-[#F7FBFA] p-4 text-sm font-bold leading-7 text-[#102A4C]">
+            Mis à jour le 17 juin 2026. Les guides sont repris progressivement
+            pour rester clairs, pratiques et cohérents avec les démarches les
+            plus fréquentes des salariés.
           </p>
         </section>
       </section>

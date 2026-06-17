@@ -93,4 +93,13 @@ describe("unemployment SEO pages", () => {
       "Simuler indemnité + chômage"
     );
   });
+
+  it("keeps the unemployment hub navigable without self-linking", () => {
+    const hub = unemploymentSeoPageBySlug["chomage-are"];
+
+    expect(hub?.faq.length).toBeGreaterThanOrEqual(12);
+    expect(hub?.internalLinks.some((link) => link.href === "/chomage-are")).toBe(
+      false
+    );
+  });
 });

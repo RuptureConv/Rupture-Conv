@@ -40,6 +40,31 @@ const faqItems = [
     question: "Comment passer d’un salaire annuel brut à un salaire mensuel net ?",
     answer:
       "L’outil divise le brut annuel par 12 pour obtenir un brut mensuel, puis applique le taux de cotisations indicatif correspondant au statut choisi."
+  },
+  {
+    question: "Quel taux utiliser pour passer du brut au net ?",
+    answer:
+      "Pour un repère rapide, on utilise souvent environ 22 % de cotisations pour un non-cadre du privé et 25 % pour un cadre. La fiche de paie peut donner un résultat différent."
+  },
+  {
+    question: "Le salaire brut sert-il au calcul d'une rupture conventionnelle ?",
+    answer:
+      "Oui. Le calcul de l'indemnité part du salaire brut de référence, pas du net bancaire. Les primes peuvent aussi compter selon leur nature."
+  },
+  {
+    question: "Quel salaire est pris en compte pour le chômage ?",
+    answer:
+      "France Travail raisonne à partir des rémunérations de la période de référence pour calculer le SJR. Le dernier salaire net ne suffit pas."
+  },
+  {
+    question: "Le salaire de référence correspond-il au dernier salaire ?",
+    answer:
+      "Pas toujours. Il peut intégrer des moyennes, des primes ou des périodes particulières. Il faut relire les bulletins et la règle applicable."
+  },
+  {
+    question: "Pourquoi deux salariés avec le même brut peuvent-ils avoir un net différent ?",
+    answer:
+      "Le contrat, la mutuelle, les avantages, les heures supplémentaires, le statut et certaines lignes de paie peuvent changer le net réellement versé."
   }
 ];
 
@@ -188,7 +213,7 @@ export default function SalaryGrossNetPage() {
           href="/"
           className="mb-8 inline-flex text-sm font-bold text-[#061B3A] transition hover:text-[#22AFA3]"
         >
-          Retour au simulateur
+          ← Retour à l&apos;accueil
         </Link>
 
         <header className="grid gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.55fr)] lg:items-end">
@@ -202,6 +227,9 @@ export default function SalaryGrossNetPage() {
             <p className="mt-5 max-w-3xl text-lg font-semibold leading-8 text-[#5B6B7C]">
               Convertissez rapidement un salaire brut en net, en horaire,
               mensuel ou annuel, avec une estimation adaptée à votre statut.
+            </p>
+            <p className="mt-4 rounded-2xl bg-[#F7FBFA] p-4 text-sm font-bold leading-7 text-[#102A4C]">
+              Mis à jour le 17 juin 2026
             </p>
           </div>
 
@@ -231,7 +259,29 @@ export default function SalaryGrossNetPage() {
           </p>
         </section>
 
-        <div className="mt-10">
+        <section className="mt-10 rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+          <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+            Salaire brut/net : ce qu&apos;il faut retenir
+          </h2>
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {[
+              "Le salaire brut correspond au montant avant les cotisations salariales.",
+              "Le salaire net correspond au montant versé avant ou après impôt selon le cas affiché.",
+              "Le taux de conversion dépend du statut, du contrat et des cotisations.",
+              "Le brut/net aide à comprendre une fiche de paie, une négociation ou un calcul d'indemnité.",
+              "Pour une rupture conventionnelle ou le chômage, il faut parfois raisonner à partir du salaire de référence."
+            ].map((item) => (
+              <p
+                className="rounded-xl bg-[#F7FBFA] p-4 text-sm font-semibold leading-7 text-[#102A4C]"
+                key={item}
+              >
+                {item}
+              </p>
+            ))}
+          </div>
+        </section>
+
+        <div className="mt-10 scroll-mt-28" id="simulateur-salaire">
           <SalaryNetCalculatorTool />
         </div>
 
@@ -430,6 +480,21 @@ export default function SalaryGrossNetPage() {
                   </Link>
                 </li>
                 <li>
+                  <Link className="hover:text-[#22AFA3]" href="/chomage-are">
+                    Comprendre le chômage ARE
+                  </Link>
+                </li>
+                <li>
+                  <Link className="hover:text-[#22AFA3]" href="/guide-preavis">
+                    Vérifier une date de préavis
+                  </Link>
+                </li>
+                <li>
+                  <Link className="hover:text-[#22AFA3]" href="/guides-complets">
+                    Choisir le bon guide
+                  </Link>
+                </li>
+                <li>
                   <Link className="hover:text-[#22AFA3]" href="/reforme-rupture-conventionnelle-2026">
                     Vérifier les repères 2026
                   </Link>
@@ -447,10 +512,10 @@ export default function SalaryGrossNetPage() {
                 pouvez estimer le montant de départ.
               </p>
               <Link
-                href="/#simulateur"
+                href="/rupture-conventionnelle"
                 className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
               >
-                Ouvrir le simulateur
+                Comprendre le calcul de départ
               </Link>
             </section>
           </aside>

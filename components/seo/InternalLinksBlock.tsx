@@ -76,17 +76,30 @@ const internalLinks = [
   }
 ] as const;
 
-export function InternalLinksBlock() {
+type InternalLinksBlockProps = {
+  ariaLabel?: string;
+  links?: readonly {
+    href: string;
+    label: string;
+  }[];
+  title?: string;
+};
+
+export function InternalLinksBlock({
+  ariaLabel = "Liens utiles",
+  links = internalLinks,
+  title = "Guides utiles"
+}: InternalLinksBlockProps) {
   return (
     <nav
-      aria-label="Liens essentiels rupture conventionnelle"
+      aria-label={ariaLabel}
       className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"
     >
       <h2 className="text-2xl font-extrabold text-[#061B3A]">
-        Guides utiles
+        {title}
       </h2>
       <ul className="mt-4 list-disc space-y-2 pl-6 text-sm font-semibold leading-7 text-[#102A4C]">
-        {internalLinks.map((link) => (
+        {links.map((link) => (
           <li key={link.href}>
             <Link
               className="transition hover:text-[#22AFA3]"

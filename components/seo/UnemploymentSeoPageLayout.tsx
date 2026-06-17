@@ -1,5 +1,9 @@
 import type { Route } from "next";
 import Link from "next/link";
+import {
+  getSectionAnchor,
+  PageSummary
+} from "@/components/seo/PageSummary";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import type { UnemploymentSeoPage } from "@/lib/unemployment-seo-pages";
 import { siteName, siteUrl } from "@/lib/site";
@@ -9,6 +13,7 @@ type UnemploymentSeoPageLayoutProps = {
 };
 
 export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutProps) {
+  const isUnemploymentHub = page.slug === "chomage-are";
   const currentPath = `/${page.slug}`;
   const backLink =
     page.slug === "chomage-are"
@@ -23,6 +28,38 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
   const internalLinks = page.internalLinks.filter(
     (link) => link.href !== currentPath
   );
+  const summarySections = [
+    "À retenir",
+    "Quelle page lire selon votre situation ?",
+    ...page.sections.map((section) => section.title),
+    "Questions fréquentes"
+  ];
+  const situationLinks = [
+    {
+      href: "/simulateur-chomage-rupture-conventionnelle",
+      label: "Je veux estimer mon allocation chômage"
+    },
+    {
+      href: "/delai-de-carence-chomage",
+      label: "Je veux comprendre le délai de carence"
+    },
+    {
+      href: "/chomage-apres-rupture-conventionnelle",
+      label: "Je viens de signer une rupture conventionnelle"
+    },
+    {
+      href: "/premier-paiement-france-travail",
+      label: "Je veux savoir quand je serai payé"
+    },
+    {
+      href: "/cumul-are-salaire",
+      label: "Je reprends un emploi"
+    },
+    {
+      href: "/france-travail-inscription",
+      label: "Je dois m'inscrire à France Travail"
+    }
+  ] as const;
   const canonicalUrl = `${siteUrl}/${page.slug}`;
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -118,7 +155,16 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
           </aside>
         </header>
 
-        <section className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(280px,0.38fr)]">
+        {isUnemploymentHub ? (
+          <div className="mt-10">
+            <PageSummary sections={summarySections} />
+          </div>
+        ) : null}
+
+        <section
+          className="mt-10 grid scroll-mt-28 gap-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(280px,0.38fr)]"
+          id="a-retenir"
+        >
           <div className="rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-6 shadow-sm lg:p-8">
             <p className="text-sm font-black uppercase tracking-[0.14em] text-[#168F86]">
               Réponse immédiate
@@ -184,10 +230,37 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.38fr)]">
           <div className="space-y-6">
+            {isUnemploymentHub ? (
+              <section
+                className="scroll-mt-28 rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm"
+                id="quelle-page-lire-selon-votre-situation"
+              >
+                <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
+                  Quelle page lire selon votre situation ?
+                </h2>
+                <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
+                  La bonne page dépend surtout de votre question immédiate :
+                  montant, délai, inscription ou reprise d&apos;emploi.
+                </p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {situationLinks.map((link) => (
+                    <Link
+                      className="rounded-xl border border-[#E5EFF0] bg-[#F7FBFA] px-4 py-3 text-sm font-bold leading-6 text-[#102A4C] transition hover:border-[#22AFA3] hover:bg-[#EAF8F6] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#22AFA3]"
+                      href={link.href as Route}
+                      key={link.href}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
             {page.sections.map((section) => (
               <section
+                id={getSectionAnchor(section.title)}
                 key={`${page.slug}-${section.title}`}
-                className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm"
+                className="scroll-mt-28 rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm"
               >
                 <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
                   {section.title}
@@ -209,7 +282,10 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
               </section>
             ))}
 
-            <section className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
+            <section
+              className="scroll-mt-28 rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm"
+              id="questions-frequentes"
+            >
               <h2 className="text-2xl font-black tracking-[-0.01em] text-[#061B3A]">
                 Erreurs fréquentes
               </h2>
