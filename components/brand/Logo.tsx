@@ -3,10 +3,10 @@ import { siteName } from "@/lib/site";
 
 function BrandIcon() {
   return (
-    <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#D7E7E8] bg-white shadow-[0_14px_40px_rgba(6,27,58,0.08)]">
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-[#D7E7E8] bg-white shadow-[0_14px_40px_rgba(6,27,58,0.08)] sm:h-12 sm:w-12">
       <svg
         aria-hidden="true"
-        className="h-7 w-7 text-[#22AFA3]"
+        className="h-6 w-6 text-[#22AFA3] sm:h-7 sm:w-7"
         fill="none"
         viewBox="0 0 32 32"
       >
@@ -54,17 +54,17 @@ export function Logo() {
   return (
     <Link
       aria-label={`${siteName}, retour à l'accueil`}
-      className="group flex items-center gap-3"
+      className="group flex min-w-0 items-center gap-2 sm:gap-3"
       href="/"
     >
       <BrandIcon />
-      <span className="leading-none">
+      <span className="min-w-0 leading-none">
         <span className="block text-xl font-black tracking-[-0.01em]">
           <span className="text-[#061B3A]">Rupture</span>
           <span className="text-[#061B3A]">-</span>
           <span className="text-[#22AFA3]">Conv</span>
         </span>
-        <span className="mt-1 block text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#5B6B7C]">
+        <span className="mt-1 hidden text-[0.58rem] font-extrabold uppercase tracking-[0.16em] text-[#5B6B7C] sm:block">
           Le simulateur de rupture conventionnelle
         </span>
       </span>

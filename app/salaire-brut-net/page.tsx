@@ -5,9 +5,9 @@ import { SalaryNetCalculatorTool } from "@/components/tools/SalaryNetCalculatorT
 import { serializeJsonLd } from "@/lib/json-ld";
 import { siteName, siteUrl } from "@/lib/site";
 
-const title = "Salaire brut en net : calculateur simple et rapide";
+const title = "Salaire brut en net : estimation mensuelle et annuelle";
 const description =
-  "Convertissez votre salaire brut en net horaire, mensuel ou annuel. Estimation cadre, non-cadre, privé ou fonction publique.";
+  "Estimez un salaire net horaire, mensuel ou annuel à partir du brut. Repères indicatifs pour cadre, non-cadre, privé ou fonction publique.";
 const canonicalUrl = `${siteUrl}/salaire-brut-net`;
 
 const faqItems = [

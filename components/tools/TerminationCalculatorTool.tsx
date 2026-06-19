@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AdSlot } from "@/components/AdSlot";
 import { Disclaimer } from "@/components/Disclaimer";
-import { PostSimulationRecommendations } from "@/components/monetization/PostSimulationRecommendations";
+import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
 import {
   calculateTerminationConventionnelle
 } from "@/lib/calculators/rupture-conventionnelle";
@@ -11,6 +11,7 @@ import { trackCalculatorEvent } from "@/lib/analytics";
 import { absenceRules, getAbsenceRule } from "@/lib/calculators/absence-rules";
 import { calculateIndicativeNegotiationRange } from "@/lib/calculators/negotiation-range";
 import { collectiveAgreements } from "@/lib/conventions/conventions";
+import { terminationNextStepLinks } from "@/lib/internal-tool-links";
 import {
   RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_BEFORE_2026,
   RUPTURE_CONVENTIONNELLE_EMPLOYER_CONTRIBUTION_RATE_FROM_2026
@@ -806,10 +807,19 @@ export function TerminationCalculatorTool() {
             </details>
 
             <p className="mt-4 text-xs leading-5 text-[#5B6B7C]">
-              Net indicatif. Le montant réel peut varier selon votre situation.
+              Le montant affiché est une estimation. Il dépend des informations
+              saisies, de votre ancienneté, de votre salaire de référence et des
+              règles applicables à votre situation.
             </p>
             <Disclaimer className="mt-4" />
-            <PostSimulationRecommendations />
+            <PostSimulationLinks
+              className="mt-5"
+              intro="Votre indemnité donne une première base. Avant d'avancer, il peut être utile de vérifier aussi vos droits au chômage, les délais de paiement et les documents à préparer."
+              links={terminationNextStepLinks}
+              location="termination_result"
+              sourceTool="termination_calculator"
+              title="Que vérifier après votre estimation ?"
+            />
             <AdSlot
               className="mt-5"
               format="horizontal"

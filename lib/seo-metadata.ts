@@ -63,7 +63,7 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
   "rupture-conventionnelle-cdi": {
     title: "Rupture conventionnelle CDI : procédure et indemnité",
     description:
-      "Découvrez les étapes d’une rupture conventionnelle en CDI, le calcul de l’indemnité, les délais et les points à vérifier avant signature."
+      "Comprenez les étapes d'une rupture conventionnelle en CDI, le calcul de l'indemnité, les délais et les points à vérifier avant signature."
   },
   "licenciement-indemnite": {
     title: "Indemnité de licenciement : calcul et comparaison",
@@ -73,7 +73,7 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
   "outils-rh": {
     title: "Outils RH gratuits pour salariés et employeurs",
     description:
-      "Accédez à des outils RH gratuits pour estimer, comparer et préparer vos démarches liées au travail, au contrat et à la rupture du CDI."
+      "Utilisez des outils RH gratuits pour estimer, comparer et préparer vos démarches liées au travail, au contrat et à la rupture du CDI."
   },
   "calcul-rupture-conventionnelle-cdi-anciennete": {
     title: "Calcul de rupture conventionnelle selon l’ancienneté",
@@ -88,7 +88,7 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
   "simulateur-indemnite-rupture-conventionnelle-net": {
     title: "Simulateur d’indemnité nette de rupture conventionnelle",
     description:
-      "Obtenez une estimation nette indicative de votre indemnité de rupture conventionnelle, gratuitement, rapidement et sans inscription."
+      "Estimez le net indicatif d'une indemnité de rupture conventionnelle, sans inscription et avec les limites du calcul clairement rappelées."
   },
   "indemnite-rupture-conventionnelle-anciennete-10-ans": {
     title: "Indemnité rupture conventionnelle après 10 ans : exemple",
@@ -103,7 +103,7 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
   "calcul-indemnite-non-cadre": {
     title: "Calcul de l’indemnité pour non-cadre",
     description:
-      "Calculez l’indemnité de rupture conventionnelle d’un salarié non-cadre avec une méthode simple, rapide et conforme au droit français."
+      "Estimez l'indemnité de rupture conventionnelle d'un salarié non-cadre avec une méthode claire et des points à vérifier."
   },
   "modele-lettre-rupture-conventionnelle": {
     title: "Modèle de lettre de rupture conventionnelle gratuit à copier",
@@ -123,7 +123,7 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
   "a-propos": {
     title: "RuptureConv : simuler et comprendre votre indemnité",
     description:
-      "Découvrez la mission de RuptureConv : rendre le calcul de rupture conventionnelle plus clair, rapide et accessible aux salariés comme aux employeurs."
+      "RuptureConv aide salariés et employeurs à lire plus clairement une estimation de rupture conventionnelle, avec prudence et pédagogie."
   },
   "sources-juridiques": {
     title: "Sources juridiques du calcul de rupture conventionnelle",
@@ -191,7 +191,7 @@ const blogSeoSnippets: Record<string, SeoSnippet> = {
   "indemnite-rupture-conventionnelle-anciennete-10-ans": {
     title: "Indemnité de rupture conventionnelle après 10 ans",
     description:
-      "Découvrez comment calculer l’indemnité après 10 ans d’ancienneté, avec exemple chiffré, seuil légal et points à vérifier."
+      "Calculez l'indemnité après 10 ans d'ancienneté avec un exemple chiffré, le seuil légal et les points à vérifier."
   },
   "rupture-conventionnelle-ou-licenciement-que-choisir": {
     title: "Rupture conventionnelle ou licenciement : comparer",
@@ -221,7 +221,7 @@ const blogSeoSnippets: Record<string, SeoSnippet> = {
   "rupture-conventionnelle-refus-employeur-que-faire": {
     title: "Rupture conventionnelle refusée : que faire ?",
     description:
-      "Découvrez pourquoi un employeur peut refuser une rupture conventionnelle et comment préparer une nouvelle discussion professionnelle."
+      "Comprenez pourquoi un employeur peut refuser une rupture conventionnelle et comment préparer une nouvelle discussion professionnelle."
   },
   "rupture-conventionnelle-chomage-conditions": {
     title: "Rupture conventionnelle et chômage : conditions",

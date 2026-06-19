@@ -333,7 +333,7 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
 
             <section className="rounded-2xl border border-[#D7E7E8] bg-white p-6 shadow-sm">
               <h2 className="text-xl font-black text-[#061B3A]">
-                Continuer dans le cocon
+                Continuer selon votre question
               </h2>
               <ul className="mt-4 space-y-3">
                 {internalLinks.map((link) => (

@@ -2,13 +2,14 @@
 
 /* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
-import Link from "next/link";
+import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
 import {
   calculateUnemploymentProjection,
   type EmploymentExitMode,
   type UnemploymentProjectionInput,
   type WorkTime
 } from "@/lib/calculators/unemployment-projection";
+import { unemploymentNextStepLinks } from "@/lib/internal-tool-links";
 
 type FormState = {
   age: string;
@@ -432,7 +433,8 @@ export function UnemploymentProjectionTool() {
                 </p>
                 <p className="mt-3 text-sm font-semibold leading-7 text-[#102A4C]">
                   Le total chômage et la projection globale sont des cumuls sur toute
-                  la période. Ce ne sont pas des sommes versées en une seule fois.
+                  la période estimée. Ce ne sont pas des sommes versées en une seule
+                  fois, et France Travail reste l'organisme qui confirme vos droits.
                 </p>
                 {form.exitMode === "demission" ? (
                   <p className="mt-3 rounded-xl bg-white px-4 py-3 text-sm font-black leading-6 text-[#7A4A00]">
@@ -480,7 +482,7 @@ export function UnemploymentProjectionTool() {
                     />
                     <MoneyResultCard
                       amount={euro(result.projection.totalPotentialAre)}
-                      certainty="projection théorique sur toute la période"
+                      certainty="cumul estimé sur la période, avant vérification par France Travail"
                       description="Ce montant représente le cumul des allocations chômage sur l'ensemble de votre période d'indemnisation. Il ne s'agit pas d'un versement unique."
                       label={
                         <>
@@ -498,7 +500,7 @@ export function UnemploymentProjectionTool() {
                     />
                     <MoneyResultCard
                       amount={euro(result.projection.cumulativePotentialIncome)}
-                      certainty="projection globale, pas un paiement immédiat"
+                      certainty="cumul employeur + ARE estimé, pas un paiement immédiat"
                       description="Cette projection additionne l'indemnité de départ et les allocations chômage potentielles sur toute la durée des droits."
                       label={
                         <>
@@ -588,30 +590,13 @@ export function UnemploymentProjectionTool() {
                 </ul>
               </section>
 
-              <section className="rounded-2xl bg-[#061B3A] p-5 text-white shadow-sm">
-                <h3 className="text-lg font-black">
-                  Prochaine vérification utile
-                </h3>
-                <p className="mt-3 text-sm font-semibold leading-7 text-[#D8F5F2]">
-                  Relisez le résultat avec les pages qui correspondent à votre
-                  décision : montant ARE, délai de carence ou impact d'une
-                  rupture conventionnelle.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <Link
-                    className="inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-black text-white transition hover:bg-[#168F86]"
-                    href="/delai-de-carence-chomage"
-                  >
-                    Comprendre mon délai
-                  </Link>
-                  <Link
-                    className="inline-flex min-h-11 items-center rounded-full border border-white/20 px-5 text-sm font-black text-white transition hover:bg-white/10"
-                    href="/rupture-conventionnelle-et-allocation-chomage"
-                  >
-                    Relier rupture et ARE
-                  </Link>
-                </div>
-              </section>
+              <PostSimulationLinks
+                intro="Votre projection donne un ordre de grandeur. Pour relire votre situation, vérifiez surtout les délais, le lien avec la rupture conventionnelle et les montants mensuels."
+                links={unemploymentNextStepLinks}
+                location="unemployment_result"
+                sourceTool="unemployment_projection"
+                title="Que vérifier après cette projection ?"
+              />
             </div>
           ) : null}
         </div>
@@ -627,8 +612,8 @@ export function UnemploymentProjectionTool() {
                   {euro(result.projection.monthlyUnemployment)} / mois
                 </p>
                 <p className="mt-2 text-sm font-semibold leading-6 text-[#D8F5F2]">
-                  Votre allocation chômage mensuelle estimée, versée par France
-                  Travail après les délais éventuels.
+                  Estimation mensuelle indicative de votre allocation chômage,
+                  versée par France Travail après les délais éventuels.
                 </p>
               </div>
               <div className="rounded-2xl border border-[#D7E7E8] bg-white p-5">

@@ -2349,7 +2349,7 @@ const requestedSalaryClusterPages: SalarySeoPage[] = [
     title: "Comment calculer son salaire net sans se tromper ?",
     seoTitle: "Comment calculer son salaire net : étapes et exemple",
     description:
-      "Découvrez comment calculer votre salaire net étape par étape, du brut au net après impôt, avec exemples et erreurs fréquentes.",
+      "Comprenez comment calculer votre salaire net étape par étape, du brut au net après impôt, avec exemples et erreurs fréquentes.",
     excerpt:
       "Calculer son salaire net demande surtout de partir du bon brut, de choisir le bon statut et de distinguer avant et après impôt.",
     eyebrow: "Mode d'emploi",

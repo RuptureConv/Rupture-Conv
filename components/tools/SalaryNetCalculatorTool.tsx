@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
 import {
   calculateSalaryNet,
   DEFAULT_WEEKLY_HOURS,
@@ -13,6 +14,7 @@ import type {
   SalaryPeriod,
   SalaryProfileKey
 } from "@/lib/calculators/salary-net";
+import { salaryNextStepLinks } from "@/lib/internal-tool-links";
 
 type FormState = {
   grossAmount: string;
@@ -256,7 +258,7 @@ export function SalaryNetCalculatorTool() {
 
             <p className="mt-4 rounded-xl bg-[#F7FBFA] p-4 text-sm font-bold leading-7 text-[#102A4C]">
               Avec un salaire brut de {formatCurrency(result.grossMonthly)} par
-              mois, votre salaire net avant impôt est estimé à environ{" "}
+              mois, votre salaire net mensuel avant impôt est estimé à environ{" "}
               {formatCurrency(result.netBeforeTaxMonthly)} par mois, soit{" "}
               {formatCurrency(result.netBeforeTaxAnnual)} net par an.
               {result.netAfterTaxMonthly !== null && result.withholdingTaxRate !== null
@@ -269,12 +271,12 @@ export function SalaryNetCalculatorTool() {
             </p>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <ResultCard label="Net annuel" value={formatCurrency(result.netBeforeTaxAnnual)} />
-              <ResultCard label="Net horaire" value={formatCurrency(result.netBeforeTaxHourly)} />
-              <ResultCard label="Brut mensuel" value={formatCurrency(result.grossMonthly)} />
-              <ResultCard label="Brut annuel" value={formatCurrency(result.grossAnnual)} />
+              <ResultCard label="Net annuel estimé" value={formatCurrency(result.netBeforeTaxAnnual)} />
+              <ResultCard label="Net horaire estimé" value={formatCurrency(result.netBeforeTaxHourly)} />
+              <ResultCard label="Brut mensuel saisi ou recalculé" value={formatCurrency(result.grossMonthly)} />
+              <ResultCard label="Brut annuel estimé" value={formatCurrency(result.grossAnnual)} />
               <ResultCard
-                label="Cotisations estimées"
+                label="Cotisations mensuelles estimées"
                 value={formatCurrency(result.estimatedContributionsMonthly)}
               />
               <ResultCard
@@ -283,7 +285,7 @@ export function SalaryNetCalculatorTool() {
               />
               {result.netAfterTaxMonthly !== null ? (
                 <ResultCard
-                  label="Net après impôt"
+                  label="Net mensuel après impôt estimé"
                   value={formatCurrency(result.netAfterTaxMonthly)}
                   strong
                 />
@@ -295,6 +297,18 @@ export function SalaryNetCalculatorTool() {
                 }).format(result.monthlyHours)}
               />
             </div>
+            <p className="mt-4 text-xs font-semibold leading-5 text-[#5B6B7C]">
+              Ce calcul reste indicatif. Il dépend du statut choisi, du temps de
+              travail et du taux de prélèvement renseigné le cas échéant.
+            </p>
+            <PostSimulationLinks
+              className="mt-5"
+              intro="Le salaire brut sert souvent de base pour relire une rupture conventionnelle ou une estimation chômage. Gardez surtout le montant mensuel sous la main."
+              links={salaryNextStepLinks}
+              location="salary_result"
+              sourceTool="salary_net_calculator"
+              title="À vérifier avec ce montant"
+            />
           </>
         ) : (
           <div className="flex min-h-[420px] flex-col justify-center rounded-2xl bg-[#F7FBFA] p-6 text-center">

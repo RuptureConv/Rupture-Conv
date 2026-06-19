@@ -4,6 +4,11 @@ type CalculatorEventName =
   | "result_copied"
   | "simulateur_cta_click";
 
+type InternalLinkEventName =
+  | "post_simulation_click"
+  | "tool_crosslink_click"
+  | "simulator_next_step_click";
+
 type CalculatorEventPayload = {
   source: "termination_calculator" | "seo_cta";
   seniorityYears?: number;
@@ -19,6 +24,13 @@ type CalculatorEventPayload = {
 type DataLayerEvent = {
   event: string;
   [key: string]: string | number | undefined;
+};
+
+type InternalLinkEventPayload = {
+  source_tool: string;
+  target_page: string;
+  link_label: string;
+  location: string;
 };
 
 declare global {
@@ -65,5 +77,23 @@ export function trackCalculatorEvent(
       event_category: "calculator",
       ...payload
     });
+  }
+}
+
+export function trackInternalLinkClick(
+  name: InternalLinkEventName,
+  payload: InternalLinkEventPayload
+) {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") {
+    return;
+  }
+
+  try {
+    window.gtag("event", name, {
+      event_category: "internal_link",
+      ...payload
+    });
+  } catch {
+    // Tracking must never block navigation.
   }
 }

@@ -19,8 +19,25 @@ Le projet est compatible Vercel sans configuration spéciale : Vercel détecte N
 npm run dev
 npm run lint
 npm run test
+npm run test:e2e
 npm run build
 npm run start
+```
+
+## QA Playwright
+
+La QA e2e couvre les parcours outils principaux : rupture conventionnelle vers ARE, ARE vers délai de carence, salaire brut-net vers rupture conventionnelle, et le header mobile.
+
+```bash
+npm run dev
+npm run test:e2e
+```
+
+Les tests utilisent `http://127.0.0.1:3000`. Le serveur local doit donc être lancé avant `npm run test:e2e`.
+Sur une machine fraîche, installez d'abord Chromium avec :
+
+```bash
+npm run test:e2e:install
 ```
 
 ## Variables d'environnement

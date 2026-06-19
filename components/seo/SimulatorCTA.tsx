@@ -8,10 +8,10 @@ type SimulatorCTAProps = {
 };
 
 export function SimulatorCTA({
-  buttonText = "Ouvrir le simulateur →",
+  buttonText = "Faire une estimation",
   buttonType = "seo_card",
   description = "Saisissez votre ancienneté, votre salaire brut et la date de rupture pour obtenir une estimation indicative claire avant de signer.",
-  title = "Calculez votre indemnité en quelques secondes"
+  title = "Estimer une indemnité de rupture conventionnelle"
 }: SimulatorCTAProps) {
   return (
     <aside className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm">

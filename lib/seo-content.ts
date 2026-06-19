@@ -585,7 +585,7 @@ const basePillarPages: PillarPage[] = [
     title: `Outils RH gratuits pour employeurs et salariés | ${siteName}`,
     h1: "Outils RH",
     description:
-      "Découvrez les outils RH de RuptureConv pour calculer, comparer et préparer les indemnités de rupture conventionnelle, licenciement et démarches RH.",
+      "Outils RH pour calculer, comparer et préparer les indemnités de rupture conventionnelle, licenciement et démarches RH.",
     relatedLinks: [
       "/simulateur-rupture-conventionnelle",
       "/calcul-indemnite-rupture-conventionnelle",
@@ -1492,7 +1492,7 @@ const eeatPages: PillarPage[] = [
     title: "Calcul rupture conventionnelle : à propos du simulateur 2026",
     h1: "À propos",
     description:
-      "Découvrez la mission de RuptureConv : rendre le calcul de rupture conventionnelle plus clair, prudent et accessible en 2026.",
+      "RuptureConv aide à rendre le calcul de rupture conventionnelle plus clair, prudent et accessible en 2026.",
     relatedLinks: requiredInternalLinks,
     intro: [
       `${siteName} aide les salariés, employeurs et responsables RH à comprendre les montants liés à une rupture conventionnelle en CDI.`,
