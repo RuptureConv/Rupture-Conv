@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
-import { trackCalculatorEvent } from "@/lib/analytics";
+import { trackToolCrosslinkClick } from "@/lib/analytics";
 
 type TrackedSimulatorLinkProps = {
   buttonType: string;
@@ -22,12 +22,11 @@ export function TrackedSimulatorLink({
     const buttonText =
       typeof children === "string" ? children.replace(/\s+/g, " ").trim() : "";
 
-    trackCalculatorEvent("simulateur_cta_click", {
-      source: "seo_cta",
-      button_text: buttonText,
-      button_type: buttonType,
-      page_location: window.location.href,
-      page_title: document.title
+    trackToolCrosslinkClick({
+      source_page: window.location.pathname,
+      target_tool: "termination_calculator",
+      link_label: buttonText,
+      location: buttonType
     });
   }
 

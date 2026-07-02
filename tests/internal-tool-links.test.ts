@@ -45,6 +45,21 @@ describe("internal tool links", () => {
     ]);
   });
 
+  it("oriente la projection ARE vers la carence, la rupture, le guide et le brut-net", () => {
+    expect(unemploymentNextStepLinks.map((link) => link.href)).toEqual([
+      "/delai-de-carence-chomage",
+      "/rupture-conventionnelle-et-allocation-chomage",
+      "/chomage-are",
+      "/salaire-brut-net"
+    ]);
+  });
+
+  it("mesure tous les liens affichés après un résultat comme suites de simulation", () => {
+    expect(allNextStepLinks.every((link) => link.eventName === "post_simulation_click")).toBe(
+      true
+    );
+  });
+
   it("ne pointe pas vers des routes inconnues", () => {
     for (const link of allNextStepLinks) {
       expect(knownRoutes.has(link.href), link.href).toBe(true);

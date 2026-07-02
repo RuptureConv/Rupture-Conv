@@ -7,7 +7,10 @@ import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
 import {
   calculateTerminationConventionnelle
 } from "@/lib/calculators/rupture-conventionnelle";
-import { trackCalculatorEvent } from "@/lib/analytics";
+import {
+  trackCalculatorAction,
+  trackCalculatorResultViewed
+} from "@/lib/analytics";
 import { absenceRules, getAbsenceRule } from "@/lib/calculators/absence-rules";
 import { calculateIndicativeNegotiationRange } from "@/lib/calculators/negotiation-range";
 import { collectiveAgreements } from "@/lib/conventions/conventions";
@@ -182,7 +185,8 @@ function formatContributionRate(rate: number): string {
 export function TerminationCalculatorTool() {
   const [form, setForm] = useState<FormState>(initialFormState);
   const [copied, setCopied] = useState(false);
-  const lastTrackedResult = useRef<string | null>(null);
+  const hasInteracted = useRef(false);
+  const hasTrackedResult = useRef(false);
 
   const errors = useMemo(() => validateForm(form), [form]);
   const result = useMemo(() => {
@@ -206,37 +210,24 @@ export function TerminationCalculatorTool() {
   );
 
   useEffect(() => {
-    if (!result) {
-      lastTrackedResult.current = null;
+    if (!result || !hasInteracted.current || hasTrackedResult.current) {
       return;
     }
 
-    const signature = [
-      form.startDate,
-      form.ruptureDate,
-      result.referenceSalary,
-      result.retainedGrossIndemnity,
-      result.estimatedNetIndemnity
-    ].join("|");
+    const timeout = window.setTimeout(() => {
+      hasTrackedResult.current = true;
+      trackCalculatorResultViewed({
+        calculator_type: "termination",
+        result_type: "estimate",
+        location: "termination_result"
+      });
+    }, 600);
 
-    if (lastTrackedResult.current === signature) {
-      return;
-    }
-
-    lastTrackedResult.current = signature;
-    const payload = {
-      source: "termination_calculator" as const,
-      seniorityYears: result.seniority.decimalYears,
-      referenceSalary: result.referenceSalary,
-      retainedGrossIndemnity: result.retainedGrossIndemnity,
-      estimatedNetIndemnity: result.estimatedNetIndemnity
-    };
-
-    trackCalculatorEvent("simulation_started", payload);
-    trackCalculatorEvent("result_viewed", payload);
-  }, [form.ruptureDate, form.startDate, result]);
+    return () => window.clearTimeout(timeout);
+  }, [form, result]);
 
   function updateField<Key extends keyof FormState>(key: Key, value: FormState[Key]) {
+    hasInteracted.current = true;
     setCopied(false);
     setForm((current) => ({ ...current, [key]: value }));
   }
@@ -264,12 +255,9 @@ export function TerminationCalculatorTool() {
     ].join("\n");
 
     await navigator.clipboard.writeText(summary);
-    trackCalculatorEvent("result_copied", {
-      source: "termination_calculator",
-      seniorityYears: result.seniority.decimalYears,
-      referenceSalary: result.referenceSalary,
-      retainedGrossIndemnity: result.retainedGrossIndemnity,
-      estimatedNetIndemnity: result.estimatedNetIndemnity
+    trackCalculatorAction("result_copied", {
+      calculator_type: "termination",
+      location: "termination_result"
     });
     setCopied(true);
   }

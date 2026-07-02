@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { trackTemplateActionClick } from "@/lib/analytics";
 
 type ProfessionalLetterBlockProps = {
   lines: string[];
@@ -198,6 +199,11 @@ export function ProfessionalLetterBlock({ lines }: ProfessionalLetterBlockProps)
 
   const copyLetter = async () => {
     await navigator.clipboard.writeText(letter.plainText);
+    trackTemplateActionClick({
+      template_type: "termination_request_letter",
+      action: "copy",
+      location: "letter_toolbar"
+    });
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   };
@@ -210,9 +216,19 @@ export function ProfessionalLetterBlock({ lines }: ProfessionalLetterBlockProps)
     link.download = fileName;
     link.click();
     URL.revokeObjectURL(url);
+    trackTemplateActionClick({
+      template_type: "termination_request_letter",
+      action: "download_pdf",
+      location: "letter_toolbar"
+    });
   };
 
   const printLetter = () => {
+    trackTemplateActionClick({
+      template_type: "termination_request_letter",
+      action: "print",
+      location: "letter_toolbar"
+    });
     document.body.classList.add("print-letter-mode");
     window.setTimeout(() => window.print(), 50);
     window.setTimeout(() => document.body.classList.remove("print-letter-mode"), 800);

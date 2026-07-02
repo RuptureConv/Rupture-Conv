@@ -43,7 +43,7 @@ export function PostSimulationLinks({
             href={link.href as Route}
             key={`${link.href}-${link.label}`}
             onClick={() =>
-              trackInternalLinkClick(link.eventName ?? "simulator_next_step_click", {
+              trackInternalLinkClick(link.eventName ?? "post_simulation_click", {
                 source_tool: sourceTool,
                 target_page: link.targetPage,
                 link_label: link.label,

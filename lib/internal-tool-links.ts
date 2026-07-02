@@ -1,6 +1,6 @@
 export type PostSimulationLink = {
   description: string;
-  eventName?: "post_simulation_click" | "tool_crosslink_click" | "simulator_next_step_click";
+  eventName?: "post_simulation_click" | "tool_crosslink_click";
   href: string;
   label: string;
   targetPage: string;
@@ -40,7 +40,7 @@ export const terminationNextStepLinks: PostSimulationLink[] = [
     description: "Utile si vous voulez relire un salaire ou une indemnité avec un repère mensuel clair.",
     href: "/salaire-brut-net",
     targetPage: "salaire_brut_net",
-    eventName: "tool_crosslink_click"
+    eventName: "post_simulation_click"
   }
 ];
 
@@ -57,14 +57,21 @@ export const unemploymentNextStepLinks: PostSimulationLink[] = [
     description: "Revoyez ce qui change après une rupture conventionnelle avant l'inscription.",
     href: "/rupture-conventionnelle-et-allocation-chomage",
     targetPage: "rupture_conventionnelle_et_allocation_chomage",
-    eventName: "tool_crosslink_click"
+    eventName: "post_simulation_click"
+  },
+  {
+    label: "Lire le guide chômage ARE",
+    description: "Revoyez les conditions, les délais et les points à confirmer avec France Travail.",
+    href: "/chomage-are",
+    targetPage: "chomage_are",
+    eventName: "post_simulation_click"
   },
   {
     label: "Calculer un salaire brut en net",
     description: "Gardez un repère mensuel si vous comparez salaire, indemnité et allocation.",
     href: "/salaire-brut-net",
     targetPage: "salaire_brut_net",
-    eventName: "tool_crosslink_click"
+    eventName: "post_simulation_click"
   }
 ];
 
@@ -74,20 +81,20 @@ export const salaryNextStepLinks: PostSimulationLink[] = [
     description: "Utilisez votre salaire brut mensuel pour obtenir un premier montant indicatif.",
     href: "/simulateur-rupture-conventionnelle",
     targetPage: "simulateur_rupture_conventionnelle",
-    eventName: "tool_crosslink_click"
+    eventName: "post_simulation_click"
   },
   {
     label: "Estimer mes droits au chômage",
     description: "Vérifiez l'ARE possible si votre fin de contrat ouvre droit au chômage.",
     href: "/simulateur-chomage-rupture-conventionnelle",
     targetPage: "simulateur_chomage_rupture_conventionnelle",
-    eventName: "tool_crosslink_click"
+    eventName: "post_simulation_click"
   },
   {
     label: "Lire le guide chômage ARE",
     description: "Revoyez les conditions, les délais et les points à confirmer avec France Travail.",
     href: "/chomage-are",
     targetPage: "chomage_are",
-    eventName: "tool_crosslink_click"
+    eventName: "post_simulation_click"
   }
 ];

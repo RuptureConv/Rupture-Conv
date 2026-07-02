@@ -1,8 +1,12 @@
 "use client";
 
 /* eslint-disable react/no-unescaped-entities */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
+import {
+  trackCalculatorResultViewed,
+  trackSimulatorNextStepClick
+} from "@/lib/analytics";
 import {
   calculateUnemploymentProjection,
   type EmploymentExitMode,
@@ -77,6 +81,15 @@ const steps = [
   "Vos indemnités",
   "Vos résultats",
   "Calendrier"
+];
+
+const stepAnalyticsNames = [
+  "situation",
+  "employment",
+  "income",
+  "indemnities",
+  "results",
+  "timeline"
 ];
 
 const defaultForm: FormState = {
@@ -210,6 +223,7 @@ function InfoTip({ children, label }: { children: React.ReactNode; label: string
 export function UnemploymentProjectionTool() {
   const [form, setForm] = useState<FormState>(defaultForm);
   const [step, setStep] = useState(0);
+  const hasTrackedResult = useRef(false);
   const input: UnemploymentProjectionInput = {
     age: parseNumber(form.age),
     averageMonthlyGrossSalary: parseNumber(form.averageMonthlyGrossSalary),
@@ -239,6 +253,33 @@ export function UnemploymentProjectionTool() {
     setForm((current) => ({ ...current, [key]: value }));
   };
 
+  useEffect(() => {
+    if (step < 4 || !result || hasTrackedResult.current) {
+      return;
+    }
+
+    hasTrackedResult.current = true;
+    trackCalculatorResultViewed({
+      calculator_type: "unemployment",
+      result_type: "projection",
+      location: "unemployment_projection"
+    });
+  }, [result, step]);
+
+  const goToStep = (nextStep: number) => {
+    const boundedStep = Math.max(0, Math.min(steps.length - 1, nextStep));
+
+    if (boundedStep > step) {
+      trackSimulatorNextStepClick({
+        calculator_type: "unemployment",
+        step: stepAnalyticsNames[boundedStep],
+        location: "unemployment_simulator"
+      });
+    }
+
+    setStep(boundedStep);
+  };
+
   return (
     <section className="rounded-3xl border border-[#D7E7E8] bg-white p-4 shadow-sm sm:p-6 lg:p-8">
       <div className="mb-6 rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-5">
@@ -261,7 +302,7 @@ export function UnemploymentProjectionTool() {
                 : "bg-[#F7FBFA] text-[#102A4C] hover:bg-[#EAF8F6]"
             }`}
             key={item}
-            onClick={() => setStep(index)}
+            onClick={() => goToStep(index)}
             type="button"
           >
             <span className="block text-[11px] uppercase tracking-[0.12em] opacity-75">
@@ -653,7 +694,7 @@ export function UnemploymentProjectionTool() {
         <button
           className="min-h-11 rounded-full border border-[#D7E7E8] bg-white px-5 text-sm font-black text-[#061B3A]"
           disabled={step === 0}
-          onClick={() => setStep((current) => Math.max(0, current - 1))}
+          onClick={() => goToStep(step - 1)}
           type="button"
         >
           Étape précédente
@@ -661,7 +702,7 @@ export function UnemploymentProjectionTool() {
         <button
           className="min-h-11 rounded-full bg-[#22AFA3] px-5 text-sm font-black text-white"
           disabled={step === steps.length - 1}
-          onClick={() => setStep((current) => Math.min(steps.length - 1, current + 1))}
+          onClick={() => goToStep(step + 1)}
           type="button"
         >
           Étape suivante

@@ -1,8 +1,9 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
+import { trackCalculatorResultViewed } from "@/lib/analytics";
 import {
   calculateSalaryNet,
   DEFAULT_WEEKLY_HOURS,
@@ -80,6 +81,8 @@ function buildInput(form: FormState): SalaryNetCalculatorInput {
 
 export function SalaryNetCalculatorTool() {
   const [form, setForm] = useState<FormState>(initialFormState);
+  const hasInteracted = useRef(false);
+  const hasTrackedResult = useRef(false);
   const hasGrossAmount = form.grossAmount.trim().length > 0;
   const input = useMemo(() => buildInput(form), [form]);
   const errors = useMemo(
@@ -98,7 +101,25 @@ export function SalaryNetCalculatorTool() {
     }
   }, [errors, hasGrossAmount, input]);
 
+  useEffect(() => {
+    if (!result || !hasInteracted.current || hasTrackedResult.current) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      hasTrackedResult.current = true;
+      trackCalculatorResultViewed({
+        calculator_type: "salary_net",
+        result_type: "estimate",
+        location: "salary_result"
+      });
+    }, 600);
+
+    return () => window.clearTimeout(timeout);
+  }, [form, result]);
+
   function updateField<Key extends keyof FormState>(key: Key, value: FormState[Key]) {
+    hasInteracted.current = true;
     setForm((current) => ({ ...current, [key]: value }));
   }
 
