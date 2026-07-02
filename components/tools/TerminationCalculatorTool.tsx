@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AdSlot } from "@/components/AdSlot";
 import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
 import { TrustNotice } from "@/components/seo/TrustNotice";
 import {
@@ -802,11 +801,6 @@ export function TerminationCalculatorTool() {
               location="termination_result"
               sourceTool="termination_calculator"
               title="Que vérifier après votre estimation ?"
-            />
-            <AdSlot
-              className="mt-5"
-              format="horizontal"
-              position="bottom"
             />
           </>
         ) : (

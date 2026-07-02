@@ -1,6 +1,5 @@
 import Link from "next/link";
 import type { Route } from "next";
-import { AdSlot } from "@/components/ads/AdSlot";
 import { CalculationSchema } from "@/components/seo/CalculationSchema";
 import { CommonMistakes } from "@/components/seo/CommonMistakes";
 import { ComparisonCards } from "@/components/seo/ComparisonCards";
@@ -155,7 +154,6 @@ export function ComparisonPageLayout({ page }: ComparisonPageLayoutProps) {
         </div>
 
         <div className="mt-10 space-y-10">
-          <AdSlot format="horizontal" position="top" />
           <PageSummary sections={["Comparatif", ...page.sections.map((section) => section.title), "FAQ"]} />
 
           <div id="comparatif">

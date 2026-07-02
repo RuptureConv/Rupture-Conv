@@ -22,6 +22,7 @@ import { SimulatorCTA } from "@/components/seo/SimulatorCTA";
 import { MiniFaq } from "@/components/seo/MiniFaq";
 import { TrackedSimulatorLink } from "@/components/seo/TrackedSimulatorLink";
 import { TrustPanel } from "@/components/seo/TrustPanel";
+import { isAdEligibleEditorialPath } from "@/lib/ads";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
 import { absoluteUrl, buildCtrTitle, mandatoryDisclaimer } from "@/lib/seo-content";
 import { siteName } from "@/lib/site";
@@ -327,7 +328,6 @@ export function SeoContentLayout({
     ...sections.flatMap((section) => section.paragraphs),
     ...conclusion
   ].join(" ").split(/\s+/).filter(Boolean).length;
-  const shouldShowMidAd = estimatedWordCount > 300;
   const shouldShowHubCta = HUB_LINK_PATHS.has(canonicalPath);
   const isPreavisPillar = canonicalPath === "/guide-preavis";
   const faqJsonLd = {
@@ -441,7 +441,6 @@ export function SeoContentLayout({
         </header>
 
         <div className="mt-10 space-y-10">
-          {isPreavisPillar ? null : <AdSlot format="horizontal" position="top" />}
           {REFORM_NOTICE_PATHS.has(canonicalPath) ? (
             <RuptureReformNotice compact />
           ) : null}
@@ -497,7 +496,6 @@ export function SeoContentLayout({
             </p>
           </section>
 
-          {isPreavisPillar ? null : <AdSlot format="horizontal" position="after-content" />}
           {isPreavisPage ? (
             <HubCtaBlock
               ctaLabel="Ouvrir le hub des guides"
@@ -524,9 +522,6 @@ export function SeoContentLayout({
           )}
           <MiniFaq items={faq} />
           {isPreavisPage ? null : <CommonMistakes />}
-          {shouldShowMidAd && !isPreavisPillar ? (
-            <AdSlot desktopOnly format="rectangle" position="mid" />
-          ) : null}
 
           {sections.map((section) => (
             <section
@@ -703,7 +698,9 @@ export function SeoContentLayout({
         </div>
 
         <div className="mt-10">
-          <AdSlot format="horizontal" position="bottom" />
+          {isAdEligibleEditorialPath(canonicalPath) ? (
+            <AdSlot placement="guide_after_content" />
+          ) : null}
         </div>
 
         {relatedLinks.length > 0 ? (

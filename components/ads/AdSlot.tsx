@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ADSENSE_CLIENT, getAdsenseSlot, isAdsenseReady } from "@/lib/adsense";
+import {
+  canLoadAds,
+  canPreviewAdSlot,
+  getAdsConfig,
+  getValidAdSlot,
+  type AdPlacement
+} from "@/lib/ads";
 
 declare global {
   interface Window {
@@ -9,54 +15,39 @@ declare global {
   }
 }
 
-export type AdPosition = "top" | "after-content" | "mid" | "bottom";
-export type AdFormat = "horizontal" | "rectangle";
-
 type AdSlotProps = {
-  position: AdPosition;
-  format: AdFormat;
+  placement: AdPlacement;
   className?: string;
-  desktopOnly?: boolean;
-  mobileOnly?: boolean;
+  consentGranted?: boolean;
 };
 
-const slotIdByPosition: Record<AdPosition, string> = {
-  top: "ad-seo-top",
-  "after-content": "ad-seo-after-content",
-  mid: "ad-seo-mid",
-  bottom: "ad-seo-bottom"
-};
-
-const heightByFormat: Record<AdFormat, number> = {
-  horizontal: 110,
-  rectangle: 250
+const minHeightByPlacement: Record<AdPlacement, number> = {
+  guide_after_content: 110,
+  article_bottom: 110
 };
 
 export function AdSlot({
-  position,
-  format,
+  placement,
   className = "",
-  desktopOnly = false,
-  mobileOnly = false
+  consentGranted = false
 }: AdSlotProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(position === "top");
-  const adsenseEnabled = isAdsenseReady();
-  const id = slotIdByPosition[position];
-  const adSlot = getAdsenseSlot(id);
-  const shouldRenderAdsense = adsenseEnabled && Boolean(adSlot) && isVisible;
-  const minHeight = heightByFormat[format];
-  const responsiveClass = desktopOnly
-    ? "hidden lg:block"
-    : mobileOnly
-      ? "block lg:hidden"
-      : "block";
-  const label = position === "top" ? "Publicité" : "Annonce";
+  const containerRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const config = getAdsConfig();
+  const previewEnabled = canPreviewAdSlot(placement, config);
+  const slotId = getValidAdSlot(placement, config);
+  const adsEnabled = canLoadAds(config, consentGranted) && Boolean(slotId);
+  const shouldRenderAdsense = adsEnabled && isVisible;
+  const minHeight = minHeightByPlacement[placement];
 
   useEffect(() => {
     const node = containerRef.current;
 
-    if (!node || isVisible || typeof IntersectionObserver === "undefined") {
+    if (!node || previewEnabled || isVisible) {
+      return;
+    }
+
+    if (typeof IntersectionObserver === "undefined") {
       return;
     }
 
@@ -67,15 +58,13 @@ export function AdSlot({
           observer.disconnect();
         }
       },
-      {
-        rootMargin: "420px 0px"
-      }
+      { rootMargin: "420px 0px" }
     );
 
     observer.observe(node);
 
     return () => observer.disconnect();
-  }, [isVisible]);
+  }, [isVisible, previewEnabled]);
 
   useEffect(() => {
     if (!shouldRenderAdsense || typeof window === "undefined") {
@@ -86,43 +75,43 @@ export function AdSlot({
       window.adsbygoogle = window.adsbygoogle || [];
       window.adsbygoogle.push({});
     } catch {
-      // Ad blockers or preview environments may reject the push; the reserved
-      // slot still prevents layout shift.
+      // Un bloqueur peut interrompre l'initialisation sans affecter la page.
     }
   }, [shouldRenderAdsense]);
 
+  if (!previewEnabled && !adsEnabled) {
+    return null;
+  }
+
   return (
     <aside
-      aria-label={`${label} ${position}`}
-      className={`${responsiveClass} ${className}`}
-      data-ad-position={position}
+      aria-label="Publicité"
+      className={className}
+      data-ad-placement={placement}
       ref={containerRef}
     >
       <div
-        className="relative flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] p-3 text-center shadow-[0_12px_35px_rgba(6,27,58,0.04)]"
-        data-ad-format={format}
+        className="flex w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] p-3 text-center"
         style={{ minHeight }}
       >
-        <span className="mb-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#9AA8B6]">
-          {label}
+        <span className="mb-2 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#7C8996]">
+          Publicité
         </span>
 
-        {shouldRenderAdsense ? (
+        {previewEnabled ? (
+          <div className="flex w-full flex-1 items-center justify-center rounded-xl border border-dashed border-[#C9DADB] bg-white px-4 py-6 text-xs font-semibold text-[#7C8996]">
+            Aperçu de l’emplacement publicitaire
+          </div>
+        ) : shouldRenderAdsense ? (
           <ins
-            className="adsbygoogle relative z-10 block w-full"
-            data-ad-client={ADSENSE_CLIENT}
+            className="adsbygoogle block w-full"
+            data-ad-client={config.clientId}
             data-ad-format="auto"
-            data-ad-slot={adSlot}
+            data-ad-slot={slotId}
             data-full-width-responsive="true"
             style={{ display: "block", minHeight: Math.max(minHeight - 36, 60) }}
           />
         ) : null}
-
-        <div
-          className={`${shouldRenderAdsense ? "pointer-events-none absolute inset-x-3 bottom-3 top-8" : "flex min-h-full w-full flex-1"} flex items-center justify-center rounded-xl border border-dashed border-[#D7E7E8] bg-white/80 px-4 py-6 text-xs font-semibold text-[#9AA8B6]`}
-        >
-          Publicité
-        </div>
       </div>
     </aside>
   );

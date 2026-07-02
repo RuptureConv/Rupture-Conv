@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
+import { AdSenseScript } from "@/components/ads/AdSenseScript";
 import { Footer } from "@/components/Footer";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import {
@@ -8,7 +8,6 @@ import {
 } from "@/components/GoogleTagManager";
 import { Header } from "@/components/Header";
 import { StickyMobileCTA } from "@/components/seo/StickyMobileCTA";
-import { ADSENSE_CLIENT, isAdsenseReady } from "@/lib/adsense";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { homeSeoSnippet } from "@/lib/seo-metadata";
 import { siteAlternateName, siteName, siteUrl } from "@/lib/site";
@@ -79,7 +78,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const shouldLoadAdsense = isAdsenseReady();
   const canonicalSiteUrl = `${siteUrl}/`;
   const websiteJsonLd = {
     "@context": "https://schema.org",
@@ -109,15 +107,7 @@ export default function RootLayout({
           content="m9cDeMi4TyzceUF4V6KsuQcYqaG95ObYZwsm5OrQnd8"
         />
 
-        {shouldLoadAdsense ? (
-          <Script
-            async
-            crossOrigin="anonymous"
-            id="adsense-script"
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
-            strategy="lazyOnload"
-          />
-        ) : null}
+        <AdSenseScript />
 
         <script
           type="application/ld+json"

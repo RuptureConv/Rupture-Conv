@@ -66,8 +66,6 @@ export function ProgrammaticSeoTemplate({
   const tableData = generateTableData({ type, value });
   const dynamicText = generateDynamicText({ type, value });
   const smartLinks = buildSmartLinks({ type, value });
-  const contentWordCount = dynamicText.differentiated.join(" ").split(/\s+/).length + 280;
-  const shouldShowMidAd = contentWordCount > 300;
   const takeaways =
     type === "salaire"
       ? [
@@ -148,7 +146,6 @@ export function ProgrammaticSeoTemplate({
         </header>
 
         <div className="mt-10 space-y-10">
-          <AdSlot format="horizontal" position="top" />
           <KeyTakeaways items={takeaways} />
           <TrustPanel />
           <CalculationSchema compact />
@@ -214,7 +211,6 @@ export function ProgrammaticSeoTemplate({
             </div>
           </section>
 
-          <AdSlot format="horizontal" position="after-content" />
           <SimulatorCTA
             buttonText="Simuler avec mes données →"
             buttonType="programmatic_after_table"
@@ -256,9 +252,6 @@ export function ProgrammaticSeoTemplate({
             </div>
           </section>
 
-          {shouldShowMidAd ? (
-            <AdSlot desktopOnly format="rectangle" position="mid" />
-          ) : null}
 
           <InternalLinksBlock />
 
@@ -338,7 +331,7 @@ export function ProgrammaticSeoTemplate({
             </ul>
           </section>
 
-          <AdSlot format="horizontal" position="bottom" />
+          <AdSlot placement="article_bottom" />
 
         </div>
       </article>

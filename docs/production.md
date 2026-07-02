@@ -2,14 +2,15 @@
 
 ## Variables
 
-- `NEXT_PUBLIC_SITE_URL` : URL canonique du site, par défaut `https://rupture-conv.fr`.
 - `NEXT_PUBLIC_GTM_ID` : identifiant Google Tag Manager au format `GTM-...`, par défaut `GTM-P9XX929G`.
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID` : identifiant Google Analytics 4 au format `G-...`, par défaut `G-HDDQ9CV6YQ`.
-- `NEXT_PUBLIC_ENABLE_ADSENSE` : `false` par défaut, `true` uniquement quand le compte AdSense est validé.
-- `NEXT_PUBLIC_ADSENSE_CLIENT` : client AdSense réel au format `ca-pub-...`.
-- `NEXT_PUBLIC_ADSENSE_SLOT_TOP`, `NEXT_PUBLIC_ADSENSE_SLOT_BEFORE_SIMULATOR`, `NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR`, `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT`, `NEXT_PUBLIC_ADSENSE_SLOT_AFTER_RESULT`, `NEXT_PUBLIC_ADSENSE_SLOT_FOOTER` : slots réels fournis par AdSense.
+- `NEXT_PUBLIC_ADS_ENABLED` : `false` par défaut.
+- `NEXT_PUBLIC_ADS_PROVIDER` : `none` par défaut, `adsense` uniquement après validation.
+- `NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT` : client AdSense réel au format `ca-pub-...`, vide par défaut.
+- `NEXT_PUBLIC_ADS_TEST_MODE` : aperçu local des emplacements, automatiquement neutralisé en production.
+- `NEXT_PUBLIC_ADS_SLOT_GUIDE_AFTER_CONTENT`, `NEXT_PUBLIC_ADS_SLOT_ARTICLE_BOTTOM` : seuls slots autorisés.
 
-`NEXT_PUBLIC_SITE_URL` est centralisé dans `lib/site.ts` et alimente les métadonnées, `robots.txt` et `sitemap.xml`.
+Le domaine canonique est centralisé dans `lib/site.ts` et alimente les métadonnées, `robots.txt` et `sitemap.xml`.
 
 ## Google Tag Manager
 
@@ -25,13 +26,16 @@ Elle couvre toutes les pages App Router et reçoit aussi les événements person
 
 ## AdSense
 
-Les emplacements publicitaires sont portés par `components/AdSlot.tsx`.
-Quand le compte AdSense sera validé :
+Les emplacements publicitaires sont portés par `components/ads/AdSlot.tsx`.
+Même avec une configuration complète, le script et les annonces restent bloqués
+tant qu’un consentement publicitaire explicite n’est pas transmis.
 
-1. Renseigner `NEXT_PUBLIC_ENABLE_ADSENSE=true`, `NEXT_PUBLIC_ADSENSE_CLIENT` et les slots `NEXT_PUBLIC_ADSENSE_SLOT_*`.
-2. Le script AdSense est conditionnel dans le layout ; ajouter la gestion du consentement si nécessaire.
-3. Renseigner les vrais slots `NEXT_PUBLIC_ADSENSE_SLOT_*`.
-4. Ajouter un `ads.txt` public avec la ligne fournie par Google.
+1. Installer et vérifier un CMP conforme avant toute activation dans l’EEE.
+2. Relier le consentement à `AdSenseScript` et aux `AdSlot`.
+3. Activer les variables listées ci-dessus avec les identifiants fournis par Google.
+4. Ajouter un `ads.txt` public uniquement avec la ligne fournie par Google.
+
+Voir `docs/ads-monetization.md` pour la checklist complète.
 
 ## Vérification avant déploiement
 

@@ -48,14 +48,12 @@ Copier `.env.example` vers `.env.local` en local si nécessaire.
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_GTM_ID` | Non | `GTM-P9XX929G` | Conteneur Google Tag Manager chargé globalement. Le conteneur fourni est utilisé par défaut. |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Non | `G-HDDQ9CV6YQ` | Balise Google Analytics 4 chargée globalement sur toutes les pages. |
-| `NEXT_PUBLIC_ENABLE_ADSENSE` | Non | `false` | Active le chargement réel du script AdSense uniquement quand le compte est validé. |
-| `NEXT_PUBLIC_ADSENSE_CLIENT` | Non | `ca-pub-xxxxxxxxxxxxxxxx` | Client AdSense réel. Laisser vide tant que le compte n'est pas validé. |
-| `NEXT_PUBLIC_ADSENSE_SLOT_TOP` | Non | `1234567890` | Slot AdSense pour le leaderboard haut. |
-| `NEXT_PUBLIC_ADSENSE_SLOT_BEFORE_SIMULATOR` | Non | `1234567890` | Slot AdSense avant le simulateur. |
-| `NEXT_PUBLIC_ADSENSE_SLOT_SIDEBAR` | Non | `1234567890` | Slot AdSense sidebar desktop. |
-| `NEXT_PUBLIC_ADSENSE_SLOT_CONTENT` | Non | `1234567890` | Slot AdSense contenu. |
-| `NEXT_PUBLIC_ADSENSE_SLOT_AFTER_RESULT` | Non | `1234567890` | Slot AdSense après résultat. |
-| `NEXT_PUBLIC_ADSENSE_SLOT_FOOTER` | Non | `1234567890` | Slot AdSense footer. |
+| `NEXT_PUBLIC_ADS_ENABLED` | Non | `false` | Drapeau général. Seule la valeur exacte `true` autorise la préparation publicitaire. |
+| `NEXT_PUBLIC_ADS_PROVIDER` | Non | `none` | Fournisseur publicitaire. La seule autre valeur reconnue est `adsense`. |
+| `NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT` | Non | `ca-pub-xxxxxxxxxxxxxxxx` | Client AdSense réel. Aucun identifiant n’est fourni par défaut. |
+| `NEXT_PUBLIC_ADS_TEST_MODE` | Non | `false` | Affiche les emplacements de test uniquement hors production, sans charger AdSense. |
+| `NEXT_PUBLIC_ADS_SLOT_GUIDE_AFTER_CONTENT` | Non | `1234567890` | Emplacement discret après le contenu d’un guide. |
+| `NEXT_PUBLIC_ADS_SLOT_ARTICLE_BOTTOM` | Non | `1234567890` | Emplacement en bas d’un article éditorial. |
 
 Le domaine canonique utilisé par les métadonnées, `robots.txt` et le sitemap est
 fixé à `https://www.rupture-conv.fr`.
@@ -88,7 +86,7 @@ npm run build
 6. Install command : `npm install`.
 7. Output directory : laisser vide, Vercel gère `.next`.
 8. Vérifier `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-HDDQ9CV6YQ`.
-9. Mettre `NEXT_PUBLIC_ENABLE_ADSENSE=false` tant que Google AdSense n'est pas validé.
+9. Conserver `NEXT_PUBLIC_ADS_ENABLED=false` tant qu’AdSense et un CMP conforme ne sont pas prêts.
 10. Déployer.
 11. Vérifier après déploiement :
 
@@ -115,14 +113,20 @@ curl https://www.rupture-conv.fr/manifest.webmanifest
 
 ## AdSense
 
-Les emplacements publicitaires passent par `components/AdSlot.tsx`.
+Les emplacements publicitaires passent par `components/ads/AdSlot.tsx` et leur
+configuration par `lib/ads.ts`.
 
-Ne pas intégrer AdSense avant validation du compte et clarification du consentement. Quand ce sera prêt :
+Ne pas activer AdSense avant validation du compte et mise en place d’un CMP
+conforme. La configuration seule ne charge aucun script : un consentement
+publicitaire explicite doit également être transmis au composant.
 
-1. Renseigner `NEXT_PUBLIC_ENABLE_ADSENSE=true`, `NEXT_PUBLIC_ADSENSE_CLIENT` et les slots `NEXT_PUBLIC_ADSENSE_SLOT_*`.
-2. Le script AdSense est déjà conditionnel dans le layout ; vérifier la gestion du consentement requise.
-3. Renseigner les vrais slots pour remplacer les placeholders par des annonces réelles.
-4. Ajouter `public/ads.txt` avec la ligne fournie par Google.
+1. Installer et vérifier un CMP compatible avec les exigences Google dans l’EEE.
+2. Relier son état de consentement à `AdSenseScript` et aux `AdSlot`.
+3. Renseigner `NEXT_PUBLIC_ADS_ENABLED=true`, `NEXT_PUBLIC_ADS_PROVIDER=adsense`, le client et les deux slots autorisés.
+4. Ajouter `public/ads.txt` uniquement avec la ligne fournie par Google.
+
+Le détail des garde-fous et emplacements autorisés est dans
+`docs/ads-monetization.md`.
 
 ## Notes produit
 

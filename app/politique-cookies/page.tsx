@@ -56,10 +56,10 @@ export default function CookiesPolicyPage() {
           title: "Cookies publicitaires",
           body: (
             <p>
-              Des cookies publicitaires peuvent être utilisés pour afficher des
-              annonces, notamment via Google AdSense, mesurer leur performance
-              ou limiter leur répétition. Aucun cookie publicitaire ne doit être
-              déposé avant consentement.
+              La publicité est désactivée par défaut. Si Google AdSense est
+              activé ultérieurement, ses cookies ou traceurs pourront servir à
+              afficher et mesurer des annonces. Ils ne devront pas être déposés
+              avant votre consentement.
             </p>
           )
         },
