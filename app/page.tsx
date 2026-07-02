@@ -18,7 +18,8 @@ import { ProcessTimeline } from "@/components/seo/ProcessTimeline";
 import { RuptureReformNotice } from "@/components/seo/RuptureReformNotice";
 import { SeoContent } from "@/components/SeoContent";
 import { serializeJsonLd } from "@/lib/json-ld";
-import { siteName, siteUrl } from "@/lib/site";
+import { siteUrl } from "@/lib/site";
+import { buildWebApplicationStructuredData } from "@/lib/structured-data";
 
 export default function Home() {
   const faqJsonLd = {
@@ -33,21 +34,13 @@ export default function Home() {
       }
     }))
   };
-  const webApplicationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    name: siteName,
+  const webApplicationJsonLd = buildWebApplicationStructuredData({
+    name: "Simulateur de rupture conventionnelle",
     url: `${siteUrl}/`,
     applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "EUR"
-    },
     description:
       "Simulateur gratuit d'indemnité de rupture conventionnelle pour obtenir une estimation brute et un net indicatif."
-  };
+  });
 
   return (
     <main>

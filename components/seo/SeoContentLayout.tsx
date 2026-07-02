@@ -367,7 +367,7 @@ export function SeoContentLayout({
     headline: displayH1,
     description: intro[0],
     mainEntityOfPage: absoluteUrl(canonicalPath),
-    dateModified: updatedAt ?? "2026-05-06",
+    ...(updatedAt ? { dateModified: updatedAt } : {}),
     author: {
       "@type": "Organization",
       name: siteName

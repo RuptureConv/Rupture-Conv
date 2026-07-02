@@ -8,9 +8,9 @@ export type SeoSnippet = {
 };
 
 export const homeSeoSnippet: SeoSnippet = {
-  title: "Simulateur gratuit de rupture conventionnelle 2026",
+  title: "Rupture conventionnelle : simulateur d’indemnité 2026",
   description:
-    "Calculez votre indemnité de rupture conventionnelle gratuitement, rapidement et sans inscription, avec une estimation conforme au droit du travail français."
+    "Estimez votre indemnité de rupture conventionnelle avec un calcul indicatif fondé sur le salaire, l’ancienneté et la date de départ."
 };
 
 export const blogIndexSeoSnippet: SeoSnippet = {
@@ -46,9 +46,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "Avant / après réforme 2026 : durées chômage, moins de 55 ans, seniors, outre-mer, indemnité maintenue et coût employeur."
   },
   "simulateur-rupture-conventionnelle": {
-    title: "Simulateur gratuit de rupture conventionnelle 2026",
+    title: "Simulateur d’indemnité de rupture conventionnelle 2026",
     description:
-      "Estimez votre indemnité de rupture conventionnelle en quelques minutes, gratuitement et sans inscription, selon le droit du travail français."
+      "Estimez le montant brut et le net indicatif d’une indemnité de rupture conventionnelle, avec les principaux points à vérifier avant de signer."
   },
   "calcul-indemnite-rupture-conventionnelle": {
     title: "Rupture conventionnelle : quel salaire utiliser ?",

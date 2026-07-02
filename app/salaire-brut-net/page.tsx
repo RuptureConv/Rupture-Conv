@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SalaryNetCalculatorTool } from "@/components/tools/SalaryNetCalculatorTool";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { siteName, siteUrl } from "@/lib/site";
+import { buildWebApplicationStructuredData } from "@/lib/structured-data";
 
 const title = "Salaire brut en net : estimation mensuelle et annuelle";
 const description =
@@ -137,27 +138,19 @@ export default function SalaryGrossNetPage() {
       }
     }))
   };
-  const webApplicationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
+  const webApplicationJsonLd = buildWebApplicationStructuredData({
     name: "Calcul salaire brut en net",
     url: canonicalUrl,
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Web",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "EUR"
-    },
     description
-  };
+  });
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: "Salaire brut en net : guide complet et calculateur",
     description,
     url: canonicalUrl,
-    dateModified: "2026-06-06",
+    dateModified: "2026-06-17",
     inLanguage: "fr-FR",
     publisher: {
       "@type": "Organization",

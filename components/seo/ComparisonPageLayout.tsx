@@ -60,7 +60,6 @@ export function ComparisonPageLayout({ page }: ComparisonPageLayoutProps) {
     headline: page.h1,
     description: page.description,
     mainEntityOfPage: absoluteUrl(canonicalPath),
-    dateModified: "2026-05-08",
     author: {
       "@type": "Organization",
       name: siteName

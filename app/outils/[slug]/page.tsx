@@ -44,7 +44,7 @@ export async function generateMetadata({
       canonical: absoluteUrl(`/outils/${slug}`)
     },
     robots: {
-      index: true,
+      index: Boolean(content),
       follow: true
     },
     openGraph: {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { UnemploymentProjectionTool } from "@/components/tools/UnemploymentProjectionTool";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { siteName, siteUrl } from "@/lib/site";
+import { buildWebApplicationStructuredData } from "@/lib/structured-data";
 
 const canonicalPath = "/simulateur-chomage-rupture-conventionnelle";
 const canonicalUrl = `${siteUrl}${canonicalPath}`;
@@ -95,21 +96,12 @@ export default function UnemploymentSimulatorPage() {
       }
     }))
   };
-  const webApplicationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": ["WebApplication", "SoftwareApplication"],
-    additionalType: "https://schema.org/Calculator",
+  const webApplicationJsonLd = buildWebApplicationStructuredData({
     name: "Simulateur chômage après rupture conventionnelle",
     url: canonicalUrl,
     applicationCategory: "FinanceApplication",
-    operatingSystem: "Web",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "EUR"
-    },
     description
-  };
+  });
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
