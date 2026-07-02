@@ -249,7 +249,7 @@ const basePillarPages: PillarPage[] = [
     faq: commonFaq,
     conclusion: [
       "Le simulateur de rupture conventionnelle est un outil pratique pour comprendre rapidement le montant minimum indicatif et préparer une discussion plus structurée. Il permet de sécuriser les premières hypothèses sans se perdre dans un calcul manuel approximatif.",
-      "Pour obtenir une estimation plus fiable, il est recommandé de vérifier les informations saisies, de relire la convention collective et de demander un accompagnement personnalisé en cas de situation complexe."
+      "Pour obtenir une estimation plus fiable, il est recommandé de vérifier les informations saisies, de relire la convention collective et de demander l’avis d’un service compétent ou d’un professionnel en cas de situation complexe."
     ]
   },
 
@@ -1522,41 +1522,58 @@ const eeatPages: PillarPage[] = [
   },
   {
     slug: "sources-juridiques",
-    title: "Sources juridiques rupture conventionnelle : calcul simulateur 2026",
-    h1: "Sources juridiques",
+    title: "Méthodologie des estimations et sources officielles",
+    h1: "Méthodologie des estimations",
     description:
-      "Références utiles pour comprendre le calcul de l'indemnité de rupture conventionnelle : Code du travail, prudence juridique et mise à jour 2026.",
+      "Comprendre ce que les simulateurs estiment, leurs limites et les sources officielles utilisées comme repères.",
+    updatedAt: "2026-07-02",
+    updatedLabel: "Dernière vérification de la méthodologie : 2 juillet 2026",
     relatedLinks: requiredInternalLinks,
     intro: [
-      "Cette page rassemble les références juridiques générales utilisées pour structurer les contenus sur la rupture conventionnelle.",
-      `Elle rappelle aussi les limites d'un simulateur public : chaque situation peut dépendre d'une convention collective, d'un accord ou d'éléments de paie spécifiques. ${mandatoryDisclaimer}`
+      "Les simulateurs donnent des repères pour mieux comprendre une situation. Ils ne remplacent pas l’analyse d’un dossier complet ni la réponse d’un organisme compétent.",
+      "La méthode est expliquée ici pour que vous puissiez comprendre les grandes étapes du calcul, les hypothèses retenues et les vérifications qui restent nécessaires."
     ],
     sections: [
       {
-        title: "Références du Code du travail",
+        title: "À quoi servent les simulateurs ?",
         paragraphs: [
-          "Les contenus s'appuient notamment sur les règles générales relatives à la rupture conventionnelle individuelle, à son homologation et au minimum d'indemnité spécifique.",
-          "Les références utiles incluent les dispositions du Code du travail relatives à la rupture conventionnelle et à l'indemnité légale de licenciement, qui sert de plancher."
-        ],
-        bullets: [
-          "Code du travail : rupture conventionnelle individuelle.",
-          "Code du travail : indemnité légale de licenciement.",
-          "Convention collective applicable au salarié.",
-          "Bulletins de paie et éléments variables de rémunération."
+          "Ils transforment des informations saisies en une estimation lisible : indemnité de rupture, projection chômage ou conversion d’un salaire brut en net.",
+          "L’objectif est de fournir une première base de compréhension avant de relire les documents utiles ou d’échanger avec l’employeur, France Travail ou un professionnel compétent."
         ]
       },
       {
-        title: "Informations prudentes",
+        title: "Ce que les calculs prennent en compte",
         paragraphs: [
-          "Les exemples du site simplifient volontairement les calculs afin de donner des repères compréhensibles. Ils ne remplacent pas une analyse paie, sociale, fiscale ou juridique.",
-          "Une vérification personnalisée est recommandée en cas de rémunération variable, statut particulier, conflit, absence longue ou montant supra-légal important."
+          "Selon l’outil, le calcul utilise les dates, l’ancienneté, le salaire brut, le statut, le temps de travail ou les indemnités renseignées. Les résultats suivent ensuite les hypothèses générales décrites sur la page concernée.",
+          "Aucune donnée saisie ne permet toutefois de reconstituer l’ensemble d’un contrat, d’un bulletin de paie, d’une convention collective ou d’un dossier France Travail."
+        ]
+      },
+      {
+        title: "Pourquoi les résultats restent indicatifs",
+        paragraphs: [
+          "Le résultat dépend directement des informations saisies. Une date inexacte, une prime oubliée, une période non travaillée ou une règle conventionnelle plus favorable peut modifier le montant.",
+          "Pour le chômage, France Travail détermine les rémunérations retenues, les différés et la situation au moment de l’inscription. Pour le salaire net, le bulletin réel peut intégrer des cotisations et avantages que le calcul simplifié ne connaît pas."
+        ]
+      },
+      {
+        title: "Ce que les calculs ne remplacent pas",
+        paragraphs: [
+          "Une estimation ne vaut ni décision de l’employeur, ni ouverture de droits par France Travail, ni validation d’un bulletin de paie. Elle ne constitue pas non plus un conseil juridique personnalisé.",
+          "Elle sert à repérer les points à vérifier et à préparer des questions plus précises."
+        ]
+      },
+      {
+        title: "Quand vérifier votre situation",
+        paragraphs: [
+          "Une vérification adaptée est particulièrement utile avant de signer, lorsque la rémunération est variable, en présence d’une absence longue, d’un temps partiel, d’une convention collective particulière ou d’une indemnité négociée importante.",
+          "Pour une projection ARE, comparez toujours l’estimation avec la notification et le calendrier communiqués par France Travail. Pour le brut-net, le bulletin de paie reste le document de référence pour le montant réellement versé."
         ]
       }
     ],
     faq: commonFaq.slice(0, 3),
     conclusion: [
-      "Les sources juridiques donnent un cadre, mais le calcul réel dépend toujours du dossier.",
-      "Pour une première estimation, utilisez le simulateur puis vérifiez les règles applicables."
+      "Les sources officielles donnent le cadre général. Le résultat final dépend toujours des informations et des vérifications propres au dossier.",
+      "Utilisez l’estimation comme un repère, puis vérifiez les éléments qui peuvent modifier votre situation."
     ]
   }
 ];
@@ -2176,7 +2193,7 @@ const unemploymentClusterConfigs = [
     title: "Calcul du SJR : salaire journalier de référence",
     intent: "comprendre le calcul du salaire journalier de référence",
     focus:
-      "Le SJR est la base de l'ARE. Une estimation à partir du salaire mensuel moyen reste utile, mais le calcul officiel est plus fin."
+      "Le SJR est la base de l'ARE. Une estimation à partir du salaire mensuel moyen reste utile, mais le calcul réalisé par France Travail est plus fin."
   },
   {
     slug: "salaire-journalier-reference",

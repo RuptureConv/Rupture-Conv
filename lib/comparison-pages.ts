@@ -409,7 +409,7 @@ export const comparisonPages: ComparisonPage[] = [
       {
         title: "Ce qu’il faut vérifier avant de prendre une décision",
         paragraphs: [
-          "Avant d’envisager une option risquée, il faut regarder les alternatives : demande de rupture conventionnelle, démission, négociation d’un départ, arrêt justifié si l’état de santé le nécessite, ou accompagnement personnalisé.",
+          "Avant d’envisager une option risquée, il faut regarder les alternatives : demande de rupture conventionnelle, démission, négociation d’un départ, arrêt justifié si l’état de santé le nécessite, ou avis d’un service compétent ou d’un professionnel.",
           "Le montant potentiel de l’indemnité, la situation financière immédiate et les droits chômage doivent être analysés avant tout choix."
         ],
         bullets: [

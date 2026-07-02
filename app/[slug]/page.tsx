@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ComparisonPageLayout } from "@/components/seo/ComparisonPageLayout";
+import { MethodologyPage } from "@/components/seo/MethodologyPage";
 import { ProgrammaticSeoTemplate } from "@/components/seo/ProgrammaticSeoTemplate";
 import { SalarySeoPageLayout } from "@/components/seo/SalarySeoPageLayout";
 import { SeoContentLayout } from "@/components/seo/SeoContentLayout";
@@ -210,6 +211,10 @@ export default async function PillarPage({ params }: PillarPageProps) {
 
   if (!page) {
     notFound();
+  }
+
+  if (page.slug === "sources-juridiques") {
+    return <MethodologyPage page={page} />;
   }
 
   const programmaticParams = parseProgrammaticSeoSlug(slug);

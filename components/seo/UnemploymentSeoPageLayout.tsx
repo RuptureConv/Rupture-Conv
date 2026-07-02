@@ -5,6 +5,7 @@ import {
   PageSummary
 } from "@/components/seo/PageSummary";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
+import { TrustNotice } from "@/components/seo/TrustNotice";
 import type { UnemploymentSeoPage } from "@/lib/unemployment-seo-pages";
 import { siteName, siteUrl } from "@/lib/site";
 
@@ -184,6 +185,10 @@ export function UnemploymentSeoPageLayout({ page }: UnemploymentSeoPageLayoutPro
             </ul>
           </aside>
         </section>
+
+        {page.slug === "delai-de-carence-chomage" ? (
+          <TrustNotice className="mt-6" tool="unemployment" />
+        ) : null}
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(320px,0.38fr)]">
           {page.showSalaryExamples ? (

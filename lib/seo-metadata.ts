@@ -126,9 +126,9 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
       "RuptureConv aide salariés et employeurs à lire plus clairement une estimation de rupture conventionnelle, avec prudence et pédagogie."
   },
   "sources-juridiques": {
-    title: "Sources juridiques du calcul de rupture conventionnelle",
+    title: "Méthodologie des estimations et sources officielles",
     description:
-      "Consultez les références utiles pour comprendre le calcul de l’indemnité : Code du travail, convention collective et limites d’une simulation."
+      "Comprenez ce que les simulateurs estiment, leurs limites et les sources officielles utilisées comme repères."
   },
   "rupture-conventionnelle-droit-chomage": {
     title: "Rupture conventionnelle et chômage : droit ARE",

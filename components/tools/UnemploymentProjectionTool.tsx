@@ -3,6 +3,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useEffect, useRef, useState } from "react";
 import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
+import { TrustNotice } from "@/components/seo/TrustNotice";
 import {
   trackCalculatorResultViewed,
   trackSimulatorNextStepClick
@@ -616,7 +617,7 @@ export function UnemploymentProjectionTool() {
 
               <section className="rounded-2xl border border-[#D7E7E8] bg-white p-5">
                 <h3 className="text-lg font-black text-[#061B3A]">
-                  Pourquoi vous pouvez faire confiance au résultat
+                  Ce qui encadre cette projection
                 </h3>
                 <ul className="mt-3 space-y-2 text-sm font-semibold leading-6 text-[#5B6B7C]">
                   {[
@@ -630,6 +631,8 @@ export function UnemploymentProjectionTool() {
                   ))}
                 </ul>
               </section>
+
+              <TrustNotice tool="unemployment" />
 
               <PostSimulationLinks
                 intro="Votre projection donne un ordre de grandeur. Pour relire votre situation, vérifiez surtout les délais, le lien avec la rupture conventionnelle et les montants mensuels."

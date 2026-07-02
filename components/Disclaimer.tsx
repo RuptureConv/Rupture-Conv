@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type DisclaimerProps = {
   title?: string;
   children?: React.ReactNode;
@@ -19,12 +21,19 @@ export function Disclaimer({
       </p>
       <div className="mt-2">
         {children ?? (
-          <p>
-            Cette estimation ne remplace pas un conseil juridique, RH, paie ou fiscal.
-            Le montant réel peut varier selon la convention collective, la
-            situation personnelle, l&apos;éligibilité à la retraite et les règles
-            d&apos;exonération applicables.
-          </p>
+          <>
+            <p>
+              Ce calcul donne une première base. Il dépend des informations
+              saisies et certaines situations particulières peuvent modifier le
+              résultat.
+            </p>
+            <Link
+              className="mt-2 inline-flex font-bold text-[#168F86] transition hover:text-[#061B3A]"
+              href="/sources-juridiques"
+            >
+              Voir la méthode et les limites des estimations
+            </Link>
+          </>
         )}
       </div>
     </aside>

@@ -236,6 +236,15 @@ export function ProfessionalLetterBlock({ lines }: ProfessionalLetterBlockProps)
 
   return (
     <div className="space-y-5">
+      <aside className="rounded-2xl border border-[#BFE5E1] bg-[#EAF8F6] p-4 text-sm leading-6 text-[#102A4C]">
+        <p className="font-black text-[#061B3A]">À adapter avant envoi</p>
+        <p className="mt-2">
+          Ce modèle donne une base de rédaction. Vérifiez les informations,
+          adaptez le ton à votre situation et conservez une copie. La demande
+          ouvre une discussion : l’employeur reste libre de l’accepter ou de la
+          refuser.
+        </p>
+      </aside>
       <div className="letter-toolbar flex flex-col gap-3 rounded-2xl border border-[#E5EEF0] bg-[#F7FBFA] p-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm font-semibold text-[#102A4C]">
           Document prêt à adapter, copier, imprimer ou exporter.

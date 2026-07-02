@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AdSlot } from "@/components/AdSlot";
-import { Disclaimer } from "@/components/Disclaimer";
 import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
+import { TrustNotice } from "@/components/seo/TrustNotice";
 import {
   calculateTerminationConventionnelle
 } from "@/lib/calculators/rupture-conventionnelle";
@@ -794,12 +794,7 @@ export function TerminationCalculatorTool() {
               </ul>
             </details>
 
-            <p className="mt-4 text-xs leading-5 text-[#5B6B7C]">
-              Le montant affiché est une estimation. Il dépend des informations
-              saisies, de votre ancienneté, de votre salaire de référence et des
-              règles applicables à votre situation.
-            </p>
-            <Disclaimer className="mt-4" />
+            <TrustNotice className="mt-4" tool="termination" />
             <PostSimulationLinks
               className="mt-5"
               intro="Votre indemnité donne une première base. Avant d'avancer, il peut être utile de vérifier aussi vos droits au chômage, les délais de paiement et les documents à préparer."

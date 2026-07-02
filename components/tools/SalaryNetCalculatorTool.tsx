@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PostSimulationLinks } from "@/components/seo/PostSimulationLinks";
+import { TrustNotice } from "@/components/seo/TrustNotice";
 import { trackCalculatorResultViewed } from "@/lib/analytics";
 import {
   calculateSalaryNet,
@@ -318,10 +319,7 @@ export function SalaryNetCalculatorTool() {
                 }).format(result.monthlyHours)}
               />
             </div>
-            <p className="mt-4 text-xs font-semibold leading-5 text-[#5B6B7C]">
-              Ce calcul reste indicatif. Il dépend du statut choisi, du temps de
-              travail et du taux de prélèvement renseigné le cas échéant.
-            </p>
+            <TrustNotice className="mt-4" tool="salary" />
             <PostSimulationLinks
               className="mt-5"
               intro="Le salaire brut sert souvent de base pour relire une rupture conventionnelle ou une estimation chômage. Gardez surtout le montant mensuel sous la main."

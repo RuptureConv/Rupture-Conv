@@ -1168,7 +1168,7 @@ const detailedSections = {
   calculation: {
     title: "Comment le SJR conduit au montant de l'ARE",
     paragraphs: [
-      "Le SJR, ou salaire journalier de référence, sert de base au calcul de l'allocation. Une estimation simple consiste à partir du salaire brut moyen et à le rapporter à une base journalière, mais le calcul officiel peut intégrer des périodes travaillées et non travaillées plus précisément.",
+      "Le SJR, ou salaire journalier de référence, sert de base au calcul de l'allocation. Une estimation simple consiste à partir du salaire brut moyen et à le rapporter à une base journalière, mais France Travail peut intégrer plus précisément des périodes travaillées et non travaillées.",
       `L'allocation journalière compare deux formules : ${Math.round(RULES_2026.areFormula.variableSjrRate * 1000) / 10} % du SJR plus ${formatEuro(RULES_2026.areFormula.fixedDailyPart)}, ou ${Math.round(RULES_2026.areFormula.alternativeSjrRate * 100)} % du SJR. Le résultat est encadré, notamment par le plafond de ${Math.round(RULES_2026.areFormula.maxSjrRate * 100)} % du SJR.`
     ]
   },
@@ -1182,7 +1182,7 @@ const detailedSections = {
   examples: {
     title: "Exemples chiffrés avec 2 000 €, 2 500 €, 3 000 €, 3 500 € et 4 000 €",
     paragraphs: [
-      "Les exemples ci-dessous partent d'un salarié de 38 ans, à temps plein, avec une fin de contrat au 31 juillet 2026 et une activité suffisante. Ils donnent un repère réaliste, sans remplacer le calcul officiel de France Travail.",
+      "Les exemples ci-dessous partent d'un salarié de 38 ans, à temps plein, avec une fin de contrat au 31 juillet 2026 et une activité suffisante. Ils donnent un repère réaliste, sans remplacer le calcul réalisé par France Travail.",
       "On voit que l'ARE ne correspond ni au salaire brut ni au salaire net habituel. Elle dépend du SJR et des formules réglementaires, puis le calendrier de versement dépend des différés."
     ]
   },
@@ -1239,7 +1239,7 @@ export const unemploymentSeoPages: UnemploymentSeoPage[] = [
       {
         title: "Pourquoi le résultat officiel peut différer",
         paragraphs: [
-          "Le calcul officiel ne se limite pas à diviser un salaire mensuel par un nombre de jours. France Travail prend en compte les salaires de la période de référence, les périodes travaillées, certaines périodes non travaillées et les règles de plafonnement.",
+          "Le calcul réalisé par France Travail ne se limite pas à diviser un salaire mensuel par un nombre de jours. Il prend en compte les salaires de la période de référence, les périodes travaillées, certaines périodes non travaillées et les règles de plafonnement.",
           "L'objectif d'une estimation fiable est donc de donner un ordre de grandeur exploitable : montant journalier, montant mensuel, date probable du premier paiement et points à vérifier dans le dossier."
         ]
       }

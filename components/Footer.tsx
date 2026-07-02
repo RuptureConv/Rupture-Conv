@@ -20,6 +20,9 @@ export function Footer() {
             <Link className="font-semibold hover:text-[#22AFA3]" href="/simulateur-chomage-rupture-conventionnelle">
               Simulateur ARE
             </Link>
+            <Link className="font-semibold hover:text-[#22AFA3]" href="/sources-juridiques">
+              Méthode et sources
+            </Link>
             <Link className="font-semibold hover:text-[#22AFA3]" href="/mentions-legales">
               Mentions légales
             </Link>

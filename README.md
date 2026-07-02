@@ -46,7 +46,6 @@ Copier `.env.example` vers `.env.local` en local si nécessaire.
 
 | Variable | Obligatoire | Exemple | Usage |
 | --- | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Recommandé en production | `https://rupture-conv.fr` | URL canonique utilisée par les métadonnées, `robots.txt` et `sitemap.xml`. |
 | `NEXT_PUBLIC_GTM_ID` | Non | `GTM-P9XX929G` | Conteneur Google Tag Manager chargé globalement. Le conteneur fourni est utilisé par défaut. |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Non | `G-HDDQ9CV6YQ` | Balise Google Analytics 4 chargée globalement sur toutes les pages. |
 | `NEXT_PUBLIC_ENABLE_ADSENSE` | Non | `false` | Active le chargement réel du script AdSense uniquement quand le compte est validé. |
@@ -58,7 +57,8 @@ Copier `.env.example` vers `.env.local` en local si nécessaire.
 | `NEXT_PUBLIC_ADSENSE_SLOT_AFTER_RESULT` | Non | `1234567890` | Slot AdSense après résultat. |
 | `NEXT_PUBLIC_ADSENSE_SLOT_FOOTER` | Non | `1234567890` | Slot AdSense footer. |
 
-Sans `NEXT_PUBLIC_SITE_URL`, le site utilise `https://rupture-conv.fr` par défaut.
+Le domaine canonique utilisé par les métadonnées, `robots.txt` et le sitemap est
+fixé à `https://www.rupture-conv.fr`.
 
 ## Routes techniques
 
@@ -87,17 +87,16 @@ npm run build
 5. Build command : `npm run build`.
 6. Install command : `npm install`.
 7. Output directory : laisser vide, Vercel gère `.next`.
-8. Ajouter la variable `NEXT_PUBLIC_SITE_URL=https://rupture-conv.fr`.
-9. Vérifier `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-HDDQ9CV6YQ`.
-10. Mettre `NEXT_PUBLIC_ENABLE_ADSENSE=false` tant que Google AdSense n'est pas validé.
-11. Déployer.
-12. Vérifier après déploiement :
+8. Vérifier `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-HDDQ9CV6YQ`.
+9. Mettre `NEXT_PUBLIC_ENABLE_ADSENSE=false` tant que Google AdSense n'est pas validé.
+10. Déployer.
+11. Vérifier après déploiement :
 
 ```bash
-curl -I https://rupture-conv.fr
-curl https://rupture-conv.fr/robots.txt
-curl https://rupture-conv.fr/sitemap.xml
-curl https://rupture-conv.fr/manifest.webmanifest
+curl -I https://www.rupture-conv.fr
+curl https://www.rupture-conv.fr/robots.txt
+curl https://www.rupture-conv.fr/sitemap.xml
+curl https://www.rupture-conv.fr/manifest.webmanifest
 ```
 
 ## Connecter le domaine rupture-conv.fr sur Vercel
@@ -111,7 +110,7 @@ curl https://rupture-conv.fr/manifest.webmanifest
    - `www` avec un `CNAME` vers `cname.vercel-dns.com`.
 6. Attendre la propagation DNS.
 7. Dans Vercel, vérifier que le certificat SSL est provisionné.
-8. Definir le domaine principal dans Vercel, idealement `rupture-conv.fr`.
+8. Définir `www.rupture-conv.fr` comme domaine principal dans Vercel.
 9. Verifier que `https://rupture-conv.fr`, `https://www.rupture-conv.fr`, `/robots.txt`, `/sitemap.xml` et `/manifest.webmanifest` repondent correctement.
 
 ## AdSense
