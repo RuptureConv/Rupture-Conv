@@ -6,6 +6,7 @@ import { siteName } from "@/lib/site";
 
 const canonicalPath = "/guides-complets";
 const canonicalUrl = absoluteUrl(canonicalPath);
+const pageTitle = "Guides droit du travail, chômage et salaire | RuptureConv";
 
 const guides = [
   {
@@ -82,7 +83,7 @@ const simulators = [
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Guides complets droit du travail, chômage et salaire | RuptureConv"
+    absolute: pageTitle
   },
   description:
     "Tous les guides complets RuptureConv : rupture conventionnelle, chômage ARE, salaire brut net, préavis et fin de contrat.",
@@ -90,7 +91,7 @@ export const metadata: Metadata = {
     canonical: canonicalUrl
   },
   openGraph: {
-    title: "Guides complets droit du travail, chômage et salaire | RuptureConv",
+    title: pageTitle,
     description:
       "Le centre des guides RuptureConv pour comprendre une fin de contrat, calculer les montants utiles et préparer la suite.",
     url: canonicalUrl,
@@ -100,7 +101,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Guides complets droit du travail, chômage et salaire | RuptureConv",
+    title: pageTitle,
     description:
       "Rupture conventionnelle, chômage ARE, salaire brut net, préavis et fin de contrat."
   }

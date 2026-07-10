@@ -41,6 +41,7 @@ export function generateStaticParams() {
   return [
     ...pillarPages
       .filter((page) => !unemploymentSeoSlugs.has(page.slug))
+      .filter((page) => page.slug !== "simulateur-rupture-conventionnelle")
       .map((page) => ({ slug: page.slug })),
     ...comparisonPages.map((page) => ({ slug: page.slug })),
     ...salarySeoPages.map((page) => ({ slug: page.slug })),

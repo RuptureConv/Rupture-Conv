@@ -49,7 +49,7 @@ const quickActions = [
   },
   {
     title: "Réforme 2026 chômage",
-    text: "Le droit au chômage reste possible, mais la durée maximale annoncée évolue.",
+    text: "Le droit au chômage reste possible ; de nouveaux plafonds s'appliquent à partir du 1er septembre 2026.",
     href: "/reforme-rupture-conventionnelle-2026",
     label: "Voir la réforme"
   },

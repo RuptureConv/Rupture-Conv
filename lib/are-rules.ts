@@ -43,6 +43,7 @@ export type AreRules = {
   ruptureConventionnelle2026: {
     status: "pending_texts" | "active";
     appliedInCalculator: boolean;
+    effectiveContractEndDate: string;
     sourceLabel: string;
     maxDaysIfActive: {
       under55: number;
@@ -94,10 +95,11 @@ export const RULES_2026: AreRules = {
     reductionRate: 0.3
   },
   ruptureConventionnelle2026: {
-    status: "pending_texts",
-    appliedInCalculator: false,
+    status: "active",
+    appliedInCalculator: true,
+    effectiveContractEndDate: "2026-09-01",
     sourceLabel:
-      "Réforme 2026 annoncée pour les ruptures conventionnelles, à confirmer selon publication, agrément et date d'entrée en vigueur.",
+      "Pour une rupture conventionnelle prenant fin à compter du 1er septembre 2026, la durée maximale est plafonnée à 15 mois avant 55 ans et à 20,5 mois à partir de 55 ans, sous réserve du calcul réel des droits par France Travail.",
     maxDaysIfActive: {
       under55: 456,
       age55Plus: 624

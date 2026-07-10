@@ -1,6 +1,12 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("parcours outils RH", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      window.localStorage.setItem("ruptureconv_analytics_consent", "denied");
+    });
+  });
+
   test("rupture conventionnelle vers simulateur chômage ARE", async ({ page }) => {
     await page.goto("/");
 
@@ -91,6 +97,7 @@ test.describe("parcours outils RH", () => {
     await expect(
       page.getByRole("heading", { name: /Simulateur de rupture conventionnelle/ })
     ).toBeVisible();
+    await expect(page.getByLabel("Salaire brut mensuel")).toBeVisible();
   });
 
   test("le header mobile ne crée pas de débordement horizontal", async ({ page }) => {

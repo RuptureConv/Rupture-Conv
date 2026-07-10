@@ -301,7 +301,7 @@ const ruptureEditorialArticlePages: PillarPage[] = [
       "/simulateur-rupture-conventionnelle",
       "/rupture-conventionnelle-chomage",
       "/rupture-conventionnelle-entretien",
-      "/rupture-conventionnelle-et-preavis",
+      "/blog/rupture-conventionnelle-et-preavis",
       "/rupture-conventionnelle-pieges",
       reform2026MainPath
     ],

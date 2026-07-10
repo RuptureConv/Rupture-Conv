@@ -22,4 +22,11 @@ describe("main editorial hubs", () => {
     expect(source).toContain('href="/guide-preavis"');
     expect(source).toContain('href="/guides-complets"');
   });
+
+  it("routes the main navigation to the salary tool hub", () => {
+    const source = read("components/Header.tsx");
+
+    expect(source).toContain('href: "/salaire-brut-net"');
+    expect(source).not.toContain('href: "/salaire"');
+  });
 });

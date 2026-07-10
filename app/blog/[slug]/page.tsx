@@ -8,6 +8,7 @@ import {
   pillarPageBySlug
 } from "@/lib/seo-content";
 import { getBlogSeoSnippet } from "@/lib/seo-metadata";
+import { nonCanonicalBlogSlugs } from "@/lib/legacy-routes";
 import { siteName } from "@/lib/site";
 
 type BlogPostPageProps = {
@@ -19,7 +20,9 @@ type BlogPostPageProps = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+  return blogPosts
+    .filter((post) => !nonCanonicalBlogSlugs.has(post.slug))
+    .map((post) => ({ slug: post.slug }));
 }
 
 function getCanonicalPath(slug: string): string {

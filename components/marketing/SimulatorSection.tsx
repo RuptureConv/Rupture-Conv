@@ -14,7 +14,10 @@ export function SimulatorSection() {
           <h2 className="mt-3 text-3xl font-black tracking-[-0.02em] text-[#061B3A] sm:text-4xl">
             Votre estimation personnalisée
           </h2>
-          <p className="mt-4 text-base leading-7 text-[#5B6B7C]">
+          <p
+            className="mt-4 text-base leading-7 text-[#5B6B7C]"
+            id="calculator-intro"
+          >
             Renseignez quelques informations pour calculer une estimation claire
             de votre indemnité de rupture conventionnelle.
           </p>

@@ -128,7 +128,7 @@ const links = {
     description: "Relier l'indemnité de départ, le calendrier de fin de contrat et l'ARE."
   },
   simulateur: {
-    href: "/simulateur",
+    href: "/simulateur-rupture-conventionnelle",
     label: "Simulateur rupture conventionnelle",
     description: "Estimer l'indemnité minimale avant de projeter le chômage."
   },

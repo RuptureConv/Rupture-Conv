@@ -47,7 +47,7 @@ const faqItems = [
   {
     question: "Le simulateur tient-il compte de la réforme 2026 ?",
     answer:
-      "Les constantes prévoient la réforme annoncée sur les ruptures conventionnelles, mais elle n'est pas appliquée automatiquement tant que les textes définitifs, l'agrément et l'entrée en vigueur doivent être confirmés."
+      "Oui. Pour une rupture conventionnelle prenant fin à compter du 1er septembre 2026, le simulateur applique le plafond spécifique de 15 mois avant 55 ans ou de 20,5 mois à partir de 55 ans. Avant cette date, il conserve les plafonds généraux."
   },
   {
     question: "Mes données sont-elles stockées ?",
@@ -293,17 +293,16 @@ export default function UnemploymentSimulatorPage() {
                 chômage peut être possible si les conditions d'activité sont
                 remplies. La difficulté vient rarement du principe seul. Elle vient
                 plutôt du calendrier : indemnité supra-légale, congés payés,
-                inscription, documents de fin de contrat et réforme annoncée sur la
-                durée d'indemnisation des ruptures conventionnelles.
+                inscription, documents de fin de contrat et date d&apos;application
+                des plafonds propres aux ruptures conventionnelles.
               </p>
               <p>
-                Le simulateur applique les règles générales connues et conserve une
-                prudence particulière sur la réforme 2026. Les constantes techniques
-                prévoient les plafonds annoncés, mais l'application automatique
-                reste désactivée tant que les textes définitifs, l'agrément et la
-                date d'entrée en vigueur doivent être confirmés. Cette approche
-                évite de réduire artificiellement une projection sur une règle qui
-                pourrait dépendre de la date exacte de fin de contrat.
+                Le simulateur tient compte de la date de fin de contrat. Jusqu&apos;au
+                31 août 2026, il conserve les plafonds généraux. À partir du 1er
+                septembre 2026, une rupture conventionnelle est plafonnée à 456
+                jours avant 55 ans ou 624 jours à partir de 55 ans. France Travail
+                reste seul compétent pour calculer la durée réellement acquise à
+                partir du dossier complet.
               </p>
             </ContentSection>
 

@@ -161,7 +161,7 @@ const commonLinks = {
     description: "Relier salaire, indemnité de rupture et préparation du départ."
   },
   simulator: {
-    href: "/simulateur",
+    href: "/simulateur-rupture-conventionnelle",
     label: "Simulateur rupture conventionnelle",
     description: "Estimer une indemnité de rupture à partir du salaire de référence."
   },

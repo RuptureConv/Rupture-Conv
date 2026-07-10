@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
+import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 
 export function Footer() {
   return (
@@ -32,6 +33,7 @@ export function Footer() {
             <Link className="font-semibold hover:text-[#22AFA3]" href="/politique-cookies">
               Politique cookies
             </Link>
+            <CookieSettingsButton />
             <Link className="font-semibold hover:text-[#22AFA3]" href="/contact">
               Contact
             </Link>

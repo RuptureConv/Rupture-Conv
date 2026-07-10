@@ -1,9 +1,11 @@
+import type { Route } from "next";
 import { TrackedSimulatorLink } from "@/components/seo/TrackedSimulatorLink";
 
 type SimulatorCTAProps = {
   buttonText?: string;
   buttonType?: string;
   description?: string;
+  href?: Route;
   title?: string;
 };
 
@@ -11,6 +13,7 @@ export function SimulatorCTA({
   buttonText = "Faire une estimation",
   buttonType = "seo_card",
   description = "Saisissez votre ancienneté, votre salaire brut et la date de rupture pour obtenir une estimation indicative claire avant de signer.",
+  href,
   title = "Estimer une indemnité de rupture conventionnelle"
 }: SimulatorCTAProps) {
   return (
@@ -27,6 +30,7 @@ export function SimulatorCTA({
       <TrackedSimulatorLink
         buttonType={buttonType}
         className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+        href={href}
       >
         {buttonText}
       </TrackedSimulatorLink>

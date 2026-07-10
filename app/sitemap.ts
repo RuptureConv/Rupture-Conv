@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { hrTools } from "@/lib/calculators/tools-registry";
 import { comparisonPages } from "@/lib/comparison-pages";
+import { nonCanonicalBlogSlugs } from "@/lib/legacy-routes";
 import { parseProgrammaticSeoSlug } from "@/lib/seo-helpers";
 import { blogPosts, pillarPageBySlug, pillarPages } from "@/lib/seo-content";
 import { salarySeoPages } from "@/lib/salary-seo-pages";
@@ -12,6 +13,7 @@ const NON_CANONICAL_BLOG_SLUGS = new Set(
   blogPosts
     .filter((post) => pillarPageBySlug[post.slug])
     .map((post) => post.slug)
+    .concat([...nonCanonicalBlogSlugs])
 );
 
 const UNEMPLOYMENT_SEO_SLUGS = new Set(

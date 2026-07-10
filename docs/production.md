@@ -3,7 +3,6 @@
 ## Variables
 
 - `NEXT_PUBLIC_GTM_ID` : identifiant Google Tag Manager au format `GTM-...`, par défaut `GTM-P9XX929G`.
-- `NEXT_PUBLIC_GA_MEASUREMENT_ID` : identifiant Google Analytics 4 au format `G-...`, par défaut `G-HDDQ9CV6YQ`.
 - `NEXT_PUBLIC_ADS_ENABLED` : `false` par défaut.
 - `NEXT_PUBLIC_ADS_PROVIDER` : `none` par défaut, `adsense` uniquement après validation.
 - `NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT` : client AdSense réel au format `ca-pub-...`, vide par défaut.
@@ -14,15 +13,15 @@ Le domaine canonique est centralisé dans `lib/site.ts` et alimente les métadon
 
 ## Google Tag Manager
 
-Le script GTM est chargé une seule fois, le plus haut possible dans le `<head>` global, via `components/GoogleTagManager.tsx`.
-Le fallback `<noscript>` est placé juste après l'ouverture du `<body>`.
-Il couvre toutes les pages App Router et pousse un événement `next_page_view` lors des changements de route côté client.
+Le script GTM est chargé une seule fois via `components/GoogleTagManager.tsx`, uniquement après acceptation de la mesure d'audience.
+Le composant conserve le choix, permet le refus et peut être rouvert depuis « Gérer les cookies » dans le footer.
+Il couvre toutes les pages App Router et pousse un événement `next_page_view` uniquement lors des changements de route côté client ; le premier affichage reste pris en charge par la balise GA4 du conteneur.
 Les événements du simulateur passent par `lib/analytics.ts`.
 
 ## Google Analytics 4
 
-La balise GA4 `G-HDDQ9CV6YQ` est chargée globalement via `components/GoogleAnalytics.tsx`.
-Elle couvre toutes les pages App Router et reçoit aussi les événements personnalisés du simulateur quand `gtag` est disponible.
+GA4 doit être configuré une seule fois dans le conteneur GTM. Le projet ne charge plus une seconde balise `gtag.js` en parallèle.
+Les événements personnalisés sont envoyés à `gtag` lorsqu'il est disponible, sinon à `dataLayer`, et restent silencieux avant consentement.
 
 ## AdSense
 

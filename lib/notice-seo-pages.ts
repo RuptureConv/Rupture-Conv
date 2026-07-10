@@ -446,7 +446,7 @@ export const noticeSeoPages: PillarPage[] = [
       "/delai-de-carence-chomage",
       "/simulateur-chomage-rupture-conventionnelle",
       "/salaire-brut-net",
-      "/calcul-indemnite-brut-ou-net"
+      "/blog/calcul-indemnite-brut-ou-net"
     ]
   }),
 

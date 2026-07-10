@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SeoJsonLd } from "@/components/seo/SeoJsonLd";
 import { TrackedSimulatorLink } from "@/components/seo/TrackedSimulatorLink";
 import { comparisonPages } from "@/lib/comparison-pages";
+import { nonCanonicalBlogSlugs } from "@/lib/legacy-routes";
 import {
   absoluteUrl,
   blogPosts,
@@ -72,6 +73,9 @@ export default function BlogIndexPage() {
     "comment-calculer-une-rupture-conventionnelle-facilement",
     "rupture-conventionnelle-et-preavis"
   ]);
+  const visibleBlogPosts = blogPosts.filter(
+    (post) => !nonCanonicalBlogSlugs.has(post.slug)
+  );
 
   return (
     <main className="min-h-screen bg-[#F7FBFA]">
@@ -118,7 +122,7 @@ export default function BlogIndexPage() {
           <h2 className="text-2xl font-extrabold text-[#061B3A]">
             Articles à consulter en priorité
           </h2>
-          {blogPosts
+          {visibleBlogPosts
             .filter((post) => featuredSlugs.has(post.slug))
             .map((post) => (
               <article
@@ -192,7 +196,7 @@ export default function BlogIndexPage() {
         </section>
 
         <section className="mt-10 grid gap-5">
-          {blogPosts.map((post) => (
+          {visibleBlogPosts.map((post) => (
             <article
               key={post.slug}
               className="rounded-2xl border border-[#E5EEF0] bg-white p-6 shadow-sm"

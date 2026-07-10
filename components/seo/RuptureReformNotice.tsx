@@ -21,13 +21,14 @@ export function RuptureReformNotice({
       </h2>
       <p className="mt-3 text-sm font-semibold leading-7 text-[#5B6B7C]">
         La rupture conventionnelle continue d&apos;ouvrir droit au chômage sous
-        conditions, mais la durée maximale d&apos;indemnisation est réduite. Le
-        calcul de l&apos;indemnité minimale n&apos;est pas supprimé.
+        conditions. Pour les fins de contrat à compter du 1er septembre 2026,
+        la durée maximale est de 15 mois avant 55 ans et de 20,5 mois à partir
+        de 55 ans. Le calcul de l&apos;indemnité minimale n&apos;est pas supprimé.
       </p>
       {compact ? null : (
         <p className="mt-3 text-xs font-semibold leading-6 text-[#5B6B7C]">
-          À vérifier selon la publication au Journal officiel et les textes
-          d&apos;application ou d&apos;agrément.
+          Avant le 1er septembre 2026, les plafonds généraux restent applicables.
+          France Travail confirme la durée réellement acquise selon le dossier.
         </p>
       )}
       <Link

@@ -33,7 +33,7 @@ npm run dev
 npm run test:e2e
 ```
 
-Les tests utilisent `http://127.0.0.1:3000`. Le serveur local doit donc être lancé avant `npm run test:e2e`.
+Les tests utilisent `http://127.0.0.1:3000`. Playwright démarre automatiquement le serveur local s'il n'est pas déjà disponible.
 Sur une machine fraîche, installez d'abord Chromium avec :
 
 ```bash
@@ -47,7 +47,6 @@ Copier `.env.example` vers `.env.local` en local si nécessaire.
 | Variable | Obligatoire | Exemple | Usage |
 | --- | --- | --- | --- |
 | `NEXT_PUBLIC_GTM_ID` | Non | `GTM-P9XX929G` | Conteneur Google Tag Manager chargé globalement. Le conteneur fourni est utilisé par défaut. |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Non | `G-HDDQ9CV6YQ` | Balise Google Analytics 4 chargée globalement sur toutes les pages. |
 | `NEXT_PUBLIC_ADS_ENABLED` | Non | `false` | Drapeau général. Seule la valeur exacte `true` autorise la préparation publicitaire. |
 | `NEXT_PUBLIC_ADS_PROVIDER` | Non | `none` | Fournisseur publicitaire. La seule autre valeur reconnue est `adsense`. |
 | `NEXT_PUBLIC_GOOGLE_ADSENSE_CLIENT` | Non | `ca-pub-xxxxxxxxxxxxxxxx` | Client AdSense réel. Aucun identifiant n’est fourni par défaut. |
@@ -85,7 +84,7 @@ npm run build
 5. Build command : `npm run build`.
 6. Install command : `npm install`.
 7. Output directory : laisser vide, Vercel gère `.next`.
-8. Vérifier `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-HDDQ9CV6YQ`.
+8. Vérifier que le conteneur GTM contient une seule configuration GA4 et qu’il ne charge rien avant le consentement géré par le site.
 9. Conserver `NEXT_PUBLIC_ADS_ENABLED=false` tant qu’AdSense et un CMP conforme ne sont pas prêts.
 10. Déployer.
 11. Vérifier après déploiement :

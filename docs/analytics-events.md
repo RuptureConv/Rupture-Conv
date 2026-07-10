@@ -1,6 +1,6 @@
 # Événements Analytics
 
-Le suivi sert à mesurer l'utilisation des outils et les suites choisies après un résultat. Les helpers sont centralisés dans `lib/analytics.ts`. Ils restent silencieux côté serveur, lorsque GA4/GTM est absent ou lorsqu'un appel Analytics échoue.
+Le suivi sert à mesurer l'utilisation des outils et les suites choisies après un résultat. Les helpers sont centralisés dans `lib/analytics.ts`. Ils restent silencieux côté serveur, avant consentement, lorsque GTM est absent ou lorsqu'un appel Analytics échoue.
 
 Un événement est envoyé avec `gtag` lorsqu'il est disponible. À défaut, il est ajouté à `dataLayer` si GTM est configuré. Ce repli évite de doubler un même événement.
 

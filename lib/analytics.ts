@@ -49,18 +49,12 @@ declare global {
 }
 
 const GTM_ID_PATTERN = /^GTM-[A-Z0-9]+$/;
-const GA_MEASUREMENT_ID_PATTERN = /^G-[A-Z0-9]+$/;
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? "GTM-P9XX929G";
-export const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? "G-HDDQ9CV6YQ";
+export const OPEN_ANALYTICS_CONSENT_EVENT = "ruptureconv:open-consent";
 
 export function isGoogleTagManagerReady(): boolean {
   return GTM_ID_PATTERN.test(GTM_ID);
-}
-
-export function isGoogleAnalyticsReady(): boolean {
-  return GA_MEASUREMENT_ID_PATTERN.test(GA_MEASUREMENT_ID);
 }
 
 function sendAnalyticsEvent(

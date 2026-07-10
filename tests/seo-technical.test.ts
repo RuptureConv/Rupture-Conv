@@ -37,6 +37,9 @@ describe("technical SEO foundations", () => {
     }
 
     expect(urls).not.toContain(`${siteUrl}/outils/conges-payes`);
+    expect(urls).not.toContain(
+      `${siteUrl}/blog/rupture-conventionnelle-ou-licenciement-que-choisir`
+    );
     expect(entries.every((entry) => !("lastModified" in entry))).toBe(true);
   });
 
@@ -75,6 +78,19 @@ describe("technical SEO foundations", () => {
 
     expect(homeSeoSnippet.title).not.toBe(simulatorSnippet.title);
     expect(homeSeoSnippet.description).toContain("indicatif");
+  });
+
+  it("garde les titles programmatiques d’ancienneté lisibles dans la SERP", () => {
+    for (const years of [1, 10, 25, 40]) {
+      const page = pillarPageBySlug[`indemnite-rupture-conventionnelle-${years}-ans`];
+      const snippet = getPillarSeoSnippet(page, {
+        type: "anciennete",
+        value: years
+      });
+
+      expect(snippet.title.length).toBeLessThanOrEqual(60);
+      expect(snippet.title).toContain(`${years} ${years === 1 ? "an" : "ans"}`);
+    }
   });
 
   it("produit un WebApplication valide et sans schéma commercial ou avis", () => {

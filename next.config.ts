@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from "@next/bundle-analyzer";
+import { legacyBlogRedirects } from "./lib/legacy-routes";
 
 const nextConfig: NextConfig = {
   typedRoutes: true,
   async redirects() {
     return [
+      ...legacyBlogRedirects,
       {
         source: "/simulateur",
         destination: "/simulateur-rupture-conventionnelle",

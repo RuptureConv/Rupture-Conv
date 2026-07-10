@@ -231,9 +231,13 @@ function estimateTerminationIndemnity(input: UnemploymentProjectionInput): numbe
 
 function getMaxDurationDays(input: UnemploymentProjectionInput, rules: AreRules) {
   const ageBand = getAgeBand(input.age);
+  const ruptureReformApplies =
+    input.exitMode === "rupture_conventionnelle" &&
+    parseDateOnly(input.contractEndDate) >=
+      parseDateOnly(rules.ruptureConventionnelle2026.effectiveContractEndDate);
 
   if (
-    input.exitMode === "rupture_conventionnelle" &&
+    ruptureReformApplies &&
     rules.ruptureConventionnelle2026.status === "active" &&
     rules.ruptureConventionnelle2026.appliedInCalculator
   ) {
@@ -325,9 +329,11 @@ export function calculateUnemploymentProjection(
     input.age >= rules.duration.retirementMaintenanceInformationAge
       ? "À partir de 60 ans, la continuité jusqu'à la retraite dépend de conditions spécifiques à confirmer auprès de France Travail."
       : "",
-    rules.ruptureConventionnelle2026.status === "pending_texts" &&
     input.exitMode === "rupture_conventionnelle"
-      ? rules.ruptureConventionnelle2026.sourceLabel
+      ? parseDateOnly(input.contractEndDate) >=
+        parseDateOnly(rules.ruptureConventionnelle2026.effectiveContractEndDate)
+        ? rules.ruptureConventionnelle2026.sourceLabel
+        : "La durée spécifique aux ruptures conventionnelles s'applique aux fins de contrat à compter du 1er septembre 2026. Cette projection antérieure conserve les plafonds généraux."
       : ""
   ].filter(Boolean);
   const eligibility = getEligibility(input, rules);

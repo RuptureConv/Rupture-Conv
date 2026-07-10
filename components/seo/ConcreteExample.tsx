@@ -1,12 +1,19 @@
 import Link from "next/link";
+import type { Route } from "next";
 
 type ConcreteExampleProps = {
   body: string;
+  href?: Route;
   result?: string;
   situation: string;
 };
 
-export function ConcreteExample({ body, result, situation }: ConcreteExampleProps) {
+export function ConcreteExample({
+  body,
+  href = "/#simulateur",
+  result,
+  situation
+}: ConcreteExampleProps) {
   return (
     <aside className="rounded-2xl border border-[#E5EEF0] bg-white p-5 shadow-sm sm:p-6">
       <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#168F86]">
@@ -23,7 +30,7 @@ export function ConcreteExample({ body, result, situation }: ConcreteExampleProp
       ) : null}
       <Link
         className="mt-5 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
-        href="/#simulateur"
+        href={href}
       >
         Calculer mon indemnité gratuitement →
       </Link>

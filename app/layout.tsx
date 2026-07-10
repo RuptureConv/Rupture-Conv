@@ -1,11 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { AdSenseScript } from "@/components/ads/AdSenseScript";
 import { Footer } from "@/components/Footer";
-import { GoogleAnalytics } from "@/components/GoogleAnalytics";
-import {
-  GoogleTagManagerBody,
-  GoogleTagManagerHead
-} from "@/components/GoogleTagManager";
+import { GoogleTagManager } from "@/components/GoogleTagManager";
 import { Header } from "@/components/Header";
 import { StickyMobileCTA } from "@/components/seo/StickyMobileCTA";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -97,16 +93,8 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="fr">
+    <html data-scroll-behavior="smooth" lang="fr">
       <head>
-        <GoogleTagManagerHead />
-        <GoogleAnalytics />
-
-        <meta
-          name="google-site-verification"
-          content="m9cDeMi4TyzceUF4V6KsuQcYqaG95ObYZwsm5OrQnd8"
-        />
-
         <AdSenseScript />
 
         <script
@@ -124,7 +112,7 @@ export default function RootLayout({
       </head>
 
       <body>
-        <GoogleTagManagerBody />
+        <GoogleTagManager />
         <Header />
         {children}
         <Footer />

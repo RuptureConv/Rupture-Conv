@@ -76,6 +76,41 @@ describe("unemployment projection calculator", () => {
     expect(result.duration.maxDaysApplied).toBe(822);
   });
 
+  it("applique le plafond spécifique aux ruptures finissant le 1er septembre 2026", () => {
+    const result = calculateUnemploymentProjection({
+      ...baseInput,
+      contractEndDate: "2026-09-01",
+      workedDays: 1200
+    });
+
+    expect(result.duration.maxDaysApplied).toBe(456);
+    expect(result.duration.estimatedDays).toBe(456);
+    expect(result.duration.notes.join(" ")).toContain("1er septembre 2026");
+  });
+
+  it("conserve le plafond général avant le 1er septembre 2026", () => {
+    const result = calculateUnemploymentProjection({
+      ...baseInput,
+      contractEndDate: "2026-08-31",
+      workedDays: 1200
+    });
+
+    expect(result.duration.maxDaysApplied).toBe(548);
+    expect(result.duration.notes.join(" ")).toContain("plafonds généraux");
+  });
+
+  it("plafonne à 624 jours une rupture conventionnelle à partir de 55 ans", () => {
+    const result = calculateUnemploymentProjection({
+      ...baseInput,
+      age: 55,
+      contractEndDate: "2026-09-01",
+      workedDays: 1200
+    });
+
+    expect(result.duration.maxDaysApplied).toBe(624);
+    expect(result.duration.estimatedDays).toBe(624);
+  });
+
   it("plafonne un différé important", () => {
     const result = calculateUnemploymentProjection({
       ...baseInput,

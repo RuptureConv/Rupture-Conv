@@ -40,7 +40,7 @@ const guideLinks = [
     description: "Calcul, conditions, différés et paiement."
   },
   {
-    href: "/salaire",
+    href: "/salaire-brut-net",
     title: "Salaire brut / net",
     description: "Comprendre le brut, le net et les statuts."
   },

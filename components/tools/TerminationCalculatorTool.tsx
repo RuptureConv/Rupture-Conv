@@ -644,7 +644,7 @@ export function TerminationCalculatorTool() {
                   Depuis 2026, la rupture conventionnelle coûte plus cher à
                   l&apos;employeur : la contribution patronale passe de{" "}
                   {contributionRateBefore2026Label} à{" "}
-                  {contributionRateFrom2026Label} sur la part exonérée de
+                  {contributionRateFrom2026Label}{" "}sur la part exonérée de
                   cotisations sociales. Cela ne réduit pas l&apos;indemnité
                   minimale due au salarié.
                 </p>

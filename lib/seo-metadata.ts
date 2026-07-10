@@ -21,7 +21,7 @@ export const blogIndexSeoSnippet: SeoSnippet = {
 
 const pillarSeoSnippets: Record<string, SeoSnippet> = {
   "reforme-rupture-conventionnelle-2026": {
-    title: "Réforme rupture conventionnelle 2026 : ce qui change pour le chômage",
+    title: "Réforme rupture conventionnelle 2026 : chômage",
     description:
       "La rupture conventionnelle donne-t-elle toujours droit au chômage en 2026 ? Durée réduite, salariés de moins de 55 ans, seniors, employeurs : le point clair sur la réforme."
   },
@@ -179,6 +179,36 @@ const pillarSeoSnippets: Record<string, SeoSnippet> = {
     title: "Lettre de demande de rupture conventionnelle",
     description:
       "Modèle de lettre pour demander une rupture conventionnelle : exemple simple, email, ton à adopter, entretien et points à vérifier."
+  },
+  "guide-preavis": {
+    title: "Préavis : durée, calcul et date de fin du contrat",
+    description:
+      "Guide du préavis : durée, calcul, dispense, congés, arrêt maladie et date réelle de fin du contrat selon votre situation."
+  },
+  "conges-payes-pendant-preavis": {
+    title: "Congés payés et préavis : suspension et date de fin",
+    description:
+      "Congés payés pendant un préavis : suspension, accord après notification, date de fin et points à vérifier avec l'employeur."
+  },
+  "date-fin-contrat-preavis": {
+    title: "Fin de contrat et préavis : quel dernier jour retenir ?",
+    description:
+      "Calculez la date de fin du contrat avec le préavis, les congés, la dispense et les jours travaillés ou payés."
+  },
+  "indemnite-compensatrice-preavis": {
+    title: "Indemnité compensatrice de préavis : calcul et exemples",
+    description:
+      "Indemnité compensatrice de préavis : conditions, salaire brut de référence, calcul, traitement du net et exemples."
+  },
+  "preavis-rupture-conventionnelle": {
+    title: "Rupture conventionnelle : date de départ sans préavis",
+    description:
+      "La rupture conventionnelle ne prévoit pas de préavis classique : comprenez la date de départ, les délais et les points de vigilance."
+  },
+  "travailler-ailleurs-pendant-preavis": {
+    title: "Travailler ailleurs pendant un préavis : règles et risques",
+    description:
+      "Peut-on travailler ailleurs pendant un préavis ? Vérifiez dispense, loyauté, horaires, clause de non-concurrence et date de fin."
   }
 };
 
@@ -333,7 +363,7 @@ export function getPillarSeoSnippet(
     }`;
 
     return {
-      title: `Indemnité rupture conventionnelle après ${yearsLabel} : calcul gratuit 2026`,
+      title: `Indemnité de rupture avec ${yearsLabel} d’ancienneté`,
       description: `Estimez l’indemnité de rupture conventionnelle pour ${yearsLabel} d’ancienneté avec exemple chiffré, calcul gratuit 2026 et simulateur.`
     };
   }

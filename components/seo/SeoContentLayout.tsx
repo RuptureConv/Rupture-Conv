@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Route } from "next";
+import type { ReactNode } from "react";
 import { AdSlot } from "@/components/ads/AdSlot";
 import { CalculationSchema } from "@/components/seo/CalculationSchema";
 import { CommonMistakes } from "@/components/seo/CommonMistakes";
@@ -26,6 +27,7 @@ import { isAdEligibleEditorialPath } from "@/lib/ads";
 import type { FaqEntry, SeoSection } from "@/lib/seo-content";
 import { absoluteUrl, buildCtrTitle, mandatoryDisclaimer } from "@/lib/seo-content";
 import { siteName } from "@/lib/site";
+import { buildWebApplicationStructuredData } from "@/lib/structured-data";
 
 type SeoContentLayoutProps = {
   canonicalPath: string;
@@ -35,6 +37,7 @@ type SeoContentLayoutProps = {
   intro: string[];
   relatedLinks: string[];
   sections: SeoSection[];
+  terminationCalculator?: ReactNode;
   updatedAt?: string;
   updatedLabel?: string;
 };
@@ -129,9 +132,9 @@ function buildTakeaways(h1: string): string[] {
   if (normalized.includes("réforme") || normalized.includes("2026")) {
     return [
       "La rupture conventionnelle continue de pouvoir ouvrir droit au chômage sous conditions.",
-      "La réforme annoncée réduit surtout la durée maximale d’indemnisation.",
+      "Les plafonds spécifiques s’appliquent aux fins de contrat à compter du 1er septembre 2026.",
       "L’indemnité minimale de rupture conventionnelle n’est pas supprimée.",
-      "Les textes publiés et les règles France Travail doivent être revérifiés avant signature."
+      "France Travail confirme la durée réellement acquise à partir du dossier."
     ];
   }
 
@@ -301,6 +304,7 @@ export function SeoContentLayout({
   intro,
   relatedLinks,
   sections,
+  terminationCalculator,
   updatedAt,
   updatedLabel
 }: SeoContentLayoutProps) {
@@ -330,6 +334,10 @@ export function SeoContentLayout({
   ].join(" ").split(/\s+/).filter(Boolean).length;
   const shouldShowHubCta = HUB_LINK_PATHS.has(canonicalPath);
   const isPreavisPillar = canonicalPath === "/guide-preavis";
+  const isSimulatorPage = Boolean(terminationCalculator);
+  const simulatorHref = (isSimulatorPage
+    ? "/simulateur-rupture-conventionnelle#simulateur"
+    : "/#simulateur") as Route;
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -381,23 +389,41 @@ export function SeoContentLayout({
       }
     }
   };
+  const webApplicationJsonLd = isSimulatorPage
+    ? buildWebApplicationStructuredData({
+        name: "Simulateur d'indemnité de rupture conventionnelle",
+        url: absoluteUrl(canonicalPath),
+        description:
+          "Estimation indicative de l'indemnité brute minimale, du net indicatif et d'une fourchette de discussion.",
+        applicationCategory: "BusinessApplication"
+      })
+    : null;
 
   return (
     <main className="min-h-screen bg-[#F7FBFA]">
       <SeoJsonLd data={faqJsonLd} />
       <SeoJsonLd data={breadcrumbJsonLd} />
       <SeoJsonLd data={articleJsonLd} />
+      {webApplicationJsonLd ? <SeoJsonLd data={webApplicationJsonLd} /> : null}
 
       <article className="mx-auto w-full max-w-[900px] px-4 py-12 sm:px-6 lg:py-16">
         <Link
-          href={isPreavisPillar ? "/guides-complets" : isPreavisPage ? "/guide-preavis" : "/"}
+          href={
+            isPreavisPillar
+              ? "/guides-complets"
+              : isPreavisPage
+                ? "/guide-preavis"
+                : "/"
+          }
           className="mb-8 inline-flex text-sm font-bold text-[#061B3A] transition hover:text-[#22AFA3]"
         >
           {isPreavisPillar
             ? "← Retour aux guides complets"
             : isPreavisPage
               ? "← Retour au guide préavis"
-              : "← Retour au simulateur"}
+              : isSimulatorPage
+                ? "← Retour à l’accueil"
+                : "← Retour au simulateur"}
         </Link>
 
         <header className="rounded-3xl border border-[#E5EEF0] bg-white p-6 shadow-sm sm:p-8">
@@ -434,11 +460,29 @@ export function SeoContentLayout({
             <TrackedSimulatorLink
               buttonType="hero"
               className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#22AFA3] px-5 text-sm font-bold text-white transition hover:bg-[#168F86] focus:outline-none focus:ring-2 focus:ring-[#22AFA3] focus:ring-offset-2"
+              href={simulatorHref}
             >
               Faire une simulation gratuite →
             </TrackedSimulatorLink>
           )}
         </header>
+
+        {terminationCalculator ? (
+          <section
+            aria-label="Simulateur d'indemnité de rupture conventionnelle"
+            className="mt-10 scroll-mt-28 rounded-3xl border border-[#BFE8E3] bg-[#EAF8F6] p-4 shadow-sm sm:p-6 lg:scroll-mt-32"
+            id="simulateur"
+          >
+            <p
+              className="mb-5 text-sm font-semibold leading-7 text-[#102A4C]"
+              id="calculator-intro"
+            >
+              Renseignez vos dates et votre salaire brut. Le résultat distingue le
+              minimum brut, le net indicatif et les éléments restant à vérifier.
+            </p>
+            {terminationCalculator}
+          </section>
+        ) : null}
 
         <div className="mt-10 space-y-10">
           {REFORM_NOTICE_PATHS.has(canonicalPath) ? (
@@ -508,15 +552,19 @@ export function SeoContentLayout({
               buttonText="Calculer mon indemnité nette →"
               buttonType="after_explanation"
               description="Le calcul est gratuit, rapide et sans inscription. Il sépare le minimum brut du net indicatif pour mieux préparer votre échange."
+              href={simulatorHref}
               title="Vous pouvez aussi simuler votre indemnité nette"
             />
           )}
-          {isPreavisPillar ? null : <ConcreteExample {...buildExample(h1)} />}
+          {isPreavisPillar ? null : (
+            <ConcreteExample {...buildExample(h1)} href={simulatorHref} />
+          )}
           {isPreavisPage ? null : (
             <SimulatorCTA
               buttonText="Tester avec mes chiffres →"
               buttonType="after_example"
               description="Remplacez l'exemple par vos dates, votre salaire brut de référence et votre ancienneté exacte."
+              href={simulatorHref}
               title="Passez de l'exemple à votre situation"
             />
           )}
@@ -692,6 +740,7 @@ export function SeoContentLayout({
               buttonText="Faire le calcul gratuit →"
               buttonType="bottom"
               description="Dernière vérification avant de partir : estimez le minimum brut, le net indicatif et la base de négociation en quelques champs."
+              href={simulatorHref}
               title="Calculez avant de signer"
             />
           )}
